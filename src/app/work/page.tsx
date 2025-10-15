@@ -30,6 +30,9 @@ export default function WorkPage() {
 
   return (
     <Section title="Projects" subtitle="문제 → 목표 → 해결 → 성과">
+      <div className="rounded-2xl border border-black/10 dark:border-white/10 p-6 sm:p-7 bg-white/50 dark:bg-white/5 mb-6">
+        <p className="opacity-90 text-sm">작업물의 세부 내용은 현재 정리 중입니다.</p>
+      </div>
       <div className="mb-6">
         <ProjectFilters domains={domains} years={years} roles={roles} />
       </div>

@@ -3,15 +3,15 @@ import StackIcons from "./StackIcons";
 
 export default function ExperienceTimeline() {
   return (
-    <section id="experience" className="py-10 sm:py-14">
+    <section id="experience" className="py-14 sm:py-20">
       <h2 className="text-xl sm:text-2xl font-bold mb-6">성장 스토리 타임라인</h2>
       <ol className="relative border-s border-brand/15">
         {projects.map((p, idx) => (
-          <li key={idx} className="ms-6 py-5">
+          <li key={idx} className="ms-6 py-5 group">
             <span className="absolute -start-2 mt-2 size-4 rounded-full bg-brand ring-4 ring-brand/15" />
             <div className="flex flex-col gap-2.5">
               <div className="text-xs opacity-70">{p.year}</div>
-              <h3 className="text-base sm:text-lg font-semibold tracking-tight">{p.title}</h3>
+              <h3 className="text-base sm:text-lg font-semibold tracking-tight group-hover:text-brand transition-colors">{p.title}</h3>
               <StackIcons stacks={p.stacks} />
               <p className="opacity-90 text-sm leading-relaxed">{p.context}</p>
               <div className="grid sm:grid-cols-3 gap-2.5">

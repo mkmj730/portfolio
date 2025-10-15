@@ -85,7 +85,7 @@ export default function AboutPage() {
       period: "2020.02 - 2021.04 (1년 3개월)",
       location: "서울",
       logo: "/logos/kanginham.png",
-      bullets: ['신사업 프로젝트 "입시굿" 총괄 및 법률리스크 관리', "웹사이트 총괄 및 CRM 프로세스 구축"],
+      bullets: ['신사업 프로젝트 "입시콕" 총괄 및 법률리스크 관리', "웹사이트 총괄 및 CRM 프로세스 구축"],
       skills: ["WordPress", "CRM", "브랜딩"],
     },
     {
@@ -117,7 +117,7 @@ export default function AboutPage() {
   return (
     <div>
       <Section title="About me" subtitle={profile.tagline}>
-        <div className="grid md:grid-cols-3 gap-6 items-start">
+        <div className="grid md:grid-cols-3 gap-6 items-stretch">
           <SectionCard className="md:col-span-2" title="소개" subtitle="문제정의 → 해결 → 신뢰 시각화">
             <p className="opacity-90 text-sm">
               사용자의 불안과 비효율을 줄이는 데 집중합니다. 웹·앱 통합(웹뷰/Capacitor), 상태관리 구조화(Zustand/React Query),
@@ -128,7 +128,7 @@ export default function AboutPage() {
               정리해 제품의 신뢰와 속도를 높였습니다.
             </p>
           </SectionCard>
-          <SectionCard className="flex justify-center">
+          <SectionCard className="flex items-center justify-center">
             <div className="relative w-40 h-40 sm:w-52 sm:h-52 rounded-full overflow-hidden ring-8 ring-black/5 dark:ring-white/10 shadow-md">
               <Image src="/images/profile.png" alt="김명재 프로필 사진" fill className="object-cover" />
             </div>

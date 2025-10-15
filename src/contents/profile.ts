@@ -71,7 +71,8 @@ export const projects: Project[] = [
       "웹-앱 통합 배포 및 스토어 런칭",
       "핵심 메시지 수립"
     ],
-    insight: "기술은 문제를 해결, 고객은 불안을 해결받고 싶어 한다"
+    insight: "기술은 문제를 해결, 고객은 불안을 해결받고 싶어 한다",
+    stacks: ["next", "capacitor", "oauth", "iap", "seo", "zustand"]
   },
   {
     year: "2023",
@@ -90,7 +91,8 @@ export const projects: Project[] = [
       "거래 처리속도 60% 향상",
       "렌더링 부하 대폭 개선"
     ],
-    insight: "효율적인 코드가 곧 UX"
+    insight: "효율적인 코드가 곧 UX",
+    stacks: ["react", "next", "ts", "zustand", "websocket"]
   },
   {
     year: "2022~2023",
@@ -110,7 +112,8 @@ export const projects: Project[] = [
       "실시간 차트 기반 플랫폼 런칭",
       "리텐션 30% 증가"
     ],
-    insight: "데이터는 보여지는 순간 신뢰가 된다"
+    insight: "데이터는 보여지는 순간 신뢰가 된다",
+    stacks: ["tradingview", "websocket", "cicd"]
   },
   {
     year: "2022",
@@ -130,7 +133,8 @@ export const projects: Project[] = [
       "Deribit 모바일 출시 전 MVP 납품",
       "유지보수 매뉴얼화로 대응 효율 향상"
     ],
-    insight: "기술을 설명할 수 있어야 진짜 이해"
+    insight: "기술을 설명할 수 있어야 진짜 이해",
+    stacks: ["django", "websocket", "js"]
   },
   {
     year: "2021",
@@ -150,7 +154,8 @@ export const projects: Project[] = [
       "3개월 MVP: 누적 운용액 1.5억",
       "1일 결산 자동화 및 포인트 차감 시스템"
     ],
-    insight: "질문은 성장의 언어다. 기술이 아닌 문제를 해결"
+    insight: "질문은 성장의 언어다. 기술이 아닌 문제를 해결",
+    stacks: ["django", "js", "chartjs"]
   }
 ];
 

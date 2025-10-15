@@ -55,7 +55,7 @@ export default function KangInHamSection() {
           {[
             "SEO", "CRM 자동화", "광고 최적화", "데이터 기반 KPI", "브랜딩"
           ].map((tag) => (
-            <span key={tag} className="px-2 py-0.5 text-xs rounded-md bg-brand/10 text-brand ring-1 ring-brand/20">#{tag}</span>
+            <span key={tag} className="px-2 py-0.5 text-xs rounded-md bg-brand/5 text-brand ring-1 ring-brand/20">#{tag}</span>
           ))}
         </div>
 

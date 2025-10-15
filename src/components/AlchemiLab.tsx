@@ -1,5 +1,5 @@
 import ExperienceTimeline from "@/components/ExperienceTimeline";
-import Projects from "@/components/Projects";
+// import Projects from "@/components/Projects";
 import Image from "next/image";
 
 export default function AlchemiLabSection() {
@@ -21,13 +21,13 @@ export default function AlchemiLabSection() {
 
         <div className="mt-4 flex flex-wrap gap-2">
           {["Next.js", "TypeScript", "Zustand", "Capacitor", "OAuth", "IAP"].map((tag) => (
-            <span key={tag} className="px-2 py-0.5 text-xs rounded-md bg-brand/10 text-brand ring-1 ring-brand/20">#{tag}</span>
+            <span key={tag} className="px-2 py-0.5 text-xs rounded-md bg-brand/5 text-brand ring-1 ring-brand/20">#{tag}</span>
           ))}
         </div>
 
         <div className="mt-6 space-y-10">
           <ExperienceTimeline />
-          <Projects />
+          {/* <Projects /> */}
         </div>
       </div>
     </section>

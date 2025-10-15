@@ -3,7 +3,7 @@ import Section from "./Section";
 const items = [
   {
     title: "비즈니스 임팩트 중심",
-    desc: "지표로 문제를 정의하고, 고객의 불안을 줄이는 흐름을 설계합니다.",
+    desc: "지표로 문제를 정의하고, 고객의 본질을 파악합니다.",
   },
   {
     title: "웹·앱 통합 실행력",

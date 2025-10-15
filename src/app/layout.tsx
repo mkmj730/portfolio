@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     template: "%s | 김명재",
   },
   description:
-    "문제를 정의하고 기술로 해결하는 FE 개발자 | Next.js, TypeScript, Zustand, Capacitor",
+    "문제를 정의하고 본질을 해결하는 FE 개발자 | Next.js, TypeScript, Zustand, Capacitor",
   keywords: [
     "김명재",
     "포트폴리오",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   authors: [{ name: "김명재" }],
   creator: "김명재",
   publisher: "김명재",
-  metadataBase: new URL("https://your-portfolio-domain.vercel.app"),
+  metadataBase: new URL("https://portfolio-flame-ten-38.vercel.app"),
   alternates: {
     canonical: "/",
   },
@@ -59,9 +59,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: "김명재 | Frontend Developer",
     description:
-      "기획→기술→도메인→고객 성장 스토리로 구성한 포트폴리오",
+      "문제를 정의하고 본질을 해결하는 FE 개발자",
     type: "website",
-    url: "https://your-portfolio-domain.vercel.app",
+    url: "https://portfolio-flame-ten-38.vercel.app",
     siteName: "MJ Portfolio",
     locale: "ko_KR",
     images: [
@@ -76,7 +76,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "김명재 | Frontend Developer",
-    description: "문제를 정의하고 기술로 해결하는 FE 개발자",
+    description: "문제를 정의하고 본질을 해결하는 FE 개발자",
     creator: "@your_twitter_id",
     images: [
       {

@@ -64,11 +64,11 @@ export default function StackIcons({ stacks }: { stacks?: string[] }) {
         return (
           <span
             key={`${key}-${i}`}
-            className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[10px] sm:text-xs bg-black/5 dark:bg-white/10"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] sm:text-xs bg-brand/5 text-brand ring-1 ring-brand/20"
             aria-label={meta.label}
             title={meta.label}
           >
-            <Icon className="size-3.5 sm:size-4" />
+            <Icon size={16} />
             <span>{meta.label}</span>
           </span>
         );

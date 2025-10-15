@@ -2,24 +2,24 @@ import Image from "next/image";
 
 export default function SocialProof() {
   return (
-    <section id="social-proof" className="py-10 sm:py-14">
+    <section id="social-proof" className="py-14 sm:py-20">
       <div className="container">
         <div className="mb-8 text-center">
           <div className="text-sm opacity-70 mb-2">신뢰의 근거</div>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">함께한 팀과 성과</h2>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 place-items-center">
-          <div className="opacity-90">
-            <Image src="/logos/kanginham_full.png" alt="㈜ 강인함" width={120} height={40} />
+          <div className="opacity-90 dark:opacity-100">
+            <Image className="dark:invert" src="/logos/kanginham_full.png" alt="㈜ 강인함" width={120} height={40} />
           </div>
-          <div className="opacity-90">
-            <Image src="/logos/alchemilab.png" alt="AlchemiLab" width={120} height={40} />
+          <div className="opacity-90 dark:opacity-100">
+            <Image className="dark:invert" src="/logos/alchemilab.png" alt="AlchemiLab" width={120} height={40} />
           </div>
-          <div className="opacity-90">
-            <Image src="/logos/cnu.png" alt="충남대학교" width={120} height={40} />
+          <div className="opacity-90 dark:opacity-100">
+            <Image className="dark:brightness-125" src="/logos/cnu.png" alt="충남대학교" width={120} height={40} />
           </div>
-          <div className="opacity-90">
-            <Image src="/logos/army.svg" alt="대한민국 육군" width={120} height={40} />
+          <div className="opacity-90 dark:opacity-100">
+            <Image className="dark:brightness-125" src="/logos/army.svg" alt="대한민국 육군" width={120} height={40} />
           </div>
         </div>
 
