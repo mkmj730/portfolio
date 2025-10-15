@@ -20,3 +20,10 @@ npm run dev
 - 연락처 링크(`src/components/Contact.tsx`)
 - 이력서 PDF(`public/mj_resume.pdf`) 업로드 후 링크 유지
 - 프로젝트/경력 데이터(`src/contents/profile.ts`)
+
+## 에셋 업로드 가이드
+- 커버: `public/covers/*.png|jpg|svg` (목록/상세 히어로에서 사용)
+- 목업: `public/mockups/*.png|jpg` (상세 갤러리)
+- 파일명 예시:
+  - `/covers/zolbo-2021.png`, `/mockups/zolbo-2021-1.png`
+- 아직 이미지가 없으면 자동으로 `covers/placeholder.svg`가 사용됩니다.

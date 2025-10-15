@@ -1,7 +1,5 @@
-import clsx from "clsx";
-
-export function cn(...inputs: Array<string | undefined | null | false>) {
-  return clsx(inputs);
+export function cn(...classes: Array<string | undefined | false | null>) {
+  return classes.filter(Boolean).join(" ");
 }
 
 

@@ -82,7 +82,7 @@ export const projects: Project[] = [
   {
     slug: "s-advisory-2022-2023",
     title: "자문형 크립토 ‘S***’ — 실시간 시각화와 리텐션",
-    period: "2022~2023",
+    period: "2023",
     role: ["프론트엔드"],
     stack: ["Binance", "TradingView", "WebSocket", "CI/CD"],
     domain: ["Crypto", "Advisory"],
@@ -104,7 +104,7 @@ export const projects: Project[] = [
   {
     slug: "e-exchange-2023",
     title: "‘E***’ 거래소 — WS 재설계로 60% 처리속도 향상",
-    period: "2023",
+    period: "2024",
     role: ["프론트엔드"],
     stack: ["OKX", "Bybit", "WebSocket", "React/Next"],
     domain: ["Exchange"],

@@ -9,6 +9,10 @@ export default {
   ],
   theme: {
     extend: {
+      colors: {
+        // Brand color using CSS variable with alpha support
+        brand: "rgb(var(--brand) / <alpha-value>)",
+      },
       container: {
         center: true,
         padding: "1rem",
