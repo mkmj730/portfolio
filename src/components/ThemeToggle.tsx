@@ -2,7 +2,12 @@
 
 import { useEffect, useState } from "react";
 
-export default function ThemeToggle() {
+type ThemeToggleProps = {
+  showLabel?: boolean;
+  className?: string;
+};
+
+export default function ThemeToggle({ showLabel = true, className = "" }: ThemeToggleProps) {
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
   useEffect(() => {
@@ -23,15 +28,18 @@ export default function ThemeToggle() {
     localStorage.setItem("theme", next);
   }
 
+  const sizeClass = showLabel ? "px-3 py-1.5" : "p-2";
+  const baseClass = `inline-flex items-center gap-2 rounded-md border border-black/10 dark:border-white/15 ${sizeClass} text-sm hover:bg-black/5 dark:hover:bg-white/10 ${className}`;
+
   return (
     <button
       type="button"
       onClick={toggle}
-      className="inline-flex items-center gap-2 rounded-md border border-black/10 dark:border-white/15 px-3 py-1.5 text-sm hover:bg-black/5 dark:hover:bg-white/10"
-      aria-label="Toggle theme"
-   >
+      className={baseClass}
+      aria-label={theme === "dark" ? "라이트 모드로 전환" : "다크 모드로 전환"}
+    >
       <span aria-hidden>{theme === "dark" ? "🌙" : "☀️"}</span>
-      {theme === "dark" ? "다크" : "라이트"}
+      {showLabel ? (theme === "dark" ? "다크" : "라이트") : null}
     </button>
   );
 }

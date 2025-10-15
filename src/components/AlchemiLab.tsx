@@ -2,7 +2,7 @@ import ExperienceTimeline from "@/components/ExperienceTimeline";
 import Projects from "@/components/Projects";
 import Image from "next/image";
 
-export default function AlchemyLabSection() {
+export default function AlchemiLabSection() {
   return (
     <section id="alchemylab" className="py-14 sm:py-20">
       <div className="rounded-2xl border border-black/10 dark:border-white/10 p-6 sm:p-7 bg-white/50 dark:bg-white/5">

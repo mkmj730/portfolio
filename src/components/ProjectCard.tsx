@@ -10,11 +10,13 @@ export default function ProjectCard({ p }: { p: Project }) {
       </div>
       <div className="p-5">
       <div className="text-xs opacity-70 mb-1">{p.period}</div>
-      <h3 className="text-lg font-semibold tracking-tight mb-2 group-hover:underline">{p.title}</h3>
+      <h3 className="text-lg font-semibold tracking-tight mb-2 group-hover:text-brand">{p.title}</h3>
       <p className="text-sm opacity-90 mb-4 line-clamp-2">{p.summary}</p>
       <div className="flex flex-wrap gap-2">
         {p.highlights.slice(0, 3).map((h, i) => (
-          <span key={i} className="px-2 py-1 rounded-full text-xs bg-black/5 dark:bg-white/10">{h}</span>
+          <span key={i} className="px-2 py-1 rounded-full text-xs bg-brand/5 text-foreground/80 dark:text-foreground/80">
+            {h}
+          </span>
         ))}
       </div>
       </div>

@@ -3,17 +3,16 @@
 @tailwind utilities;
 
 :root {
-  --background: 255 255 255; /* rgb */
-  --foreground: 23 23 23;
-  /* Teal-like brand color that works on light/dark */
-  --brand: 14 165 158; /* tailwind teal-500 baseline */
+  /* Toss-like palette */
+  --background: 255 255 255; /* White */
+  --foreground: 32 38 50;   /* #202632 */
+  --brand: 0 100 255;       /* #0064FF */
 }
 
 :root[data-theme="dark"] {
-  --background: 10 10 10;
-  --foreground: 237 237 237;
-  /* Dark mode brand slightly desaturated for better contrast */
-  --brand: 20 184 166; /* teal-500 -> teal-400ish for dark */
+  --background: 14 16 20;   /* near #0E1014 for dark bg */
+  --foreground: 237 241 247; /* light foreground */
+  --brand: 0 100 255;        /* keep brand consistent */
 }
 
 body {

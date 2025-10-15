@@ -30,7 +30,7 @@ export default function Section({ id, title, subtitle, children }: Props) {
   }, [controls]);
 
   return (
-    <section id={id} className="py-20 md:py-28">
+    <section id={id} className="py-10 md:py-12">
       <div className="container">
         {(title || subtitle) && (
           <div className="mb-10">

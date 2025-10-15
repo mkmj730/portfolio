@@ -8,16 +8,17 @@ export default function Hero() {
       <div className="grid md:grid-cols-2 items-center gap-8">
         <div className="order-2 md:order-1">
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
-            {profile.name} <span className="opacity-70">| {profile.title}</span>
+            본질을 추구하는 개발자
           </h1>
+          <p className="mt-3 text-sm sm:text-base opacity-80">{profile.name} | {profile.title}</p>
           <p className="mt-6 text-base sm:text-lg opacity-90 leading-relaxed max-w-2xl">
-            스타트업 현장에서 ‘문제를 정의하고, 기술로 해결하는 개발자’. 기획·디자인·개발·마케팅을 잇는 사용자 중심 흐름을 설계합니다. Next.js, TypeScript, Zustand, Capacitor 기반 웹·앱 통합 개발.
+            지표와 인터뷰로 리스크를 명확히 정의하고, Next.js + Capacitor로 웹·앱을 하나의 흐름으로 통합해 빠르게 검증합니다. WebSocket 기반 실시간 데이터·시각화로 신뢰를 만들고, OAuth·세션·성능 최적화로 전환을 높입니다.
           </p>
           <div className="mt-6 flex gap-3">
-            <Link href="/work" className="px-4 py-2 rounded-md bg-foreground text-background text-sm font-semibold hover:opacity-90">
-              프로젝트 보기
+            <Link href="#contact" className="px-4 py-2 rounded-md bg-brand text-white text-sm font-semibold hover:brightness-110">
+              협업 제안하기
             </Link>
-            <Link href="/contact" className="px-4 py-2 rounded-md border border-black/10 dark:border-white/15 text-sm hover:bg-black/5 dark:hover:bg-white/10">
+            <Link href="/resume.pdf" className="px-4 py-2 rounded-md border border-brand/40 text-sm text-brand hover:bg-brand/10">
               이력서 다운로드
             </Link>
           </div>

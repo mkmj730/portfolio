@@ -49,48 +49,48 @@ export type Project = {
   learnings: string[];
   outcomes: string[];
   insight: string;
+  stacks?: string[]; // 기술 스택 키 값 목록 (아이콘 렌더링용)
 };
 
 export const projects: Project[] = [
   {
-    year: "2021",
-    title: "Hedge Fund 서비스 ‘ZOLBO’ 총괄 기획 및 런칭",
-    context: "금융 도메인 지식이 전무한 상태에서 1일 결산 로직 설계 및 MVP 런칭",
+    year: "2024~2025",
+    title: "일임형 로보어드바이저 ‘Z****’ App 개발 리드",
+    context: "Next.js + Capacitor 웹·앱 통합, OAuth/IAP/SEO 리드",
     roles: [
-      "엑셀 기반 1일 단위 결산 로직 설계",
-      "Django + Vanilla JS로 회원/자산/포인트 구현",
-      "Chart.js 성과 시각화"
+      "디바이스/브라우저 호환 해결",
+      "Zustand persist로 인증·세션 관리",
+      "500명 인터뷰로 가치 재발견"
     ],
     learnings: [
-      "금융 데이터 구조·결산 개념 집중 학습",
-      "모르는 걸 빠르게 흡수/정리하는 방법",
-      "도메인 이해력이 완성도를 좌우"
+      "고객 가치 전달 구조 재정의",
+      "실사용자 피드백 기반 UX 개선"
     ],
     outcomes: [
-      "3개월 MVP: 1,000명 사용자 / 누적 운용액 3.5억",
-      "1일 결산 자동화 및 포인트 차감 시스템"
+      "MAU 100+, 만족도 91%",
+      "웹-앱 통합 배포 및 스토어 런칭",
+      "핵심 메시지 수립"
     ],
-    insight: "질문은 성장의 언어다. 기술이 아닌 문제를 해결"
+    insight: "기술은 문제를 해결, 고객은 불안을 해결받고 싶어 한다"
   },
   {
-    year: "2022",
-    title: "커스텀 크립토 MTS ‘R***’ / 펀드 매니징 시스템",
-    context: "Deribit API 기반 Django + WebSocket 구조",
+    year: "2023",
+    title: "헷지펀드 매니징 서비스 & 거래소 ‘E***’ 개발 리드",
+    context: "OKX→Bybit API 확장, 절차형 소켓 구조를 핸들러 중심으로 재설계",
     roles: [
-      "WebSocket 핸들러 및 송수신 구조 설계",
-      "비개발자 대상 UI/UX 설계 및 납품",
-      "문서화/인수인계 체계화"
+      "비동기 최적화 및 데이터 흐름 개선",
+      "상태관리 필요성 인식 및 구조화"
     ],
     learnings: [
-      "WebSocket 구조·이벤트 관리",
-      "불친절한 API Docs 분석 집요함",
-      "트레이더 업무 맥락 이해 및 커뮤니케이션"
+      "async/await, Promise 체계",
+      "렌더링 부하 개선과 UX의 상관",
+      "React/Next.js, Zustand 학습 동기"
     ],
     outcomes: [
-      "Deribit 모바일 출시 전 MVP 납품",
-      "유지보수 매뉴얼화로 대응 효율 향상"
+      "거래 처리속도 60% 향상",
+      "렌더링 부하 대폭 개선"
     ],
-    insight: "기술을 설명할 수 있어야 진짜 이해"
+    insight: "효율적인 코드가 곧 UX"
   },
   {
     year: "2022~2023",
@@ -113,43 +113,44 @@ export const projects: Project[] = [
     insight: "데이터는 보여지는 순간 신뢰가 된다"
   },
   {
-    year: "2023",
-    title: "헷지펀드 매니징 서비스 & 거래소 ‘E***’ 개발 리드",
-    context: "OKX→Bybit API 확장, 절차형 소켓 구조를 핸들러 중심으로 재설계",
+    year: "2022",
+    title: "커스텀 크립토 MTS ‘R***’ / 펀드 매니징 시스템",
+    context: "Deribit API 기반 Django + WebSocket 구조",
     roles: [
-      "비동기 최적화 및 데이터 흐름 개선",
-      "상태관리 필요성 인식 및 구조화"
+      "WebSocket 핸들러 및 송수신 구조 설계",
+      "비개발자 대상 UI/UX 설계 및 납품",
+      "문서화/인수인계 체계화"
     ],
     learnings: [
-      "async/await, Promise 체계",
-      "렌더링 부하 개선과 UX의 상관",
-      "React/Next.js, Zustand 학습 동기"
+      "WebSocket 구조·이벤트 관리",
+      "불친절한 API Docs 분석 집요함",
+      "트레이더 업무 맥락 이해 및 커뮤니케이션"
     ],
     outcomes: [
-      "거래 처리속도 60% 향상",
-      "렌더링 부하 대폭 개선"
+      "Deribit 모바일 출시 전 MVP 납품",
+      "유지보수 매뉴얼화로 대응 효율 향상"
     ],
-    insight: "효율적인 코드가 곧 UX"
+    insight: "기술을 설명할 수 있어야 진짜 이해"
   },
   {
-    year: "2024~2025",
-    title: "일임형 로보어드바이저 ‘Z****’ App 개발 리드",
-    context: "Next.js + Capacitor 웹·앱 통합, OAuth/IAP/SEO 리드",
+    year: "2021",
+    title: "Hedge Fund 서비스 ‘ZOLBO’ 총괄 기획 및 런칭",
+    context: "금융 도메인 지식이 전무한 상태에서 1일 결산 로직 설계 및 MVP 런칭",
     roles: [
-      "디바이스/브라우저 호환 해결",
-      "Zustand persist로 인증·세션 관리",
-      "500명 인터뷰로 가치 재발견"
+      "엑셀 기반 1일 단위 결산 로직 설계",
+      "Django + Vanilla JS로 회원/자산/포인트 구현",
+      "Chart.js 성과 시각화"
     ],
     learnings: [
-      "고객 가치 전달 구조 재정의",
-      "실사용자 피드백 기반 UX 개선"
+      "금융 데이터 구조·결산 개념 집중 학습",
+      "모르는 걸 빠르게 흡수/정리하는 방법",
+      "도메인 이해력이 완성도를 좌우"
     ],
     outcomes: [
-      "DAU 2,800, 만족도 91%",
-      "웹-앱 통합 배포 및 스토어 런칭",
-      "핵심 메시지 수립"
+      "3개월 MVP: 누적 운용액 1.5억",
+      "1일 결산 자동화 및 포인트 차감 시스템"
     ],
-    insight: "기술은 문제를 해결, 고객은 불안을 해결받고 싶어 한다"
+    insight: "질문은 성장의 언어다. 기술이 아닌 문제를 해결"
   }
 ];
 

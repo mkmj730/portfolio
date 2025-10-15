@@ -1,21 +1,17 @@
 import Hero from "@/components/Hero";
-import ExperienceTimeline from "@/components/ExperienceTimeline";
+import SocialProof from "@/components/SocialProof";
+import ValueProps from "@/components/ValueProps";
+import Projects from "@/components/Projects";
 import Skills from "@/components/Skills";
 import Contact from "@/components/Contact";
-import Projects from "@/components/Projects";
-import KangInHamSection from "@/components/KangInHam";
-import StoryStepper from "@/components/StoryStepper";
-import AlchemyLabSection from "@/components/AlchemyLab";
-import ClosingCTA from "@/components/ClosingCTA";
 
 export default function Home() {
   return (
     <div className="font-sans">
       <Hero />
-      <StoryStepper />
-      <KangInHamSection />
-      <AlchemyLabSection />
-      <ClosingCTA />
+      <SocialProof />
+      <ValueProps />
+      <Projects />
       <Skills />
       <Contact />
     </div>

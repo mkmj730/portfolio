@@ -1,4 +1,5 @@
 import { projects } from "@/contents/profile";
+import StackIcons from "./StackIcons";
 
 export default function ExperienceTimeline() {
   return (
@@ -11,6 +12,7 @@ export default function ExperienceTimeline() {
             <div className="flex flex-col gap-2.5">
               <div className="text-xs opacity-70">{p.year}</div>
               <h3 className="text-base sm:text-lg font-semibold tracking-tight">{p.title}</h3>
+              <StackIcons stacks={p.stacks} />
               <p className="opacity-90 text-sm leading-relaxed">{p.context}</p>
               <div className="grid sm:grid-cols-3 gap-2.5">
                 <Card title="핵심 역할" items={p.roles} />

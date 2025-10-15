@@ -1,6 +1,6 @@
 import Section from "@/components/Section";
 import KangInHamSection from "@/components/KangInHam";
-import AlchemyLabSection from "@/components/AlchemyLab";
+import AlchemiLabSection from "@/components/AlchemiLab";
 
 export default function ExperiencePage() {
   return (
@@ -11,7 +11,7 @@ export default function ExperiencePage() {
         </div>
       </Section>
       <KangInHamSection />
-      <AlchemyLabSection />
+      <AlchemiLabSection />
     </div>
   );
 }
