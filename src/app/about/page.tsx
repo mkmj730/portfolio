@@ -54,14 +54,14 @@ export default function AboutPage() {
       title: "투자자산운용사",
       org: "금융투자협회",
       period: "2024년 6월 | 식별번호 24-010053",
-      logo: "/certs/investment.png",
+      logo: "/certs/investment.svg",
       bullets: ["포트폴리오 이론 및 리스크 관리"],
     },
     {
       title: "SQLD",
       org: "한국데이터산업진흥원",
       period: "2023년 7월 | 식별번호 SQLD-049006432",
-      logo: "/certs/sqld.png",
+      logo: "/certs/sqld.svg",
       bullets: ["데이터 모델링 및 SQL 최적화"],
     },
   ];
