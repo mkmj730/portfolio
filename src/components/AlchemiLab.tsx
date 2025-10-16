@@ -4,11 +4,11 @@ import Image from "next/image";
 
 export default function AlchemiLabSection() {
   return (
-    <section id="alchemylab" className="py-14 sm:py-20">
+    <section id="alchemilab" className="py-14 sm:py-20">
       <div className="rounded-2xl border border-black/10 dark:border-white/10 p-6 sm:p-7 bg-white/50 dark:bg-white/5">
         <div className="flex items-start gap-4">
           <div className="shrink-0 rounded-md bg-white p-1 shadow-sm ring-1 ring-black/5">
-            <Image src="/logos/alchemylab.png" alt="알케미랩 로고" width={56} height={56} />
+            <Image src="/logos/alchemilab.png" alt="알케미랩 로고" width={56} height={56} />
           </div>
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
