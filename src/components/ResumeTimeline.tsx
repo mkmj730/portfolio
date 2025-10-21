@@ -17,7 +17,7 @@ export default function ResumeTimeline({ items }: Props) {
   return (
     <div className="relative border-black/10 dark:border-white/10">
       {items.map((item, i) => (
-        <div key={i} className="ms-6 py-6">
+        <div key={i} className="ms-0 sm:ms-6 py-6">
           <span className="absolute -start-2 mt-2 size-5 rounded-full bg-foreground/90" />
           <div className="flex items-start gap-3">
             {item.logo && (

@@ -12,7 +12,7 @@ export default function SectionCard({ title, subtitle, className, children, head
   return (
     <div
       className={cn(
-        "rounded-2xl border border-black/10 dark:border-white/10 bg-white/60 dark:bg-white/5 p-6 sm:p-7 shadow-sm",
+        "p-4 sm:p-5",
         className
       )}
     >

@@ -1,6 +1,7 @@
 import { projects } from "@/data/projects";
 import Section from "@/components/Section";
 import MockupFrame from "@/components/MockupFrame";
+import GalleryLightbox from "@/components/GalleryLightbox";
 import Link from "next/link";
 
 type Props = { params: { slug: string } };
@@ -15,6 +16,9 @@ export default function CaseStudyPage({ params }: Props) {
   const tabs = [p.case.problem, p.case.goals, p.case.solution, p.case.impact, p.case.learnings].filter(Boolean);
   return (
     <div>
+      <div className="mt-10">
+        <Link href="/work" className="underline">← 프로젝트 목록으로</Link>
+      </div>      
       <Section title={p.title} subtitle={`${p.period} · ${p.role.join(", ")}`}>
         <div className="mb-6">
           <MockupFrame src={p.cover || "/covers/placeholder.svg"} alt={p.title} />
@@ -34,10 +38,10 @@ export default function CaseStudyPage({ params }: Props) {
           ))}
         </div>
         {p.gallery?.length ? (
-          <div className="mt-10 grid md:grid-cols-2 gap-6">
-            {p.gallery.map((g, i) => (
-              <MockupFrame key={i} src={g} alt={`${p.title} mockup ${i + 1}`} />
-            ))}
+          <div className="mt-10">
+            <GalleryLightbox
+              images={p.gallery.map((g, i) => ({ src: g, alt: `${p.title} mockup ${i + 1}` }))}
+            />
           </div>
         ) : null}
         <div className="mt-10">
