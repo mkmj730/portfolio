@@ -54,8 +54,7 @@ export const metadata: Metadata = {
     shortcut: "/favicon.ico",
     apple: "/apple-touch-icon.png",
   },
-  manifest: "/site.webmanifest",
-  themeColor: "#0064FF",
+  // manifest: "/site.webmanifest",
   openGraph: {
     title: "김명재 | Frontend Developer",
     description:

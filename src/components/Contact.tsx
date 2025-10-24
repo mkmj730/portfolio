@@ -6,7 +6,8 @@ export default function Contact() {
       <div className="flex flex-wrap gap-3">
         <a href="mailto:mkmj730@gmail.com" className="px-4 py-2 rounded-md border border-black/10 dark:border-white/15 hover:bg-black/5 dark:hover:bg-white/10 text-sm">이메일</a>
         {/* <a href="https://github.com/your-github" target="_blank" rel="noreferrer" className="px-4 py-2 rounded-md border border-black/10 dark:border-white/15 hover:bg-black/5 dark:hover:bg-white/10 text-sm">GitHub</a> */}
-        <a href="/resume.pdf" className="px-4 py-2 rounded-md bg-foreground text-background text-sm font-semibold hover:opacity-90">이력서 PDF</a>
+        <a href="/resume_notion.pdf" target="_blank" rel="noreferrer" className="px-4 py-2 rounded-md bg-foreground text-background text-sm font-semibold hover:opacity-90">이력서 (IT)</a>
+        <a href="/resume_standard.pdf" target="_blank" rel="noreferrer" className="px-4 py-2 rounded-md bg-foreground text-background text-sm font-semibold hover:opacity-90">이력서 (일반)</a>
       </div>
     </section>
   );

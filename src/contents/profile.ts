@@ -54,48 +54,49 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    year: "2024~2025",
-    title: "일임형 로보어드바이저 ‘Z****’ App 개발 리드",
-    context: "Next.js + Capacitor 웹·앱 통합, OAuth/IAP/SEO 리드",
+    year: "2024.09~2025.09",
+    title: "쫄보(zolbo) — 가상자산 투자 AI 에이전트 하이브리드 앱 (FE Lead)",
+    context: "Next.js(App Router) 기반 SSR/CSR 통합, PWA·Android·iOS 단일 코드베이스, OAuth/IAP",
     roles: [
-      "디바이스/브라우저 호환 해결",
-      "Zustand persist로 인증·세션 관리",
-      "500명 인터뷰로 가치 재발견"
+      "Zustand 기반 로그인·토큰 persist 설계",
+      "React Query 캐싱/병렬 요청 및 오류 복구",
+      "WebSocket 실시간 자산·주문 스트림 통합"
     ],
     learnings: [
-      "고객 가치 전달 구조 재정의",
-      "실사용자 피드백 기반 UX 개선"
+      "일관된 인증/세션/플로우가 전환에 미치는 영향",
+      "웹·앱 통합 배포 체계 운영 인사이트"
     ],
     outcomes: [
-      "MAU 100+, 만족도 91%",
-      "웹-앱 통합 배포 및 스토어 런칭",
-      "핵심 메시지 수립"
+      "가입 전환율 35%↑, MAU 40%↑",
+      "이탈률 60%↓, 배포 시간 80%↓",
+      "스토어 런칭 및 운영 안정화"
     ],
     insight: "기술은 문제를 해결, 고객은 불안을 해결받고 싶어 한다",
-    stacks: ["next", "capacitor", "oauth", "iap", "seo", "zustand"]
+    stacks: ["next", "capacitor", "oauth", "iap", "zustand", "rq", "ws"]
+  },
+  {
+    year: "2023.10~2024.06",
+    title: "EntityX — 가상자산 실시간 거래소 (FE Lead)",
+    context: "OKX→Bybit 전환 대응, WebSocket 파이프라인/차트 성능 최적화",
+    roles: [
+      "WebSocket 실시간 주문·포지션 파이프라인 설계",
+      "TradingView 커스터마이징 및 손익 시각화",
+      "데이터 모델 정규화 및 전환 리스크 최소화"
+    ],
+    learnings: [
+      "DOM 업데이트 최소화의 체감 효과",
+      "모델 표준화가 운영 안정성에 주는 이점"
+    ],
+    outcomes: [
+      "차트 렌더링 지연 40%↓",
+      "거래소 전환 3주→1주 단축",
+      "사용자 이탈률 50%↓"
+    ],
+    insight: "효율적인 코드가 곧 UX",
+    stacks: ["react", "next", "ts", "zustand", "websocket", "tradingview"]
   },
   {
     year: "2023",
-    title: "헷지펀드 매니징 서비스 & 거래소 ‘E***’ 개발 리드",
-    context: "OKX→Bybit API 확장, 절차형 소켓 구조를 핸들러 중심으로 재설계",
-    roles: [
-      "비동기 최적화 및 데이터 흐름 개선",
-      "상태관리 필요성 인식 및 구조화"
-    ],
-    learnings: [
-      "async/await, Promise 체계",
-      "렌더링 부하 개선과 UX의 상관",
-      "React/Next.js, Zustand 학습 동기"
-    ],
-    outcomes: [
-      "거래 처리속도 60% 향상",
-      "렌더링 부하 대폭 개선"
-    ],
-    insight: "효율적인 코드가 곧 UX",
-    stacks: ["react", "next", "ts", "zustand", "websocket"]
-  },
-  {
-    year: "2022~2023",
     title: "자문형 크립토 서비스 ‘S***’",
     context: "Binance 연동 자문형 자동운용, TradingView 도입",
     roles: [
@@ -117,7 +118,7 @@ export const projects: Project[] = [
   },
   {
     year: "2022",
-    title: "커스텀 크립토 MTS ‘R***’ / 펀드 매니징 시스템",
+    title: "커스텀 크립토 옵션 MTS ‘R***’ / 펀드 매니징 시스템",
     context: "Deribit API 기반 Django + WebSocket 구조",
     roles: [
       "WebSocket 핸들러 및 송수신 구조 설계",
@@ -138,7 +139,7 @@ export const projects: Project[] = [
   },
   {
     year: "2021",
-    title: "Hedge Fund 서비스 ‘ZOLBO’ 총괄 기획 및 런칭",
+    title: "가상자산 투자 일임형 서비스 'zolbo.ai' 총괄 기획 및 런칭",
     context: "금융 도메인 지식이 전무한 상태에서 1일 결산 로직 설계 및 MVP 런칭",
     roles: [
       "엑셀 기반 1일 단위 결산 로직 설계",

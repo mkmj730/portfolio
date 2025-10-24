@@ -3,17 +3,22 @@ import Section from "@/components/Section";
 import MockupFrame from "@/components/MockupFrame";
 import GalleryLightbox from "@/components/GalleryLightbox";
 import Link from "next/link";
+import type { Viewport } from "next";
+import RichContent from "@/components/RichContent";
+import { getWorkContentBySlug } from "@/contents/work";
 
-type Props = { params: { slug: string } };
+type Props = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
 }
 
-export default function CaseStudyPage({ params }: Props) {
-  const p = projects.find((x) => x.slug === params.slug);
+export default async function CaseStudyPage({ params }: Props) {
+  const { slug } = await params;
+  const p = projects.find((x) => x.slug === slug);
   if (!p) return <div className="container py-20">프로젝트를 찾을 수 없습니다.</div>;
   const tabs = [p.case.problem, p.case.goals, p.case.solution, p.case.impact, p.case.learnings].filter(Boolean);
+  const workContent = getWorkContentBySlug(p.slug);
   return (
     <div>
       <div className="mt-10">
@@ -37,6 +42,12 @@ export default function CaseStudyPage({ params }: Props) {
             </article>
           ))}
         </div>
+        {workContent?.blocks?.length ? (
+          <div className="mt-10">
+            <h3 className="font-semibold mb-3">상세</h3>
+            <RichContent blocks={workContent.blocks} />
+          </div>
+        ) : null}
         {p.gallery?.length ? (
           <div className="mt-10">
             <GalleryLightbox
@@ -51,5 +62,9 @@ export default function CaseStudyPage({ params }: Props) {
     </div>
   );
 }
+
+export const viewport: Viewport = {
+  themeColor: "#0064FF",
+};
 
 

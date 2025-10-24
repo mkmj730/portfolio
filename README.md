@@ -18,7 +18,7 @@ npm run dev
 
 ## 커스터마이즈 포인트
 - 연락처 링크(`src/components/Contact.tsx`)
-- 이력서 PDF(`public/mj_resume.pdf`) 업로드 후 링크 유지
+- 이력서 PDF(`public/resume.pdf`) 업로드 후 링크 유지
 - 프로젝트/경력 데이터(`src/contents/profile.ts`)
 
 ## 에셋 업로드 가이드

@@ -12,15 +12,15 @@ export default function AlchemiLabSection() {
           </div>
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
-              <h2 className="text-xl sm:text-2xl font-bold tracking-tight">㈜ 알케미랩 <span className="opacity-70">| 서비스개발실 실장</span></h2>
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-brand/10 text-brand ring-1 ring-brand/20">핀테크</span>
+              <h2 className="text-xl sm:text-2xl font-bold tracking-tight">㈜ 알케미랩 <span className="opacity-70">| Frontend Lead / Fullstack</span></h2>
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-brand/10 text-brand ring-1 ring-brand/20">가상자산·핀테크</span>
             </div>
-            <div className="mt-1 text-xs sm:text-sm opacity-75">2021.04 ~ 현재 · 서비스 기획 및 프론트엔드 개발 총괄</div>
+            <div className="mt-1 text-xs sm:text-sm opacity-75">2021.04 ~ 재직 중 · 웹·앱 하이브리드 서비스 개발 및 FE 총괄</div>
           </div>
         </div>
 
         <div className="mt-4 flex flex-wrap gap-2">
-          {["Next.js", "TypeScript", "Zustand", "Capacitor", "OAuth", "IAP"].map((tag) => (
+          {["Next.js", "TypeScript", "Zustand", "React Query", "WebSocket", "Capacitor", "OAuth", "IAP", "CI/CD"].map((tag) => (
             <span key={tag} className="px-2 py-0.5 text-xs rounded-md bg-brand/5 text-brand ring-1 ring-brand/20">#{tag}</span>
           ))}
         </div>

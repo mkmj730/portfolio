@@ -7,7 +7,8 @@ export default function ContactPage() {
       <div className="rounded-2xl border border-black/10 dark:border-white/10 p-6 flex flex-col gap-3">
         <a className="underline" href={`mailto:${profile.email}`}>{profile.email}</a>
         {/* <a className="underline" href={profile.github} target="_blank" rel="noreferrer">GitHub</a> */}
-        <a className="underline" href={profile.resume}>Resume(PDF)</a>
+        <a className="underline" href="/resume_notion.pdf" target="_blank" rel="noreferrer">이력서 (IT)</a>
+        <a className="underline" href="/resume_standard.pdf" target="_blank" rel="noreferrer">이력서 (일반)</a>
       </div>
     </Section>
   );
