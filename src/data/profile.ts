@@ -4,7 +4,7 @@ export const profile = {
   role: "Frontend Developer (토스뱅크 FE 챕터 지원)",
   tagline: "사용자의 불안을 기술로 해결하는 FE",
   email: "mkmj730@gmail.com",
-  github: "https://github.com/your-github",
+  github: "https://github.com/mkmj730",
   resume: "/resume.pdf",
   stacks:
     [

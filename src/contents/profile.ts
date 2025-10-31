@@ -89,7 +89,7 @@ export const projects: Project[] = [
     ],
     outcomes: [
       "차트 렌더링 지연 40%↓",
-      "거래소 전환 3주→1주 단축",
+      "거래소 전환 2개월→3주 단축",
       "사용자 이탈률 50%↓"
     ],
     insight: "효율적인 코드가 곧 UX",

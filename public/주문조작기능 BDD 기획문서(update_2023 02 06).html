@@ -1,0 +1,1084 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>주문조작기능 BDD 기획문서(update_2023.02.06)</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(134, 131, 126, 1);
+	fill: rgba(134, 131, 126, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(134, 131, 126, 1);
+	fill: rgba(134, 131, 126, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="bbdabd76-ce67-419e-926c-ec58c4c709da" class="page sans"><header><div class="page-header-icon undefined"><img class="icon" src="%EC%A3%BC%EB%AC%B8%EC%A1%B0%EC%9E%91%EA%B8%B0%EB%8A%A5%20BDD%20%EA%B8%B0%ED%9A%8D%EB%AC%B8%EC%84%9C(update_2023%2002%2006)/BDD-logo.png"/></div><h1 class="page-title">주문조작기능 BDD 기획문서(update_2023.02.06)</h1><p class="page-description"></p></header><div class="page-body"><hr id="38390d6b-65ae-4193-a5b3-7317b653ccac"/><h2 id="fe754c6f-c463-4bdb-98a6-4d9494618cf9" class="">주문조작기능 개발개요</h2><ol type="1" id="d11f02b9-4b32-4284-845d-e5e1b3c649ce" class="numbered-list" start="1"><li>일괄주문 넣기 : 대시보드 내 별도의 일괄주문 창을 구현 </li></ol><ol type="1" id="ba6f4b1e-f798-4c0f-9df0-70ad1a56ab62" class="numbered-list" start="2"><li>주문 취소하기 : 대기주문조회에서 취소 (일괄취소, 단일취소) → <a href="https://www.notion.so/BDD-update_2023-01-31-e8c013de90ed405f887580d1b15a264c?pvs=21"><img class="icon" src="%EC%A3%BC%EB%AC%B8%EC%A1%B0%EC%9E%91%EA%B8%B0%EB%8A%A5%20BDD%20%EA%B8%B0%ED%9A%8D%EB%AC%B8%EC%84%9C(update_2023%2002%2006)/BDD-logo.png"/>주문관리창 BDD 기획문서(update_2023.01.31)</a> </li></ol><ol type="1" id="542962c7-2ad1-48c1-b96d-8efbfaf37f92" class="numbered-list" start="3"><li>포지션 취소하기</li></ol><ol type="1" id="4efb655e-defa-45f3-a723-5f5bcd3e3156" class="numbered-list" start="4"><li>계정 관리하기</li></ol><ol type="1" id="9cc1112e-dee2-4047-998a-722da575e8cc" class="numbered-list" start="5"><li>모바일 UI 개선</li></ol><ol type="1" id="f719c969-26c9-4148-a4b6-7d247c8f91cf" class="numbered-list" start="6"><li>단일주문 넣기 : 대시보드 내 별도의 단일주문 창을 구현</li></ol><ol type="1" id="5c57aed4-6a79-4a1d-a37d-ad9e496cddf4" class="numbered-list" start="7"><li>차트에서 조회하기</li></ol><ol type="1" id="58ae4ef4-4efd-4eb6-ad70-5cec41f16485" class="numbered-list" start="8"><li>차트에서 조작하기 </li></ol><p id="9e0f8627-22fc-49df-8d12-55c2d5f09de1" class="">
+</p><h2 id="e4503dc3-fc90-4b41-8837-2ee43fe02bb7" class="">개발 일정 체크</h2><table id="5c21f6aa-baa6-483f-87ea-e568338fed39" class="simple-table"><thead class="simple-table-header"><tr id="6704d8ca-c0bb-4991-b748-3e575784336f"><th id="yc]U" class="simple-table-header-color simple-table-header" style="width:44.98579406738281px">순서</th><th id="@mRW" class="simple-table-header-color simple-table-header" style="width:175.9517059326172px">과업</th><th id="A_dc" class="simple-table-header-color simple-table-header" style="width:386.9801025390625px">설명</th><th id="]Q@&gt;" class="block-color-blue_background simple-table-header">테섭 마감</th><th id="h:]@" class="simple-table-header-color simple-table-header">QC</th><th id="c\_W" class="block-color-red_background simple-table-header">운영섭 마감</th></tr></thead><tbody><tr id="d0971aa2-998c-42be-9ed9-9888908dd44c"><td id="yc]U" class="" style="width:44.98579406738281px">1</td><td id="@mRW" class="" style="width:175.9517059326172px">이대로 주문 넣기</td><td id="A_dc" class="" style="width:386.9801025390625px">계산기에 명시된 레시피의 호가(양방향 12개)들 중 일부(또는 전부)를 선택해서 일괄적으로 버튼 하나로 주문을 넣을 수 있다.</td><td id="]Q@&gt;" class="block-color-blue_background">23.02.10 (금)</td><td id="h:]@" class="">23.02.13 (월)</td><td id="c\_W" class="block-color-red_background">23.02.24 (금)</td></tr><tr id="7746d778-3624-4ce0-8087-f8f506d29352"><td id="yc]U" class="" style="width:44.98579406738281px">2</td><td id="@mRW" class="" style="width:175.9517059326172px">주문 취소하기</td><td id="A_dc" class="" style="width:386.9801025390625px">대기주문 중 일부(또는 전부)를 대시보드에서 취소할 수 있다.</td><td id="]Q@&gt;" class="block-color-blue_background">“</td><td id="h:]@" class="">“</td><td id="c\_W" class="block-color-red_background">“</td></tr><tr id="928b6c31-95d4-4575-aa5c-8aff07259062"><td id="yc]U" class="" style="width:44.98579406738281px">3</td><td id="@mRW" class="" style="width:175.9517059326172px">포지션 취소하기</td><td id="A_dc" class="" style="width:386.9801025390625px">포지션 중 일부(또는 전부)를 대시보드에서 수정할 수 있다.</td><td id="]Q@&gt;" class="block-color-blue_background">“</td><td id="h:]@" class="">“</td><td id="c\_W" class="block-color-red_background">“</td></tr><tr id="6be6247f-06f5-4d30-b782-91f6468dc440"><td id="yc]U" class="" style="width:44.98579406738281px">4</td><td id="@mRW" class="" style="width:175.9517059326172px">주문 잠금해제(이메일 인증)</td><td id="A_dc" class="" style="width:386.9801025390625px">이대로 주문 넣기 전 주문잠금을 이메일 인증번호 인증을 통해 24시간 해제할 수 있다.</td><td id="]Q@&gt;" class="block-color-blue_background">23.02.24 (금)</td><td id="h:]@" class="">23.02.27 (월)</td><td id="c\_W" class="block-color-red_background">23.02.28(화)</td></tr><tr id="a9ebe9bf-daea-4bc7-ab9b-c0e80bd787ce"><td id="yc]U" class="" style="width:44.98579406738281px"></td><td id="@mRW" class="" style="width:175.9517059326172px"></td><td id="A_dc" class="" style="width:386.9801025390625px"></td><td id="]Q@&gt;" class="block-color-blue_background"></td><td id="h:]@" class=""></td><td id="c\_W" class="block-color-red_background"></td></tr><tr id="c928aa3a-d4ff-4d27-a80e-0a7f3d41909b"><td id="yc]U" class="" style="width:44.98579406738281px"></td><td id="@mRW" class="" style="width:175.9517059326172px">계정 관리하기</td><td id="A_dc" class="" style="width:386.9801025390625px">바이낸스 내 계정의 Futures 정보를 확인할 수 있다. </td><td id="]Q@&gt;" class="block-color-blue_background">?</td><td id="h:]@" class="">?</td><td id="c\_W" class="block-color-red_background">?</td></tr><tr id="e2880833-4454-43ad-bd83-cc27356537f1"><td id="yc]U" class="" style="width:44.98579406738281px">-</td><td id="@mRW" class="" style="width:175.9517059326172px"><del>주문 수정하기</del></td><td id="A_dc" class="" style="width:386.9801025390625px"><del>대기주문 중 일부(또는 전부)를 대시보드에서 수정할 수 있다.</del></td><td id="]Q@&gt;" class="block-color-blue_background">23.03.10 (금)</td><td id="h:]@" class="">23.03.13 (월)</td><td id="c\_W" class="block-color-red_background">23.03.24 (금)</td></tr><tr id="9f738489-f348-4666-9a3a-fe5053594fde"><td id="yc]U" class="" style="width:44.98579406738281px"></td><td id="@mRW" class="" style="width:175.9517059326172px">모바일 UI 개선</td><td id="A_dc" class="" style="width:386.9801025390625px">주문관리창을 모바일에서 보면 표가 아닌 카드형식으로 볼 수 있다. </td><td id="]Q@&gt;" class="block-color-blue_background">“</td><td id="h:]@" class="">&quot;</td><td id="c\_W" class="block-color-red_background">“</td></tr><tr id="5b2579fa-2312-4288-aff2-1ff623a4bb9f"><td id="yc]U" class="" style="width:44.98579406738281px"></td><td id="@mRW" class="" style="width:175.9517059326172px">단일 주문 넣기</td><td id="A_dc" class="" style="width:386.9801025390625px">계산기에 명시된 레시피의 호가들 이외에 내가 원하는 가격으로 방향(SELL/BUY)을 선택해서 주문을 넣을 수 있다. </td><td id="]Q@&gt;" class="block-color-blue_background">?</td><td id="h:]@" class="">?</td><td id="c\_W" class="block-color-red_background">?</td></tr><tr id="15c0ebbe-446e-4e33-af80-e3c99acbdc82"><td id="yc]U" class="" style="width:44.98579406738281px"></td><td id="@mRW" class="" style="width:175.9517059326172px">차트에서 조회하기</td><td id="A_dc" class="" style="width:386.9801025390625px">포지션, 대기주문 내역을 차트에서 확인할 수 있다. </td><td id="]Q@&gt;" class="block-color-blue_background">23.04.07 (금)</td><td id="h:]@" class="">23.04.10 (월)</td><td id="c\_W" class="block-color-red_background">23.04.21 (금)</td></tr><tr id="a86a99b6-b457-4755-8d29-b6f7b7f2b658"><td id="yc]U" class="" style="width:44.98579406738281px"></td><td id="@mRW" class="" style="width:175.9517059326172px">차트에서 조작하기</td><td id="A_dc" class="" style="width:386.9801025390625px">포지션, 대기주문 내역을 차트에서 취소할 수 있다.</td><td id="]Q@&gt;" class="block-color-blue_background">23.04.14 (금)</td><td id="h:]@" class="">23.04.17 (월)</td><td id="c\_W" class="block-color-red_background">&quot;</td></tr></tbody></table><p id="0b98c9ee-1ade-4b8a-936a-be0b4b443606" class="">
+</p><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><strong>테스트 환경</strong></summary><div class="indented"><ul id="f363bf45-c731-4bac-ade9-5b105c7d7706" class="bulleted-list"><li style="list-style-type:disc">테섭 로그인 정보<ul id="fffb7e04-c1a4-4d92-80de-72a8d9a71bce" class="bulleted-list"><li style="list-style-type:circle">ID : <code>alchemimj</code></li></ul><ul id="c4b782b5-79c4-48df-b03e-e948fedc3589" class="bulleted-list"><li style="list-style-type:circle">PW : <code>qet135jjQET!#%</code></li></ul></li></ul><ul id="0995f69a-b846-4faa-ace1-15800cbc3919" class="bulleted-list"><li style="list-style-type:disc">로컬용 MJ 바이낸스 API 정보(조회권한만, IP 제한 미설정)<ul id="a5100dbc-79e2-46ec-a880-212839a8d5be" class="bulleted-list"><li style="list-style-type:circle">api_key : <code>dCe7Mxt3pco6gAZga6pSsFzWaNFsbyKH6hkiFYPWZdpPPoLOQV1IPL7QXUQUegIR</code></li></ul><ul id="9ccab836-2b5b-49eb-866d-37e091746d6b" class="bulleted-list"><li style="list-style-type:circle">secret_key : <code>Z2iIEYODHM3PVpajHFBoRMDMxp55cXPw3ykZEU5qrnzSgEEGUnaIio2VlT5rp5mN</code></li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c8397c9c-c2a0-4edf-9dc4-94e6d686030f" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">api_key, secret_key = &quot;dCe7Mxt3pco6gAZga6pSsFzWaNFsbyKH6hkiFYPWZdpPPoLOQV1IPL7QXUQUegIR&quot;, &quot;Z2iIEYODHM3PVpajHFBoRMDMxp55cXPw3ykZEU5qrnzSgEEGUnaIio2VlT5rp5mN&quot;</code></pre></li></ul><ul id="c8627bf2-9d41-425f-9a09-bd91c6afe4aa" class="bulleted-list"><li style="list-style-type:disc"> 테스트섭용 MJ 바이낸스 API 정보(IP 제한 설정)<ul id="895ba600-d676-4d89-9a2f-3c35f3456613" class="bulleted-list"><li style="list-style-type:circle">api_key : </li></ul><ul id="6ce69d3b-3cfa-4943-9aea-81168e42191d" class="bulleted-list"><li style="list-style-type:circle">secret_key : </li></ul></li></ul><ul id="fa81884d-8ce1-4772-b25f-33630c82d30b" class="bulleted-list"><li style="list-style-type:disc">테스트용 (Futures 권한)<ul id="af638465-e551-4c7c-9dcc-8e8ed3e30a47" class="bulleted-list"><li style="list-style-type:circle">api_key : <code>nPDZShAEVNtBUjSgZ1Z6wtMjLF4uCKIeZZt6Vb2TvTVnf1uRhrljLjHtxRHGbphA</code></li></ul><ul id="f3da1ebd-ffb2-44ef-9fbe-26882f8c469e" class="bulleted-list"><li style="list-style-type:circle">secret_key : <code>NZlMwSH9Dohj8HiRzeZ9SMkRQpI6sxOGOj6mUgFKdNIp13kmA3IUeP6l13crW3J3</code></li></ul></li></ul><ul id="7c79f15d-1d46-47c9-8a8e-33e04f701c82" class="bulleted-list"><li style="list-style-type:disc">테스트용 (과 권한) <ul id="39d4ffe1-97fa-46ab-9f61-95a1e72d81c1" class="bulleted-list"><li style="list-style-type:circle">api_key : <code>t9c4I4oT2WMDfdhMsz6YUjVSKu8UT3kQD4WNT47UmLA4x3myYEjbHYCsUVn2LDe9</code></li></ul><ul id="77d1838d-8c48-42ac-b463-963749546e74" class="bulleted-list"><li style="list-style-type:circle">secret_key : <code>2noXTovr27L66tuGKANWkg0BToqmC20lzFLGFLFpu1TTflAGvFHwTemw62CnOfTY</code></li></ul></li></ul></div></details><h2 id="fc5022d2-c5fe-49f1-98c9-546d3b59f27d" class="block-color-red_background"> 화면 기획</h2><ul id="c1b65250-587f-4268-9cdd-43c7cea20d53" class="bulleted-list"><li style="list-style-type:disc">HTML 파일 직접 생성 후 각 기능별 캡쳐화면 추가할 예정</li></ul><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">[1] 일괄 주문넣기(주문서)</summary><div class="indented"><ol type="1" id="fcaf89fa-c034-44ef-9b01-33ac4fe6d4fe" class="numbered-list" start="1"><li>기획 화면<div id="e1532a95-04f8-47d1-b347-bc4ab5a7fa8b" class="column-list"><div id="a48a1422-be42-4e9f-a7aa-08e1b1278b7b" style="width:50%" class="column"><p id="16810653-45b3-4a3c-8d6b-21dd4125b1fe" class="">PC(Light)</p><figure id="f5b5f1ad-2166-4c69-9e35-670107d62870" class="image"><a href="%EC%A3%BC%EB%AC%B8%EC%A1%B0%EC%9E%91%EA%B8%B0%EB%8A%A5%20BDD%20%EA%B8%B0%ED%9A%8D%EB%AC%B8%EC%84%9C(update_2023%2002%2006)/Untitled.png"><img style="width:3360px" src="%EC%A3%BC%EB%AC%B8%EC%A1%B0%EC%9E%91%EA%B8%B0%EB%8A%A5%20BDD%20%EA%B8%B0%ED%9A%8D%EB%AC%B8%EC%84%9C(update_2023%2002%2006)/Untitled.png"/></a></figure><p id="7162172d-5cc4-4a15-be6a-3b1d19fdc271" class="">Mobile(Light)</p><figure id="1ab343a7-ec54-4b7a-8a97-219072ce575e" class="image"><a href="%EC%A3%BC%EB%AC%B8%EC%A1%B0%EC%9E%91%EA%B8%B0%EB%8A%A5%20BDD%20%EA%B8%B0%ED%9A%8D%EB%AC%B8%EC%84%9C(update_2023%2002%2006)/Untitled%201.png"><img style="width:638.5014038085938px" src="%EC%A3%BC%EB%AC%B8%EC%A1%B0%EC%9E%91%EA%B8%B0%EB%8A%A5%20BDD%20%EA%B8%B0%ED%9A%8D%EB%AC%B8%EC%84%9C(update_2023%2002%2006)/Untitled%201.png"/></a></figure></div><div id="3efef94e-bff1-4ae2-8883-604c30ce1a09" style="width:50%" class="column"><p id="caa11345-a74d-4f6f-beee-6f2b35de9cb2" class="">PC(Dark)</p><figure id="517fece0-a5a3-49c9-9677-45c3620233c6" class="image"><a href="%EC%A3%BC%EB%AC%B8%EC%A1%B0%EC%9E%91%EA%B8%B0%EB%8A%A5%20BDD%20%EA%B8%B0%ED%9A%8D%EB%AC%B8%EC%84%9C(update_2023%2002%2006)/Untitled%202.png"><img style="width:3360px" src="%EC%A3%BC%EB%AC%B8%EC%A1%B0%EC%9E%91%EA%B8%B0%EB%8A%A5%20BDD%20%EA%B8%B0%ED%9A%8D%EB%AC%B8%EC%84%9C(update_2023%2002%2006)/Untitled%202.png"/></a></figure><p id="1f6280b1-14d4-4a3d-8a90-0444fb3be9d2" class="">Mobile(Dark)</p><figure id="812fc859-dbeb-403e-ac78-899751ffd97e" class="image"><a href="%EC%A3%BC%EB%AC%B8%EC%A1%B0%EC%9E%91%EA%B8%B0%EB%8A%A5%20BDD%20%EA%B8%B0%ED%9A%8D%EB%AC%B8%EC%84%9C(update_2023%2002%2006)/Untitled%203.png"><img style="width:638.5014038085938px" src="%EC%A3%BC%EB%AC%B8%EC%A1%B0%EC%9E%91%EA%B8%B0%EB%8A%A5%20BDD%20%EA%B8%B0%ED%9A%8D%EB%AC%B8%EC%84%9C(update_2023%2002%2006)/Untitled%203.png"/></a></figure></div></div></li></ol><p id="b10e727a-324d-42b6-af98-cbe24283bd57" class="">
+</p><ol type="1" id="9ca1a397-bfab-43cf-ae8c-b71b460e6fb5" class="numbered-list" start="2"><li>BDD 기능정의(<mark class="highlight-red">작성/수정중</mark>)<table id="477ed9ea-420c-43ff-9145-06cbc4f49497" class="simple-table"><thead class="simple-table-header"><tr id="a3ae43f3-5113-47b6-891c-fe164f58569a"><th id="]Ohh" class="simple-table-header-color simple-table-header" style="width:73.15625px">순서➡️<br/>번호⬇️<br/>(n-n-n)</th><th id="V?lK" class="simple-table-header-color simple-table-header" style="width:139.15625px">1</th><th id="wZLI" class="simple-table-header-color simple-table-header" style="width:158.15625px">2</th><th id="PD}|" class="simple-table-header-color simple-table-header" style="width:173.1533966064453px">4</th><th id="ECPs" class="simple-table-header-color simple-table-header" style="width:202.15625px">3</th><th id="uW@A" class="simple-table-header-color simple-table-header" style="width:412.15625px">5<br/><mark class="highlight-red">*(미구현)</mark></th></tr></thead><tbody><tr id="51769a25-23d1-48b8-bd39-59b0e5e37c53"><th id="]Ohh" class="block-color-blue_background simple-table-header" style="width:73.15625px">상위구분</th><td id="V?lK" class="block-color-blue_background" style="width:139.15625px">Feature(n)</td><td id="wZLI" class="block-color-blue_background" style="width:158.15625px">Scenario(-n)</td><td id="PD}|" class="block-color-blue_background" style="width:173.1533966064453px">Task(-n)</td><td id="ECPs" class="block-color-blue_background" style="width:202.15625px"></td><td id="uW@A" class="block-color-blue_background" style="width:412.15625px"></td></tr><tr id="82ce40d3-0ed5-4b1b-85ad-2f43ce77e76d"><th id="]Ohh" class="block-color-blue_background simple-table-header" style="width:73.15625px">하위 구분</th><td id="V?lK" class="block-color-blue_background" style="width:139.15625px">(기능)</td><td id="wZLI" class="block-color-blue_background" style="width:158.15625px">(상황, 이야기, 목적)</td><td id="PD}|" class="block-color-blue_background" style="width:173.1533966064453px">Given (조건)</td><td id="ECPs" class="block-color-blue_background" style="width:202.15625px">When (행동)</td><td id="uW@A" class="block-color-blue_background" style="width:412.15625px">Then (결과)</td></tr><tr id="eddeafec-dc25-4c07-b134-f2f920734c42"><th id="]Ohh" class="simple-table-header-color simple-table-header" style="width:73.15625px">1-1-1</th><td id="V?lK" class="" style="width:139.15625px">[1] 계산후 [주문서 반영하기] 활성화 기능 </td><td id="wZLI" class="" style="width:158.15625px">&quot;</td><td id="PD}|" class="" style="width:173.1533966064453px"><strong>투자금액</strong>을 입력하지 <mark class="highlight-red"><strong>않고</strong></mark> </td><td id="ECPs" class="" style="width:202.15625px"><strong>계산하기 버튼</strong>을 클릭하면</td><td id="uW@A" class="" style="width:412.15625px">[주문서 반영하기] 버튼이 비활성화된 상태로 유지된다.</td></tr><tr id="fccea618-203a-4af2-83ae-00c08ccc610d"><th id="]Ohh" class="simple-table-header-color simple-table-header" style="width:73.15625px">1-1-2</th><td id="V?lK" class="" style="width:139.15625px">&quot;</td><td id="wZLI" class="" style="width:158.15625px">&quot;</td><td id="PD}|" class="" style="width:173.1533966064453px"><strong>투자금액</strong>을 <mark class="highlight-blue"><strong>입력하고</strong></mark> </td><td id="ECPs" class="" style="width:202.15625px">“</td><td id="uW@A" class="" style="width:412.15625px">[주문서 반영하기] 버튼이 활성화된다.</td></tr><tr id="e262f69b-28f7-4d91-8bb7-3fca037c0a67"><th id="]Ohh" class="simple-table-header-color simple-table-header" style="width:73.15625px">2-1-1</th><td id="V?lK" class="" style="width:139.15625px">[2] <strong>주문서 반영하기기능</strong></td><td id="wZLI" class="" style="width:158.15625px">1. 유저가 자신의 바이낸스 계정에 셀프레시피의 <strong>계산내역을</strong> 주문서에 입력하기 위해 </td><td id="PD}|" class="" style="width:173.1533966064453px">1. API Key를 입력하지 <mark class="highlight-red"><strong>않은 </strong></mark>채로 <br/>+ <strong>계산 버튼</strong>을 누르지 <mark class="highlight-red"><strong>않고</strong></mark> </td><td id="ECPs" class="" style="width:202.15625px">(모바일/PC) [주문서 반영하기] 버튼을 클릭하거나 <br/>or<br/>(모바일) ”주문서” 타이틀을 클릭하면 </td><td id="uW@A" class="" style="width:412.15625px"><del>“API Key를 입력해주세요”라는 안내글귀가 팝업으로 표시된다. <br/></del>“계산기에서 계산을 먼저 해주세요”라는 안내글귀가 팝업으로 표시된다. </td></tr><tr id="e4437df5-711a-4c39-9cc2-5a942453517c"><th id="]Ohh" class="simple-table-header-color simple-table-header" style="width:73.15625px">2-1-2</th><td id="V?lK" class="" style="width:139.15625px">“</td><td id="wZLI" class="" style="width:158.15625px">“</td><td id="PD}|" class="" style="width:173.1533966064453px">2. API Key를 입력하지 <mark class="highlight-red"><strong>않은 </strong></mark>채로 <br/>+ <strong>계산 버튼</strong>을 <mark class="highlight-blue"><strong>누르고</strong></mark></td><td id="ECPs" class="" style="width:202.15625px">“</td><td id="uW@A" class="" style="width:412.15625px">1) (모바일) 대시보드의 주문서로 주문내역이 전환된다. <br/>2) 계산기의 계산된 내역과 주문정보 중 <span style="border-bottom:0.05em solid"><strong>유효한 주문</strong></span>만 주문서에 표시된다.<br/>3) 표시되는 주문정보는 <strong>주문전략, 주문내역, 주문위험</strong>이다.<br/>4) [이대로 주문넣기] 버튼이 활성화 된다.<br/><br/>* 주문전략선정 : 물타기지수(별점), 체결률(위험도), 레버리지(1~5배), 투자원금(USDT), <mark class="highlight-red">*투자가능금액(마진잔고)</mark><br/>* 주문내역확인 : 호가 갯수, 호가별 가격, 호가별 비중, 호가별 투자금액 <br/>* 주문위험평가(SELL/BUY) :  체결강도, 청산가격. 청산확률</td></tr><tr id="f6452961-1b81-479c-8cbc-722651486c56"><th id="]Ohh" class="simple-table-header-color simple-table-header" style="width:73.15625px">2-1-3</th><td id="V?lK" class="" style="width:139.15625px">“</td><td id="wZLI" class="" style="width:158.15625px">&quot;</td><td id="PD}|" class="" style="width:173.1533966064453px">3. API Key를 <strong><mark class="highlight-blue">입력</mark></strong>한 후<br/>+ <strong>계산 버튼</strong>을 누르지 <mark class="highlight-red"><strong>않고 </strong></mark></td><td id="ECPs" class="" style="width:202.15625px">“</td><td id="uW@A" class="" style="width:412.15625px">“계산기에서 계산을 먼저 해주세요”라는 안내글귀가 팝업으로 표시된다. </td></tr><tr id="fc61bc83-6a7e-4b4b-b1a7-263429b508a5"><th id="]Ohh" class="simple-table-header-color simple-table-header" style="width:73.15625px">2-1-4</th><td id="V?lK" class="" style="width:139.15625px">“</td><td id="wZLI" class="" style="width:158.15625px">&quot;</td><td id="PD}|" class="" style="width:173.1533966064453px">4. API Key를 <strong><mark class="highlight-blue">입력</mark></strong>한 후<br/>+ <strong>계산하기 버튼</strong>을 <mark class="highlight-blue"><strong>누르고 </strong></mark></td><td id="ECPs" class="" style="width:202.15625px">“</td><td id="uW@A" class="" style="width:412.15625px">1) (모바일) 대시보드의 주문서로 주문내역이 전환된다. <br/>2) 계산기의 계산된 내역과 주문정보 중 <span style="border-bottom:0.05em solid"><strong>유효한 주문</strong></span>만 주문서에 표시된다.<br/>3) 표시되는 주문정보는 <strong>주문전략, 주문내역, 주문위험</strong>이다.<br/>4) [이대로 주문넣기] 버튼이 활성화 된다.<br/><br/>* 주문전략선정 : 물타기지수(별점), 체결률(위험도), 레버리지(1~5배), 투자원금(USDT), <mark class="highlight-red">*투자가능금액(마진잔고)</mark><br/>* 주문내역확인 : 호가 갯수, 호가별 가격, 호가별 비중, 호가별 투자금액 <br/>* 주문위험평가(SELL/BUY) :  체결강도, 청산가격. 청산확률</td></tr><tr id="047213df-6f14-4604-be94-1dd6d9461a70"><th id="]Ohh" class="simple-table-header-color simple-table-header" style="width:73.15625px">3-1-1</th><td id="V?lK" class="" style="width:139.15625px">[3] <strong>유효하지 않은</strong> 주문 체크 기능</td><td id="wZLI" class="" style="width:158.15625px">1. 유저가 계산한 주문서가 바이낸스 거래규칙에 맞는 지 확인 하기위해</td><td id="PD}|" class="" style="width:173.1533966064453px">1. 계산이 완료되어 [주문서 반영하기 버튼]이 활성화된 채로</td><td id="ECPs" class="" style="width:202.15625px">[주문서 반영하기] 버튼을 클릭하면</td><td id="uW@A" class="" style="width:412.15625px">1) 유효하지 않은 주문을 표시한다.<br/>2) 표시 내용은 아이콘, 방향, 심볼, 가격, 투자금액, 오류세부설명 이다.<br/>3) 유효한 주문들은 주문서에 반영된다.</td></tr><tr id="f992b245-2895-4449-b615-87cc8cfd7ad0"><th id="]Ohh" class="simple-table-header-color simple-table-header" style="width:73.15625px">4-1-1</th><td id="V?lK" class="" style="width:139.15625px">[4] <strong>일괄주문 전 주문내역 확인 기능</strong></td><td id="wZLI" class="" style="width:158.15625px">1. 유저가 계산한 주문서대로 일괄적으로 주문을 넣기 전 <strong>주문 상세정보를 확인</strong>하기 위해 </td><td id="PD}|" class="" style="width:173.1533966064453px">1. <strong>계산 버튼</strong>을 누르지 <mark class="highlight-red"><strong>않고 <br/></strong></mark><strong>+ </strong>버튼이 비활성화된 상태로</td><td id="ECPs" class="" style="width:202.15625px">[이대로 주문넣기] 버튼을 클릭하면</td><td id="uW@A" class="" style="width:412.15625px">[주문서 반영하기] 버튼이 비활성화된 상태라 클릭되지 않는다.</td></tr><tr id="957f5f1a-7ac4-42ae-9ace-c457534160b2"><th id="]Ohh" class="simple-table-header-color simple-table-header" style="width:73.15625px">4-1-2</th><td id="V?lK" class="" style="width:139.15625px">&quot;</td><td id="wZLI" class="" style="width:158.15625px">“</td><td id="PD}|" class="" style="width:173.1533966064453px">2. <strong>계산하기 버튼</strong>을 <mark class="highlight-blue"><strong>누르고 </strong></mark><strong>+ </strong>버튼이 활성화된 상태로</td><td id="ECPs" class="" style="width:202.15625px">“</td><td id="uW@A" class="" style="width:412.15625px">1) 주문상세정보가 팝업으로 표시된다.<br/>2) 표시되는 주문상세정보는 <strong>주문정보, 시간정보</strong> 2가지이다.<br/><br/>* 주문정보 : <strong>주문전략, 주문내역, 주문위험</strong><br/>* 시간정보 : 타겟시간(과거레시피/현재), 계산완료 시간, 현재 시간, 시간차이(타겟시간, 계산완료시간-현재시간)</td></tr><tr id="d211135e-8797-46f5-a2b0-7cfb01312849"><th id="]Ohh" class="simple-table-header-color simple-table-header" style="width:73.15625px">5-1-1</th><td id="V?lK" class="" style="width:139.15625px">[5] <strong>주문 전 보안인증 기능</strong></td><td id="wZLI" class="" style="width:158.15625px">1. 주문 상세정보를 확인한 후 <strong>이대로 주문넣기</strong>를 하기 위해 </td><td id="PD}|" class="" style="width:173.1533966064453px">1. <strong>이메일 정보</strong>를 입력하지 <mark class="highlight-red"><strong>않고</strong></mark></td><td id="ECPs" class="" style="width:202.15625px"><strong>이대로 주문넣기</strong> 버튼을 클릭하면 </td><td id="uW@A" class="" style="width:412.15625px"></td></tr><tr id="5dc7b607-5327-4141-96dd-da1653a48514"><th id="]Ohh" class="simple-table-header-color simple-table-header" style="width:73.15625px">5-1-2</th><td id="V?lK" class="" style="width:139.15625px">“</td><td id="wZLI" class="" style="width:158.15625px">1. 주문 상세정보를 확인한 후 <strong>이대로 주문넣기</strong>를 하기 위해 </td><td id="PD}|" class="" style="width:173.1533966064453px">2. <strong>이메일 정보</strong>를 입력<mark class="highlight-blue">하고</mark></td><td id="ECPs" class="" style="width:202.15625px">“</td><td id="uW@A" class="" style="width:412.15625px"></td></tr><tr id="cb06b6b6-e4f7-44fb-b62f-d6b6e2caccff"><th id="]Ohh" class="simple-table-header-color simple-table-header" style="width:73.15625px">6-1-1</th><td id="V?lK" class="" style="width:139.15625px">[6] <strong>일괄주문 기능</strong></td><td id="wZLI" class="" style="width:158.15625px"></td><td id="PD}|" class="" style="width:173.1533966064453px"></td><td id="ECPs" class="" style="width:202.15625px"></td><td id="uW@A" class="" style="width:412.15625px"></td></tr><tr id="d6afac55-cbf9-4ab8-a944-6352d230188b"><th id="]Ohh" class="simple-table-header-color simple-table-header" style="width:73.15625px"></th><td id="V?lK" class="" style="width:139.15625px"></td><td id="wZLI" class="" style="width:158.15625px"></td><td id="PD}|" class="" style="width:173.1533966064453px"></td><td id="ECPs" class="" style="width:202.15625px"></td><td id="uW@A" class="" style="width:412.15625px"></td></tr><tr id="c8872353-c38d-4bc1-a76b-785aed9df8fa"><th id="]Ohh" class="simple-table-header-color simple-table-header" style="width:73.15625px"></th><td id="V?lK" class="" style="width:139.15625px"></td><td id="wZLI" class="" style="width:158.15625px"></td><td id="PD}|" class="" style="width:173.1533966064453px"></td><td id="ECPs" class="" style="width:202.15625px"></td><td id="uW@A" class="" style="width:412.15625px"></td></tr></tbody></table></li></ol><ol type="1" id="3a10416b-61e7-41cf-80dd-57833f03046d" class="numbered-list" start="3"><li>일괄 주문 넣기<strong><strong> - </strong></strong>바이낸스 API 체크<ol type="a" id="7402f482-d2f7-4e07-ba86-d6b40a3b156b" class="numbered-list" start="1"><li><mark class="highlight-blue"><strong><strong>Place Multiple Orders</strong></strong></mark><strong><strong> (TRADE)</strong></strong><ol type="i" id="676628d9-6d93-4489-98ff-22d5b8484d30" class="numbered-list" start="1"><li>Endpoint<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f998ca84-5d5a-43d4-915e-4e6ce9bf7706" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">POST /fapi/v1/batchOrders (HMAC SHA256)</code></pre></li></ol><ol type="i" id="c2d8f2e9-146a-4b74-85df-dc909f4ceea6" class="numbered-list" start="2"><li>parameter<table id="51f5996a-bd3d-4aee-b4fb-4eac4e3a06e3" class="simple-table"><tbody><tr id="c3b9e653-aa1d-41da-8593-0d3d63876c26"><td id="XJs}" class="">Name</td><td id="eta{" class="">Type</td><td id="ySlw" class="">Mandatory</td><td id="FXvn" class="">Description</td></tr><tr id="61edc871-6ba3-4ca9-a9a5-8f8f84f83791"><td id="XJs}" class=""><strong><mark class="highlight-blue">batchOrders</mark></strong></td><td id="eta{" class="">LIST&lt;JSON&gt;</td><td id="ySlw" class="">YES</td><td id="FXvn" class="">order list. Max 5 orders</td></tr><tr id="14e85cd5-e6af-4ac3-8df4-746a401adac2"><td id="XJs}" class="">recvWindow</td><td id="eta{" class="">LONG</td><td id="ySlw" class="">NO</td><td id="FXvn" class=""></td></tr><tr id="69beb9db-5bbf-4095-8a41-325fe4fda05d"><td id="XJs}" class="">timestamp</td><td id="eta{" class="">LONG</td><td id="ySlw" class="">YES</td><td id="FXvn" class=""></td></tr></tbody></table></li></ol><ol type="i" id="b06028b8-0ad0-4993-9163-1eae2bcbc3b9" class="numbered-list" start="3"><li><strong><mark class="highlight-blue">batchOrders </mark></strong>parameter<p id="d36deee5-41cd-457e-a311-dab63a9f4eb8" class=""><strong>Where </strong><code><strong>batchOrders</strong></code><strong> is the list of order parameters in JSON</strong></p><ul id="e96f6fe5-71f0-4a27-93d7-6563b9fbf6b2" class="bulleted-list"><li style="list-style-type:disc"><strong>Example:</strong> /fapi/v1/batchOrders?batchOrders=[{&quot;type&quot;:&quot;LIMIT&quot;,&quot;timeInForce&quot;:&quot;GTC&quot;,&quot;symbol&quot;:&quot;BTCUSDT&quot;,&quot;side&quot;:&quot;BUY&quot;,&quot;price&quot;:&quot;10001&quot;,&quot;quantity&quot;:&quot;0.001&quot;}]</li></ul><table id="097189a1-d8d3-4c30-9d26-367b6c7375c3" class="simple-table"><tbody><tr id="8b429dd4-b2ed-4502-9935-0ef122282011"><td id="X[@C" class="">Name</td><td id="JR{r" class="">Type</td><td id="rf}q" class="">Mandatory</td><td id="S&gt;Kn" class="">Description</td></tr><tr id="54182798-9a26-4ec9-beb1-3972ac5c4f6c"><td id="X[@C" class=""><strong><mark class="highlight-teal">symbol</mark></strong></td><td id="JR{r" class="">STRING</td><td id="rf}q" class="">YES</td><td id="S&gt;Kn" class=""></td></tr><tr id="c2e3dcb0-a122-4429-a328-eadf838c580f"><td id="X[@C" class=""><strong><mark class="highlight-teal">side</mark></strong></td><td id="JR{r" class="">ENUM</td><td id="rf}q" class="">YES</td><td id="S&gt;Kn" class=""></td></tr><tr id="feff4c02-8b74-45a1-b16e-37c62701d4e9"><td id="X[@C" class="">positionSide</td><td id="JR{r" class="">ENUM</td><td id="rf}q" class="">NO</td><td id="S&gt;Kn" class="">Default <code>BOTH</code> for One-way Mode ; <code>LONG</code> or <code>SHORT</code> for Hedge Mode. It must be sent with Hedge Mode.</td></tr><tr id="7c883398-5de7-4c23-91a2-13f260c5d59c"><td id="X[@C" class="">type</td><td id="JR{r" class="">ENUM</td><td id="rf}q" class="">YES</td><td id="S&gt;Kn" class=""></td></tr><tr id="08f4b24d-adfd-4179-bd8d-b579cde0cddd"><td id="X[@C" class="">timeInForce</td><td id="JR{r" class="">ENUM</td><td id="rf}q" class="">NO</td><td id="S&gt;Kn" class=""></td></tr><tr id="72c71d02-7589-465d-8874-5f5466f683ab"><td id="X[@C" class=""><strong><mark class="highlight-teal">quantity</mark></strong></td><td id="JR{r" class="">DECIMAL</td><td id="rf}q" class="">YES</td><td id="S&gt;Kn" class=""></td></tr><tr id="06e31053-477d-406d-9c39-a6cb8f2230d7"><td id="X[@C" class="">reduceOnly</td><td id="JR{r" class="">STRING</td><td id="rf}q" class="">NO</td><td id="S&gt;Kn" class="">&quot;true&quot; or &quot;false&quot;. default &quot;false&quot;.</td></tr><tr id="9e95b82a-f5d2-493f-9e59-6a5beddb9d0d"><td id="X[@C" class=""><mark class="highlight-teal"><strong>price</strong></mark></td><td id="JR{r" class="">DECIMAL</td><td id="rf}q" class="">NO</td><td id="S&gt;Kn" class=""></td></tr><tr id="7faa2d8c-9d40-4f7b-a315-bd5e72681b36"><td id="X[@C" class="">newClientOrderId</td><td id="JR{r" class="">STRING</td><td id="rf}q" class="">NO</td><td id="S&gt;Kn" class="">A unique id among open orders. Automatically generated if not sent. Can only be string following the rule: <code>^[\.A-Z\:/a-z0-9_-]{1,36}$</code></td></tr><tr id="a5b31b14-92a5-4bcc-8f73-3f667b377882"><td id="X[@C" class="">stopPrice</td><td id="JR{r" class="">DECIMAL</td><td id="rf}q" class="">NO</td><td id="S&gt;Kn" class="">Used with <code>STOP/STOP_MARKET</code> or <code>TAKE_PROFIT/TAKE_PROFIT_MARKET</code> orders.</td></tr><tr id="d9163138-a750-43ef-a4d9-a55a08fa57bc"><td id="X[@C" class="">activationPrice</td><td id="JR{r" class="">DECIMAL</td><td id="rf}q" class="">NO</td><td id="S&gt;Kn" class="">Used with <code>TRAILING_STOP_MARKET</code> orders, default as the latest price(supporting different <code>workingType</code>)</td></tr><tr id="791c46b4-e0a7-4fb5-b485-28bb5b5ef35f"><td id="X[@C" class="">callbackRate</td><td id="JR{r" class="">DECIMAL</td><td id="rf}q" class="">NO</td><td id="S&gt;Kn" class="">Used with <code>TRAILING_STOP_MARKET</code> orders, min 0.1, max 4 where 1 for 1%</td></tr><tr id="32579b09-cbf8-45f7-8098-8814d41ec340"><td id="X[@C" class="">workingType</td><td id="JR{r" class="">ENUM</td><td id="rf}q" class="">NO</td><td id="S&gt;Kn" class="">stopPrice triggered by: &quot;MARK_PRICE&quot;, &quot;CONTRACT_PRICE&quot;. Default &quot;CONTRACT_PRICE&quot;</td></tr><tr id="a35d8618-4742-4a84-9010-17044d2fefd1"><td id="X[@C" class="">priceProtect</td><td id="JR{r" class="">STRING</td><td id="rf}q" class="">NO</td><td id="S&gt;Kn" class="">&quot;TRUE&quot; or &quot;FALSE&quot;, default &quot;FALSE&quot;. Used with <code>STOP/STOP_MARKET</code> or <code>TAKE_PROFIT/TAKE_PROFIT_MARKET</code> orders.</td></tr><tr id="1cccefd4-14fd-42b2-bb0f-562f717b82cf"><td id="X[@C" class="">newOrderRespType</td><td id="JR{r" class="">ENUM</td><td id="rf}q" class="">NO</td><td id="S&gt;Kn" class="">&quot;ACK&quot;, &quot;RESULT&quot;, default &quot;ACK&quot;</td></tr></tbody></table></li></ol><ol type="i" id="1a398898-5379-4238-9e70-71825b438806" class="numbered-list" start="4"><li>response <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="380584c1-b0a7-4be3-815d-90658fa8e610" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">[
+    {
+        &quot;clientOrderId&quot;: &quot;testOrder&quot;,
+        &quot;cumQty&quot;: &quot;0&quot;,
+        &quot;cumQuote&quot;: &quot;0&quot;,
+        &quot;executedQty&quot;: &quot;0&quot;,
+        &quot;orderId&quot;: 22542179,
+        &quot;avgPrice&quot;: &quot;0.00000&quot;,
+        &quot;origQty&quot;: &quot;10&quot;,
+        &quot;price&quot;: &quot;0&quot;,
+        &quot;reduceOnly&quot;: false,
+        &quot;side&quot;: &quot;BUY&quot;,
+        &quot;positionSide&quot;: &quot;SHORT&quot;,
+        &quot;status&quot;: &quot;NEW&quot;,
+        &quot;stopPrice&quot;: &quot;9300&quot;,        // please ignore when order type is TRAILING_STOP_MARKET
+        &quot;symbol&quot;: &quot;BTCUSDT&quot;,
+        &quot;timeInForce&quot;: &quot;GTC&quot;,
+        &quot;type&quot;: &quot;TRAILING_STOP_MARKET&quot;,
+        &quot;origType&quot;: &quot;TRAILING_STOP_MARKET&quot;,
+        &quot;activatePrice&quot;: &quot;9020&quot;,    // activation price, only return with TRAILING_STOP_MARKET order
+        &quot;priceRate&quot;: &quot;0.3&quot;,         // callback rate, only return with TRAILING_STOP_MARKET order
+        &quot;updateTime&quot;: 1566818724722,
+        &quot;workingType&quot;: &quot;CONTRACT_PRICE&quot;,
+        &quot;priceProtect&quot;: false            // if conditional order trigger is protected   
+    },
+    {
+        &quot;code&quot;: -2022, 
+        &quot;msg&quot;: &quot;ReduceOnly Order is rejected.&quot;
+    }
+]</code></pre><ol type="1" id="f494fda4-12c1-4af8-8dfe-595c86cebc02" class="numbered-list" start="1"><li>Paremeter rules are same with <code>New Order</code></li></ol><ol type="1" id="dd786c8e-934a-42d0-beba-852288be21de" class="numbered-list" start="2"><li>Batch orders are processed concurrently, and the order of matching is not guaranteed.</li></ol><ol type="1" id="8859f7c5-5a04-4b63-8f43-edd37ffaf1d8" class="numbered-list" start="3"><li>The order of returned contents for batch orders is the same as the order of the order list.</li></ol></li></ol><ol type="i" id="da3c786e-b7b2-4eaf-8ce2-82e5df8a4746" class="numbered-list" start="3"><li>요청 파라미터 체크<ol type="1" id="e74bdc86-d839-4236-8563-890bec8df4ea" class="numbered-list" start="1"><li>✅ 코인심벌(Symbol) : <code>symbol</code></li></ol><ol type="1" id="9a0666e5-ba2a-425a-a4a1-cf0cc21f33ce" class="numbered-list" start="2"><li>✅ 주문방향(Side) : <code>side</code></li></ol><ol type="1" id="eac3d277-98f2-4811-9149-517deb9b2895" class="numbered-list" start="3"><li>✅ 주문수량(Quantity) : <code>quantity</code></li></ol><ol type="1" id="821622b7-8927-4177-a8a4-f1f03aefd1c3" class="numbered-list" start="4"><li>✅ 가격(Price) : <code>price</code></li></ol><ol type="1" id="32f125fc-1127-4068-b32e-a7c6340a5a66" class="numbered-list" start="5"><li>✅ 타입(Type) : <code>LIMIT</code></li></ol><ol type="1" id="1628d586-e535-44b2-8a68-1ac8b9fee39f" class="numbered-list" start="6"><li>✅ 유효기간(TimeInForce) : <code>timeInForce</code></li></ol></li></ol></li></ol><ol type="a" id="6d1ff032-45a5-457c-a970-bc55a777156f" class="numbered-list" start="2"><li><strong><strong>New Order (TRADE)</strong></strong><ol type="i" id="6233fc79-6831-4c18-997f-a82ead8ff6fe" class="numbered-list" start="1"><li>Endpoint<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="db7088db-492c-47db-a9a3-0347a623d4a4" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">POST /fapi/v1/order (HMAC SHA256)</code></pre></li></ol><ol type="i" id="23859ac8-e055-4e5f-8f73-cf0387a77715" class="numbered-list" start="2"><li>parameter<table id="29e174c7-5566-4b98-a8ea-a74eb7bbbc9b" class="simple-table"><tbody><tr id="2e30be4a-fad5-4155-bd37-e4e32697339e"><td id="{f&lt;L" class="">Name</td><td id="k^Ct" class="">Type</td><td id="[M@E" class="">Mandatory</td><td id="K&gt;ON" class="">Description</td></tr><tr id="78fb0332-f3f2-4e2e-b308-a90d0e4177b5"><td id="{f&lt;L" class=""><mark class="highlight-teal"><strong>symbol</strong></mark></td><td id="k^Ct" class="">STRING</td><td id="[M@E" class="">YES</td><td id="K&gt;ON" class=""></td></tr><tr id="03e1762c-f015-48a8-b852-3f17c11159bd"><td id="{f&lt;L" class=""><mark class="highlight-teal"><strong>side</strong></mark></td><td id="k^Ct" class="">ENUM</td><td id="[M@E" class="">YES</td><td id="K&gt;ON" class=""></td></tr><tr id="79e7bf6e-c086-4655-a66c-d6ebde160a4e"><td id="{f&lt;L" class="">positionSide</td><td id="k^Ct" class="">ENUM</td><td id="[M@E" class="">NO</td><td id="K&gt;ON" class="">Default <code>BOTH</code> for One-way Mode ; <code>LONG</code> or <code>SHORT</code> for Hedge Mode. It must be sent in Hedge Mode.</td></tr><tr id="a769c977-7e10-4599-8269-0f15ba560fa5"><td id="{f&lt;L" class=""><strong><mark class="highlight-teal">type</mark></strong></td><td id="k^Ct" class="">ENUM</td><td id="[M@E" class=""><strong><mark class="highlight-red">YES</mark></strong></td><td id="K&gt;ON" class=""></td></tr><tr id="fb409b0e-7d97-4a02-9775-2dd8fd91336a"><td id="{f&lt;L" class=""><strong><mark class="highlight-teal">timeInForce</mark></strong></td><td id="k^Ct" class="">ENUM</td><td id="[M@E" class="">NO</td><td id="K&gt;ON" class=""></td></tr><tr id="0248bc02-9eb9-4330-9813-8edb8d6a59ae"><td id="{f&lt;L" class=""><mark class="highlight-teal"><strong>quantity</strong></mark></td><td id="k^Ct" class="">DECIMAL</td><td id="[M@E" class="">NO</td><td id="K&gt;ON" class="">Cannot be sent with <code>closePosition</code>=<code>true</code>(Close-All)</td></tr><tr id="b3f9fd40-7e10-418c-86d7-c85330c00c8c"><td id="{f&lt;L" class="">reduceOnly</td><td id="k^Ct" class="">STRING</td><td id="[M@E" class="">NO</td><td id="K&gt;ON" class="">&quot;true&quot; or &quot;false&quot;. default &quot;false&quot;. Cannot be sent in Hedge Mode; cannot be sent with <code>closePosition</code>=<code>true</code></td></tr><tr id="02483ea3-ff89-4cbc-b38a-9077dff7817d"><td id="{f&lt;L" class=""><mark class="highlight-teal"><strong>price</strong></mark></td><td id="k^Ct" class="">DECIMAL</td><td id="[M@E" class="">NO</td><td id="K&gt;ON" class=""></td></tr><tr id="39fc61e5-563b-499f-9f83-635be61d8371"><td id="{f&lt;L" class="">newClientOrderId</td><td id="k^Ct" class="">STRING</td><td id="[M@E" class="">NO</td><td id="K&gt;ON" class="">A unique id among open orders. Automatically generated if not sent. Can only be string following the rule: <code>^[\.A-Z\:/a-z0-9_-]{1,36}$</code></td></tr><tr id="0ec30c5b-61ad-4f08-a453-af5feb7233cc"><td id="{f&lt;L" class="">stopPrice</td><td id="k^Ct" class="">DECIMAL</td><td id="[M@E" class="">NO</td><td id="K&gt;ON" class="">Used with <code>STOP/STOP_MARKET</code> or <code>TAKE_PROFIT/TAKE_PROFIT_MARKET</code> orders.</td></tr><tr id="84cbfe5d-f4f6-486a-a967-136d00d6998e"><td id="{f&lt;L" class="">closePosition</td><td id="k^Ct" class="">STRING</td><td id="[M@E" class="">NO</td><td id="K&gt;ON" class=""><code>true</code>, <code>false</code>；Close-All，used with <code>STOP_MARKET</code> or <code>TAKE_PROFIT_MARKET</code>.</td></tr><tr id="b91c6997-190e-4a7a-b0af-a1c40cc710dc"><td id="{f&lt;L" class="">activationPrice</td><td id="k^Ct" class="">DECIMAL</td><td id="[M@E" class="">NO</td><td id="K&gt;ON" class="">Used with <code>TRAILING_STOP_MARKET</code> orders, default as the latest price(supporting different <code>workingType</code>)</td></tr><tr id="71b55c05-66f1-4c18-be1f-3373e5a96919"><td id="{f&lt;L" class="">callbackRate</td><td id="k^Ct" class="">DECIMAL</td><td id="[M@E" class="">NO</td><td id="K&gt;ON" class="">Used with <code>TRAILING_STOP_MARKET</code> orders, min 0.1, max 5 where 1 for 1%</td></tr><tr id="92e93e54-5568-4211-a1d4-02f0f8e225a2"><td id="{f&lt;L" class="">workingType</td><td id="k^Ct" class="">ENUM</td><td id="[M@E" class="">NO</td><td id="K&gt;ON" class="">stopPrice triggered by: &quot;MARK_PRICE&quot;, &quot;CONTRACT_PRICE&quot;. Default &quot;CONTRACT_PRICE&quot;</td></tr><tr id="75f3e258-78df-4a3b-beb2-7f88b9e81d16"><td id="{f&lt;L" class="">priceProtect</td><td id="k^Ct" class="">STRING</td><td id="[M@E" class="">NO</td><td id="K&gt;ON" class="">&quot;TRUE&quot; or &quot;FALSE&quot;, default &quot;FALSE&quot;. Used with <code>STOP/STOP_MARKET</code> or <code>TAKE_PROFIT/TAKE_PROFIT_MARKET</code> orders.</td></tr><tr id="83eb65a4-06d3-4f03-b366-02020bfc0787"><td id="{f&lt;L" class="">newOrderRespType</td><td id="k^Ct" class="">ENUM</td><td id="[M@E" class="">NO</td><td id="K&gt;ON" class="">&quot;ACK&quot;, &quot;RESULT&quot;, default &quot;ACK&quot;</td></tr><tr id="e2e1881b-23cc-4c9b-ba88-c5c37fffc04c"><td id="{f&lt;L" class="">recvWindow</td><td id="k^Ct" class="">LONG</td><td id="[M@E" class="">NO</td><td id="K&gt;ON" class=""></td></tr><tr id="6e37ff08-6daf-43c8-8c7e-28ae6c9d1221"><td id="{f&lt;L" class="">timestamp</td><td id="k^Ct" class="">LONG</td><td id="[M@E" class="">YES</td><td id="K&gt;ON" class=""></td></tr></tbody></table></li></ol><ol type="i" id="982fe597-0845-4056-bf27-8f37ca76f59f" class="numbered-list" start="3"><li>response <ol type="1" id="04d7768e-f582-4896-8da6-31658d188744" class="numbered-list" start="1"><li>바이낸스 샘플<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="e7995d48-4e49-4064-9774-2c9fab0f4d95" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">{
+    &quot;clientOrderId&quot;: &quot;testOrder&quot;,
+    &quot;cumQty&quot;: &quot;0&quot;,
+    &quot;cumQuote&quot;: &quot;0&quot;,
+    &quot;executedQty&quot;: &quot;0&quot;,
+    &quot;orderId&quot;: 22542179,
+    &quot;avgPrice&quot;: &quot;0.00000&quot;,
+    &quot;origQty&quot;: &quot;10&quot;,
+    &quot;price&quot;: &quot;0&quot;,
+    &quot;reduceOnly&quot;: false,
+    &quot;side&quot;: &quot;BUY&quot;,
+    &quot;positionSide&quot;: &quot;SHORT&quot;,
+    &quot;status&quot;: &quot;NEW&quot;,
+    &quot;stopPrice&quot;: &quot;9300&quot;,        // please ignore when order type is TRAILING_STOP_MARKET
+    &quot;closePosition&quot;: false,   // if Close-All
+    &quot;symbol&quot;: &quot;BTCUSDT&quot;,
+    &quot;timeInForce&quot;: &quot;GTC&quot;,
+    &quot;type&quot;: &quot;TRAILING_STOP_MARKET&quot;,
+    &quot;origType&quot;: &quot;TRAILING_STOP_MARKET&quot;,
+    &quot;activatePrice&quot;: &quot;9020&quot;,    // activation price, only return with TRAILING_STOP_MARKET order
+    &quot;priceRate&quot;: &quot;0.3&quot;,         // callback rate, only return with TRAILING_STOP_MARKET order
+    &quot;updateTime&quot;: 1566818724722,
+    &quot;workingType&quot;: &quot;CONTRACT_PRICE&quot;,
+    &quot;priceProtect&quot;: false            // if conditional order trigger is protected   
+}</code></pre></li></ol><ol type="1" id="2f7559a3-3b0d-4501-a677-6edb144f1974" class="numbered-list" start="2"><li>실제 반환값<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="36c2f028-41c7-4ec1-9947-2454f16e370e" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">{
+&#x27;orderId&#x27;: 16538297774,
+ &#x27;symbol&#x27;: &#x27;ETCUSDT&#x27;,
+ &#x27;status&#x27;: &#x27;NEW&#x27;,
+ &#x27;clientOrderId&#x27;: &#x27;tb2ErnpdBEU8nDxU3m10u7&#x27;,
+ &#x27;price&#x27;: &#x27;20.781&#x27;,
+ &#x27;avgPrice&#x27;: &#x27;0.00000&#x27;,
+ &#x27;origQty&#x27;: &#x27;0.38&#x27;,
+ &#x27;executedQty&#x27;: &#x27;0&#x27;,
+ &#x27;cumQty&#x27;: &#x27;0&#x27;,
+ &#x27;cumQuote&#x27;: &#x27;0&#x27;,
+ &#x27;timeInForce&#x27;: &#x27;GTC&#x27;,
+ &#x27;type&#x27;: &#x27;LIMIT&#x27;,
+ &#x27;reduceOnly&#x27;: False,
+ &#x27;closePosition&#x27;: False,
+ &#x27;side&#x27;: &#x27;SELL&#x27;,
+ &#x27;positionSide&#x27;: &#x27;BOTH&#x27;,
+ &#x27;stopPrice&#x27;: &#x27;0&#x27;,
+ &#x27;workingType&#x27;: &#x27;CONTRACT_PRICE&#x27;,
+ &#x27;priceProtect&#x27;: False,
+ &#x27;origType&#x27;: &#x27;LIMIT&#x27;,
+ &#x27;updateTime&#x27;: 1676381376640
+}</code></pre></li></ol></li></ol><ol type="i" id="d694e61a-386c-4b75-ac49-06883db89b2d" class="numbered-list" start="3"><li>추가파라미터 <p id="bfad7a2f-0291-4c2a-aebb-3015ead8da25" class="">dditional mandatory parameters based on <code>type</code>:</p><table id="fd63213d-3061-4642-a18b-f0c8ad12b50b" class="simple-table"><tbody><tr id="0a8a2404-4d6c-42c2-9659-73edbfaa684f"><td id="MP;y" class="">Type</td><td id="DU&gt;N" class="">Additional mandatory parameters</td></tr><tr id="7976e769-6e0e-4e38-b773-d64b2c54c3df"><td id="MP;y" class=""><code>LIMIT</code></td><td id="DU&gt;N" class=""><code>timeInForce</code>, <code>quantity</code>, <code>price</code></td></tr><tr id="0c12edc4-53f3-4ca4-8987-b79f9eee8eb6"><td id="MP;y" class=""><code>MARKET</code></td><td id="DU&gt;N" class=""><code>quantity</code></td></tr><tr id="78425429-55ea-48b1-b7cf-560a35f532c1"><td id="MP;y" class=""><code>STOP/TAKE_PROFIT</code></td><td id="DU&gt;N" class=""><code>quantity</code>, <code>price</code>, <code>stopPrice</code></td></tr><tr id="edb6cb4a-47ff-4446-af6a-8105c2c4909e"><td id="MP;y" class=""><code>STOP_MARKET/TAKE_PROFIT_MARKET</code></td><td id="DU&gt;N" class=""><code>stopPrice</code></td></tr><tr id="10deeb51-0e5f-4649-8b4f-7d75661da1c6"><td id="MP;y" class=""><code>TRAILING_STOP_MARKET</code></td><td id="DU&gt;N" class=""><code>callbackRate</code></td></tr></tbody></table><ul id="824323f0-5a6e-4619-b398-df0bf804fdbc" class="bulleted-list"><li style="list-style-type:disc">Order with type <code>STOP</code>, parameter <code>timeInForce</code> can be sent ( default <code>GTC</code>).</li></ul><ul id="7dea3856-dd1b-48ca-a517-91481fc02cf4" class="bulleted-list"><li style="list-style-type:disc">Order with type <code>TAKE_PROFIT</code>, parameter <code>timeInForce</code> can be sent ( default <code>GTC</code>).</li></ul><ul id="2b9b3691-3322-4edd-bdf1-0db292624da6" class="bulleted-list"><li style="list-style-type:disc">Condition orders will be triggered when:</li></ul></li></ol><ol type="i" id="17b1dd6b-790b-43ad-a4e1-2a6910094615" class="numbered-list" start="3"><li>요청 파라미터 체크 : <strong>(LIMIT ORDER)</strong><ol type="1" id="528170e2-7875-489c-9a96-aa6bdd4b9971" class="numbered-list" start="1"><li>✅ 코인심벌(Symbol) : <code>symbol</code></li></ol><ol type="1" id="2cb4b980-a9e1-4772-88c7-c8214c218d55" class="numbered-list" start="2"><li>✅ 주문방향(Side) : <code>side</code></li></ol><ol type="1" id="519edff9-d624-4d37-ab96-9901b5dd3e70" class="numbered-list" start="3"><li>✅ 주문수량(Quantity) : <code>quantity</code></li></ol><ol type="1" id="d95d68f0-e433-4caa-a3e6-3c2d9ef19bf9" class="numbered-list" start="4"><li>✅ 가격(Price) : <code>price</code></li></ol><ol type="1" id="08522f6f-fa42-45a9-9338-93322d455b87" class="numbered-list" start="5"><li>✅ 타입(Type) : <code>LIMIT</code></li></ol><ol type="1" id="249c7d2a-95bf-47db-a8d0-7be1d1efbf99" class="numbered-list" start="6"><li>✅ 유효기간(TimeInForce) : <code>timeInForce</code></li></ol></li></ol></li></ol></li></ol></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">[2] 주문 취소하기</summary><div class="indented"><ol type="1" id="fdfd905c-fdec-4a38-b973-59050c752799" class="numbered-list" start="1"><li>기획화면</li></ol><ol type="1" id="27d28bd5-efd0-47e1-bd53-ab0d67fdd78c" class="numbered-list" start="2"><li>BDD 기능 정의 <table id="6fbecd23-ac68-40c2-b629-cb7b4f780c06" class="simple-table"><thead class="simple-table-header"><tr id="8aff04ca-60fd-4d7a-bc4b-4a88d0f5103c"><th id="]Ohh" class="simple-table-header-color simple-table-header" style="width:73.15625px">순서➡️<br/>번호⬇️<br/>(n-n-n)</th><th id="V?lK" class="simple-table-header-color simple-table-header" style="width:139.15625px">1</th><th id="wZLI" class="simple-table-header-color simple-table-header" style="width:158.15625px">2</th><th id="PD}|" class="simple-table-header-color simple-table-header" style="width:173.15625px">4</th><th id="ECPs" class="simple-table-header-color simple-table-header" style="width:202.15625px">3</th><th id="uW@A" class="simple-table-header-color simple-table-header" style="width:412.15625px">5</th></tr></thead><tbody><tr id="3a20fbb7-1b13-41b1-9177-97aa163898a5"><th id="]Ohh" class="block-color-red_background simple-table-header" style="width:73.15625px">상위구분</th><td id="V?lK" class="block-color-red_background" style="width:139.15625px">Feature(n)</td><td id="wZLI" class="block-color-red_background" style="width:158.15625px">Scenario(-n)</td><td id="PD}|" class="block-color-red_background" style="width:173.15625px">Task(-n)</td><td id="ECPs" class="block-color-red_background" style="width:202.15625px"></td><td id="uW@A" class="block-color-red_background" style="width:412.15625px"></td></tr><tr id="330d7e30-42bd-421e-a1ee-68e0c9d3b006"><th id="]Ohh" class="block-color-red_background simple-table-header" style="width:73.15625px">하위 구분</th><td id="V?lK" class="block-color-red_background" style="width:139.15625px">(기능)</td><td id="wZLI" class="block-color-red_background" style="width:158.15625px">(상황, 이야기, 목적)</td><td id="PD}|" class="block-color-red_background" style="width:173.15625px">Given (조건)</td><td id="ECPs" class="block-color-red_background" style="width:202.15625px">When (행동)</td><td id="uW@A" class="block-color-red_background" style="width:412.15625px">Then (결과)</td></tr><tr id="5d4461d3-b63c-49aa-9ff3-28fe233ef8f6"><th id="]Ohh" class="simple-table-header-color simple-table-header" style="width:73.15625px">1-1-1</th><td id="V?lK" class="" style="width:139.15625px">[1] 현재 남아 있는 대기주문 중 하나의 주문만 <strong>단일취소 기능</strong></td><td id="wZLI" class="" style="width:158.15625px">1. 유저가 자신의 바이낸스 Futures 계정의 대기주문 중<mark class="highlight-yellow_background"> </mark><mark class="highlight-yellow_background"><strong>하나의 주문</strong></mark>을 실시간으로  셀프레시피 대시보드에서 <mark class="highlight-yellow"><strong>취소</strong></mark>하기 위해</td><td id="PD}|" class="" style="width:173.15625px">1. 대시보드의 주문관리창의 “대기주문”을 클릭해서</td><td id="ECPs" class="" style="width:202.15625px">특정 대기주문의 <strong>주문 취소</strong>🗑️<strong>(Cancel) 버튼</strong>을 클릭하면</td><td id="uW@A" class="" style="width:412.15625px">대시보드에서 유저의 현재 선물시장(futures)의 버튼을 클릭한 <mark class="highlight-yellow"><strong>특정 주문</strong></mark>에 대한 대기주문이 취소 된다. </td></tr><tr id="0cd534ac-cdb2-456e-9008-39b925e5a289"><th id="]Ohh" class="simple-table-header-color simple-table-header" style="width:73.15625px">2-1-1</th><td id="V?lK" class="" style="width:139.15625px">[2] 현재 남아 있는 대기주문 중 여러개의 주문을 한번에 취소하는 <strong>다중취소 기능</strong></td><td id="wZLI" class="" style="width:158.15625px">1. 유저가 자신의 바이낸스 Futures 계정의 <mark class="highlight-blue_background"><strong>특정 심벌의 </strong></mark>대기주문<strong>을 </strong>셀프레시피 대시보드에서 실시간으로 <mark class="highlight-blue"><strong>한번에 취소</strong></mark>하기 위해</td><td id="PD}|" class="" style="width:173.15625px">1. 대시보드의 주문관리창의 “대기주문”을 클릭해서<br/>+ symbol 필터에서<mark class="highlight-blue"><strong> 특정 코인을 선택</strong></mark>해고<br/></td><td id="ECPs" class="" style="width:202.15625px"><strong>모든 주문 취소(Cancel ALL </strong>🗑️<strong>) 버튼</strong>을 클릭하면</td><td id="uW@A" class="" style="width:412.15625px">대시보드에서 유저의 현재 선물시장(futures)의 <mark class="highlight-blue"><strong>선택한 코인</strong></mark>에 대한 대기주문이 모두취소 된다. </td></tr><tr id="abb82535-9743-4f40-9b83-9cddc102a7b5"><th id="]Ohh" class="simple-table-header-color simple-table-header" style="width:73.15625px">3-1-1</th><td id="V?lK" class="" style="width:139.15625px">[3] 현재 남아 있는 대기주문을 모두 취소하는 <strong>일괄취소 기능</strong></td><td id="wZLI" class="" style="width:158.15625px">1. 유저가 자신의 바이낸스 Futures 계정의 <mark class="highlight-red_background"><strong>모든 대기주문</strong></mark><strong>을</strong> 셀프레시피 대시보드에서 실시간으로 <mark class="highlight-red"><strong>일괄취소</strong></mark>하기 위해</td><td id="PD}|" class="" style="width:173.15625px">1. 셀프레시피 홈 화면에서 특정 코인의 대시보드 화면에 <mark class="highlight-gray"><strong>처음 접속</strong></mark>해서</td><td id="ECPs" class="" style="width:202.15625px"><strong>모든 주문 취소(Cancel ALL </strong>🗑️<strong>) 버튼</strong>을 클릭하면</td><td id="uW@A" class="" style="width:412.15625px">대시보드에서 유저의 현재 선물시장(futures)의 <mark class="highlight-red"><strong>모든 코인</strong></mark>에 대한 대기주문이 모두취소 된다. </td></tr><tr id="551bc110-3aec-4f24-8795-f6980fe901cd"><th id="]Ohh" class="simple-table-header-color simple-table-header" style="width:73.15625px"></th><td id="V?lK" class="" style="width:139.15625px"></td><td id="wZLI" class="" style="width:158.15625px"></td><td id="PD}|" class="" style="width:173.15625px"></td><td id="ECPs" class="" style="width:202.15625px"></td><td id="uW@A" class="" style="width:412.15625px"></td></tr><tr id="9fc9bc11-245b-439a-baf6-474546730b2d"><th id="]Ohh" class="simple-table-header-color simple-table-header" style="width:73.15625px"></th><td id="V?lK" class="" style="width:139.15625px"></td><td id="wZLI" class="" style="width:158.15625px"></td><td id="PD}|" class="" style="width:173.15625px"></td><td id="ECPs" class="" style="width:202.15625px"></td><td id="uW@A" class="" style="width:412.15625px"></td></tr></tbody></table></li></ol><ol type="1" id="007912e7-61aa-47ac-8a9f-4786fa56988a" class="numbered-list" start="3"><li><mark class="highlight-yellow"><strong>단일 주문취소</strong></mark>하기 - 바이낸스 API 체크<ol type="a" id="f516c0d7-e946-4626-ba58-7bee6f699e92" class="numbered-list" start="1"><li><mark class="highlight-yellow"><strong><strong>Cancel Order</strong></strong></mark><strong><strong> (TRADE)</strong></strong><ol type="i" id="9807ab5c-c847-4083-85b3-ee7dc6a35060" class="numbered-list" start="1"><li>Endpoint<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="98cd6825-6e1c-4efb-be86-477df3efc3fb" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">DELETE /fapi/v1/order (HMAC SHA256)</code></pre></li></ol><ol type="i" id="29b855f0-f7e8-4465-b416-2bc5dddbda3d" class="numbered-list" start="2"><li>parameter<table id="3f3d1608-5f88-4f3d-9161-335f203c9f24" class="simple-table"><tbody><tr id="12f70b32-217f-447e-aa98-ac6d4501ec10"><td id="~^=G" class="">Name</td><td id="dK[O" class="">Type</td><td id="pT~Y" class="">Mandatory</td><td id=";AJm" class="">Description</td></tr><tr id="95f2237f-226d-4ce4-8377-50dcf9c031c8"><td id="~^=G" class=""><mark class="highlight-teal"><strong>symbol</strong></mark></td><td id="dK[O" class="">STRING</td><td id="pT~Y" class="">YES</td><td id=";AJm" class=""></td></tr><tr id="08c14318-3751-4582-b725-527b4adebf61"><td id="~^=G" class=""><mark class="highlight-yellow"><strong>orderId</strong></mark></td><td id="dK[O" class="">LONG</td><td id="pT~Y" class="">NO</td><td id=";AJm" class=""></td></tr><tr id="b451aa61-cc15-4134-abf1-e525422ca8d6"><td id="~^=G" class="">origClientOrderId</td><td id="dK[O" class="">STRING</td><td id="pT~Y" class="">NO</td><td id=";AJm" class=""></td></tr><tr id="dff5ac57-ef6f-482f-9cc0-d904a2c25e1a"><td id="~^=G" class="">recvWindow</td><td id="dK[O" class="">LONG</td><td id="pT~Y" class="">NO</td><td id=";AJm" class=""></td></tr><tr id="26475e77-2572-40fb-9ae9-97170f1a7f40"><td id="~^=G" class="">timestamp</td><td id="dK[O" class="">LONG</td><td id="pT~Y" class="">YES</td><td id=";AJm" class=""></td></tr></tbody></table></li></ol><ol type="i" id="bfafce9f-2511-412c-940f-2af5f5870b98" class="numbered-list" start="3"><li>response<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ecd75dd1-ca31-4cb4-ac2d-8144b2ab1ee1" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all"># 바이낸스 샘플
+{
+    &quot;clientOrderId&quot;: &quot;myOrder1&quot;,
+    &quot;cumQty&quot;: &quot;0&quot;,
+    &quot;cumQuote&quot;: &quot;0&quot;,
+    &quot;executedQty&quot;: &quot;0&quot;,
+    &quot;orderId&quot;: 283194212,
+    &quot;origQty&quot;: &quot;11&quot;,
+    &quot;origType&quot;: &quot;TRAILING_STOP_MARKET&quot;,
+    &quot;price&quot;: &quot;0&quot;,
+    &quot;reduceOnly&quot;: false,
+    &quot;side&quot;: &quot;BUY&quot;,
+    &quot;positionSide&quot;: &quot;SHORT&quot;,
+    &quot;status&quot;: &quot;CANCELED&quot;,
+    &quot;stopPrice&quot;: &quot;9300&quot;,                // please ignore when order type is TRAILING_STOP_MARKET
+    &quot;closePosition&quot;: false,   // if Close-All
+    &quot;symbol&quot;: &quot;BTCUSDT&quot;,
+    &quot;timeInForce&quot;: &quot;GTC&quot;,
+    &quot;type&quot;: &quot;TRAILING_STOP_MARKET&quot;,
+    &quot;activatePrice&quot;: &quot;9020&quot;,            // activation price, only return with TRAILING_STOP_MARKET order
+    &quot;priceRate&quot;: &quot;0.3&quot;,                 // callback rate, only return with TRAILING_STOP_MARKET order
+    &quot;updateTime&quot;: 1571110484038,
+    &quot;workingType&quot;: &quot;CONTRACT_PRICE&quot;,
+    &quot;priceProtect&quot;: false            // if conditional order trigger is protected   
+}</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0d3a0f6b-ab2c-48d5-af91-219d00180e8b" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all"># 실제 데이터 
+</code></pre></li></ol><ol type="i" id="5717788e-1678-47ec-b452-0875f67acfad" class="numbered-list" start="3"><li>필요 데이터 체크<ol type="1" id="fc3928e8-2543-4599-becf-6b9a4e4d88db" class="numbered-list" start="1"><li>✅ 코인심벌(Symbol) : <code>symbol</code></li></ol><ol type="1" id="aecabcc0-97d9-4684-bb14-ade4118fda65" class="numbered-list" start="2"><li>✅ 주문ID(OrderId) : <code>orderId</code></li></ol></li></ol></li></ol></li></ol><ol type="1" id="60e754f3-a7b8-4bd9-94ee-c7a4b9bc4e51" class="numbered-list" start="4"><li><mark class="highlight-orange"><strong>다중 주문취소</strong></mark> - 바이낸스 API 체크<ol type="a" id="99526ec2-afc7-45de-be9b-e2be37cbbb29" class="numbered-list" start="1"><li><mark class="highlight-orange"><strong><strong>Cancel Multiple Orders (TRADE)</strong></strong></mark><ol type="i" id="44d41a7a-d464-49ba-a58f-f49823ad731a" class="numbered-list" start="1"><li>Endpoint<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="07a1b1fa-c142-4292-8442-fe2b41d8c24f" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">DELETE /fapi/v1/batchOrders (HMAC SHA256)</code></pre></li></ol><ol type="i" id="6d4fc515-0f81-4254-90da-018a64239005" class="numbered-list" start="2"><li>parameter<table id="ff843ace-6d64-410b-b554-d70c46aefb37" class="simple-table"><tbody><tr id="3453ade6-6500-4c7f-b47b-3fbabaf6a825"><td id="Y}B^" class="">Name</td><td id="S]gP" class="">Type</td><td id="lm&gt;=" class="">Mandatory</td><td id="PJm&gt;" class="">Description</td></tr><tr id="05ae0e1a-3678-48d9-bbbd-37a3f05ec6c7"><td id="Y}B^" class=""><mark class="highlight-teal"><strong>symbol</strong></mark></td><td id="S]gP" class="">STRING</td><td id="lm&gt;=" class="">YES</td><td id="PJm&gt;" class=""></td></tr><tr id="21569da6-2c06-4ee4-83b0-b385815c5ff9"><td id="Y}B^" class=""><mark class="highlight-orange"><strong>orderIdList</strong></mark></td><td id="S]gP" class="">LIST&lt;LONG&gt;</td><td id="lm&gt;=" class="">NO</td><td id="PJm&gt;" class="">max length 10e.g. [1234567,2345678]</td></tr><tr id="78156d29-1ccd-4f1f-a3ba-f58f9b673a93"><td id="Y}B^" class="">origClientOrderIdList</td><td id="S]gP" class="">LIST&lt;STRING&gt;</td><td id="lm&gt;=" class="">NO</td><td id="PJm&gt;" class="">max length 10e.g. [&quot;my_id_1&quot;,&quot;my_id_2&quot;], encode the double quotes. No space after comma.</td></tr><tr id="8048d5d1-c482-4932-a58f-590a2b0309b2"><td id="Y}B^" class="">recvWindow</td><td id="S]gP" class="">LONG</td><td id="lm&gt;=" class="">NO</td><td id="PJm&gt;" class=""></td></tr><tr id="3c909539-e416-4256-be05-62e76f82824e"><td id="Y}B^" class="">timestamp</td><td id="S]gP" class="">LONG</td><td id="lm&gt;=" class="">YES</td><td id="PJm&gt;" class=""></td></tr></tbody></table></li></ol><ol type="i" id="42773f72-9817-4658-8269-5cf0af32d563" class="numbered-list" start="3"><li>response<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="386dd6a1-9fad-49f6-9ad7-ffa3afcde33a" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all"># 바이낸스 샘플
+[
+    {
+        &quot;clientOrderId&quot;: &quot;myOrder1&quot;,
+        &quot;cumQty&quot;: &quot;0&quot;,
+        &quot;cumQuote&quot;: &quot;0&quot;,
+        &quot;executedQty&quot;: &quot;0&quot;,
+        &quot;orderId&quot;: 283194212,
+        &quot;origQty&quot;: &quot;11&quot;,
+        &quot;origType&quot;: &quot;TRAILING_STOP_MARKET&quot;,
+        &quot;price&quot;: &quot;0&quot;,
+        &quot;reduceOnly&quot;: false,
+        &quot;side&quot;: &quot;BUY&quot;,
+        &quot;positionSide&quot;: &quot;SHORT&quot;,
+        &quot;status&quot;: &quot;CANCELED&quot;,
+        &quot;stopPrice&quot;: &quot;9300&quot;,                // please ignore when order type is TRAILING_STOP_MARKET
+        &quot;closePosition&quot;: false,   // if Close-All
+        &quot;symbol&quot;: &quot;BTCUSDT&quot;,
+        &quot;timeInForce&quot;: &quot;GTC&quot;,
+        &quot;type&quot;: &quot;TRAILING_STOP_MARKET&quot;,
+        &quot;activatePrice&quot;: &quot;9020&quot;,            // activation price, only return with TRAILING_STOP_MARKET order
+        &quot;priceRate&quot;: &quot;0.3&quot;,                 // callback rate, only return with TRAILING_STOP_MARKET order
+        &quot;updateTime&quot;: 1571110484038,
+        &quot;workingType&quot;: &quot;CONTRACT_PRICE&quot;,
+        &quot;priceProtect&quot;: false            // if conditional order trigger is protected   
+    },
+    {
+        &quot;code&quot;: -2011,
+        &quot;msg&quot;: &quot;Unknown order sent.&quot;
+    }
+]</code></pre></li></ol><ol type="i" id="a23ecb57-cfdb-4cd3-8855-408b362cf736" class="numbered-list" start="3"><li>필요 데이터 체크<ol type="1" id="8a8cb67d-e356-4ce1-87a6-47ce31278ffc" class="numbered-list" start="1"><li>✅ 코인심벌(Symbol) : <code>symbol</code></li></ol><ol type="1" id="9253d688-26ec-4f53-b6e5-0dcad386bc9d" class="numbered-list" start="2"><li>✅ 주문ID(OrderId) : <code>orderId</code></li></ol></li></ol></li></ol></li></ol><ol type="1" id="83d316c5-9ba8-4816-807e-8666199cf7cd" class="numbered-list" start="5"><li><mark class="highlight-red"><strong>일괄 주문취소</strong></mark>하기 - 바이낸스 API 체크<ol type="a" id="e1306217-e808-4473-85f4-4262bb5bfe20" class="numbered-list" start="1"><li><mark class="highlight-red"><strong><strong>Cancel All Open Orders</strong></strong></mark><strong><strong> (TRADE) </strong></strong><ol type="i" id="3112ed1c-9844-4a6a-b849-ebd0157a6b05" class="numbered-list" start="1"><li>Endpoint<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fbca656f-37dc-48da-a3ed-449d00e9b5eb" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">DELETE /fapi/v1/allOpenOrders (HMAC SHA256)</code></pre></li></ol><ol type="i" id="721aec0b-7279-48a8-9899-0ae3dab4c391" class="numbered-list" start="2"><li>parameter<table id="104d4320-2088-4f19-a2b6-b1c4709a5d94" class="simple-table"><tbody><tr id="172ccbd9-6c29-460a-988a-a963973f97be"><td id="Ggox" class="">Name</td><td id="SMkD" class="">Type</td><td id="Cyvn" class="">Mandatory</td><td id="jIcx" class="">Description</td></tr><tr id="a50ddf86-d4d2-44f5-ba65-571bdbfa7435"><td id="Ggox" class=""><mark class="highlight-teal"><strong>symbol</strong></mark></td><td id="SMkD" class="">STRING</td><td id="Cyvn" class=""><mark class="highlight-teal">YES</mark></td><td id="jIcx" class=""></td></tr><tr id="a778c124-df4c-4ad2-8be3-a36d7ea4e8eb"><td id="Ggox" class="">orderId</td><td id="SMkD" class="">LONG</td><td id="Cyvn" class="">NO</td><td id="jIcx" class=""></td></tr><tr id="e31abaf8-8789-4134-8749-e34dbdd97f82"><td id="Ggox" class="">startTime</td><td id="SMkD" class="">LONG</td><td id="Cyvn" class="">NO</td><td id="jIcx" class=""></td></tr><tr id="f80acb16-1974-4c0f-9111-b72c8b683709"><td id="Ggox" class="">endTime</td><td id="SMkD" class="">LONG</td><td id="Cyvn" class="">NO</td><td id="jIcx" class=""></td></tr><tr id="7dfafa86-bc9d-49ec-88eb-3fd61b0ba817"><td id="Ggox" class="">limit</td><td id="SMkD" class="">INT</td><td id="Cyvn" class="">NO</td><td id="jIcx" class="">Default 500; max 1000.</td></tr><tr id="1d76e615-39bb-4b80-bef7-5656d81c52da"><td id="Ggox" class="">recvWindow</td><td id="SMkD" class="">LONG</td><td id="Cyvn" class="">NO</td><td id="jIcx" class=""></td></tr><tr id="9f35edce-90c8-4411-babb-1c98987fb7d5"><td id="Ggox" class="">timestamp</td><td id="SMkD" class="">LONG</td><td id="Cyvn" class=""><mark class="highlight-teal">YES</mark></td><td id="jIcx" class=""></td></tr></tbody></table></li></ol><ol type="i" id="9542e040-3d88-417b-a60e-a0b4735c1710" class="numbered-list" start="3"><li>response<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="039c018e-f9a8-43d1-8b5a-ac06d2e15719" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">{
+    &quot;code&quot;: &quot;200&quot;, 
+    &quot;msg&quot;: &quot;The operation of cancel all open order is done.&quot;
+}</code></pre></li></ol><ol type="i" id="34c502de-ca5d-4f69-a931-4a7503168561" class="numbered-list" start="3"><li>필요 데이터 체크<ol type="1" id="2fda892a-4e7d-4655-a860-54ecc62d0ff3" class="numbered-list" start="1"><li>✅ 코드(Code) : <code>code</code></li></ol><ol type="1" id="9ec70b4a-7a68-472f-a33b-42e1c817d60b" class="numbered-list" start="2"><li>✅ 메시지(Msg) : <code>msg</code></li></ol></li></ol></li></ol></li></ol><p id="73c47ef6-dc5f-4e87-9882-28a6aacb4970" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">[3] 포지션 취소하기</summary><div class="indented"><ol type="1" id="abef51dc-4070-4c6e-8896-c4108bfce926" class="numbered-list" start="1"><li>기획 화면</li></ol><ol type="1" id="7ec10494-683e-416f-9aae-b0dec5d9efc4" class="numbered-list" start="2"><li>BDD 기능 정의<table id="04fbde76-dd1c-4276-bf13-0f0dce68040a" class="simple-table"><thead class="simple-table-header"><tr id="602cf5a0-bfc3-4af8-8fc3-e330c384c13b"><th id="JdU`" class="simple-table-header-color simple-table-header" style="width:71.99999237060547px">순서➡️<br/>번호⬇️<br/>(n-n-n)</th><th id="Dtz&lt;" class="simple-table-header-color simple-table-header" style="width:139.99999237060547px">1</th><th id="xUpF" class="simple-table-header-color simple-table-header" style="width:158.2045440673828px">2</th><th id="Fx&gt;;" class="simple-table-header-color simple-table-header" style="width:173.99999237060547px">4</th><th id="VdxP" class="simple-table-header-color simple-table-header" style="width:198.99999237060547px">3</th><th id="QwW_" class="simple-table-header-color simple-table-header" style="width:409.99999237060547px">5</th></tr></thead><tbody><tr id="8d87906a-a3b5-42ab-81db-2933e0888e48"><th id="JdU`" class="block-color-pink_background simple-table-header" style="width:71.99999237060547px">상위구분</th><td id="Dtz&lt;" class="block-color-pink_background" style="width:139.99999237060547px">Feature(n)</td><td id="xUpF" class="block-color-pink_background" style="width:158.2045440673828px">Scenario(-n)</td><td id="Fx&gt;;" class="block-color-pink_background" style="width:173.99999237060547px">Task(-n)</td><td id="VdxP" class="block-color-pink_background" style="width:198.99999237060547px"></td><td id="QwW_" class="block-color-pink_background" style="width:409.99999237060547px"></td></tr><tr id="ab907a0f-9d47-449d-bd9c-5e19967274b2"><th id="JdU`" class="block-color-pink_background simple-table-header" style="width:71.99999237060547px">하위 구분</th><td id="Dtz&lt;" class="block-color-pink_background" style="width:139.99999237060547px">(기능)</td><td id="xUpF" class="block-color-pink_background" style="width:158.2045440673828px">(상황, 이야기, 목적)</td><td id="Fx&gt;;" class="block-color-pink_background" style="width:173.99999237060547px">Given (조건)</td><td id="VdxP" class="block-color-pink_background" style="width:198.99999237060547px">When (행동)</td><td id="QwW_" class="block-color-pink_background" style="width:409.99999237060547px">Then (결과)</td></tr><tr id="39b1c62c-bff5-4852-a555-7fa736fc8fee"><th id="JdU`" class="simple-table-header-color simple-table-header" style="width:71.99999237060547px">1-1-1</th><td id="Dtz&lt;" class="" style="width:139.99999237060547px">[1] 지금까지 체결된(가장 최신의) 주문체결 <strong>요약정보 조회</strong></td><td id="xUpF" class="" style="width:158.2045440673828px">1. 유저가 자신의 바이낸스 계정의 가장최신의 <mark class="highlight-teal_background"><strong>모든 주문체결 요약정보</strong></mark>를 셀프레시피 대시보드에서 조회하기 위해</td><td id="Fx&gt;;" class="" style="width:173.99999237060547px">1. 셀프레시피 홈 화면에서 특정 코인의 대시보드 화면에 <mark class="highlight-gray"><strong>처음 접속</strong></mark>해서</td><td id="VdxP" class="" style="width:198.99999237060547px">주문관리창의 주문체결내역을 확인하면</td><td id="QwW_" class="" style="width:409.99999237060547px">1) 대시보드에는 유저의 현재 선물시장(futures)의 모든 코인에 대한 주문체결내역이 표시된다.<br/>2) 주문체결내역 정보의 순서는 디폴트로 time을 기준으로 내림차순정렬된다.</td></tr><tr id="257f90d7-5afc-404a-af04-fed51ecd3147"><th id="JdU`" class="simple-table-header-color simple-table-header" style="width:71.99999237060547px"></th><td id="Dtz&lt;" class="" style="width:139.99999237060547px"></td><td id="xUpF" class="" style="width:158.2045440673828px"></td><td id="Fx&gt;;" class="" style="width:173.99999237060547px"></td><td id="VdxP" class="" style="width:198.99999237060547px"></td><td id="QwW_" class="" style="width:409.99999237060547px"></td></tr></tbody></table></li></ol><ol type="1" id="d4af5c81-4f3e-44ea-9ef4-185f9f1569ac" class="numbered-list" start="3"><li>포지션 취소하기 <ol type="a" id="ba6f267e-e385-48eb-b934-df65d9ae81cf" class="numbered-list" start="1"><li><mark class="highlight-pink"><strong><strong>All Orders</strong></strong></mark><strong><strong> (USER_DATA)</strong></strong><ol type="i" id="8f883080-532f-4902-bbf9-7bbbb2bb6b6f" class="numbered-list" start="1"><li>Endpoint<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="e4129ac7-d13a-469c-8d6a-1171bdda14a7" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">GET /fapi/v1/allOrders (HMAC SHA256)</code></pre></li></ol><ol type="i" id="20a38cfb-2379-4b84-a21e-1420b1d55809" class="numbered-list" start="2"><li>parameter<table id="c8768e4a-9f46-499a-bb4c-fd0b1d23c810" class="simple-table"><tbody><tr id="0ade0a5d-2348-4700-bad4-7b420d741f2f"><td id="Ggox" class="">Name</td><td id="SMkD" class="">Type</td><td id="Cyvn" class="">Mandatory</td><td id="jIcx" class="">Description</td></tr><tr id="c2f6ec49-6310-4954-96e9-57a07fb5f221"><td id="Ggox" class="">symbol</td><td id="SMkD" class="">STRING</td><td id="Cyvn" class=""><mark class="highlight-teal">YES</mark></td><td id="jIcx" class=""></td></tr><tr id="69a37d84-3cc8-442d-a785-1f14b3e8e2aa"><td id="Ggox" class=""><mark class="highlight-red">orderId</mark></td><td id="SMkD" class="">LONG</td><td id="Cyvn" class=""><strong><mark class="highlight-red">NO</mark></strong></td><td id="jIcx" class=""></td></tr><tr id="cd95d8ca-674b-4860-9884-2653d069c693"><td id="Ggox" class="">startTime</td><td id="SMkD" class="">LONG</td><td id="Cyvn" class="">NO</td><td id="jIcx" class=""></td></tr><tr id="3b9fd64d-52e6-4ad0-ad61-a5e2be70e3ed"><td id="Ggox" class="">endTime</td><td id="SMkD" class="">LONG</td><td id="Cyvn" class="">NO</td><td id="jIcx" class=""></td></tr><tr id="792339df-1da9-406b-9851-fa2b3cb03a7b"><td id="Ggox" class="">limit</td><td id="SMkD" class="">INT</td><td id="Cyvn" class="">NO</td><td id="jIcx" class="">Default 500; max 1000.</td></tr><tr id="9d4aeb4e-7016-4720-9077-4f1a2826db31"><td id="Ggox" class="">recvWindow</td><td id="SMkD" class="">LONG</td><td id="Cyvn" class="">NO</td><td id="jIcx" class=""></td></tr><tr id="dc0d4c58-6ad2-48e9-9e16-e9dfc40c983c"><td id="Ggox" class="">timestamp</td><td id="SMkD" class="">LONG</td><td id="Cyvn" class=""><mark class="highlight-teal">YES</mark></td><td id="jIcx" class=""></td></tr></tbody></table></li></ol><ol type="i" id="f86dfdc2-7780-4683-9fc3-483915db99d1" class="numbered-list" start="3"><li>response<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19372774-366b-4b25-9926-d60d0596db9b" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all"># 바이낸스 샘플
+[
+  {
+    &quot;avgPrice&quot;: &quot;0.00000&quot;,
+    &quot;clientOrderId&quot;: &quot;abc&quot;,
+    &quot;cumQuote&quot;: &quot;0&quot;,
+    &quot;executedQty&quot;: &quot;0&quot;, # # 7. quantity
+    &quot;orderId&quot;: 1917641,
+    &quot;origQty&quot;: &quot;0.40&quot;, 
+    &quot;origType&quot;: &quot;TRAILING_STOP_MARKET&quot;, 
+    &quot;price&quot;: &quot;0&quot;, # 6. price # 7. quantity
+    &quot;reduceOnly&quot;: false,
+    &quot;side&quot;: &quot;BUY&quot;, # 5. side
+    &quot;positionSide&quot;: &quot;SHORT&quot;,
+    &quot;status&quot;: &quot;NEW&quot;,  
+    &quot;stopPrice&quot;: &quot;9300&quot;,                // please ignore when order type is TRAILING_STOP_MARKET
+    &quot;closePosition&quot;: false,   // if Close-All
+    &quot;symbol&quot;: &quot;BTCUSDT&quot;,  # 2. symbol
+    &quot;time&quot;: 1579276756075,  # 1. time            // order time
+    &quot;timeInForce&quot;: &quot;GTC&quot;,
+    &quot;type&quot;: &quot;TRAILING_STOP_MARKET&quot;,  
+    &quot;activatePrice&quot;: &quot;9020&quot;,            // activation price, only return with TRAILING_STOP_MARKET order
+    &quot;priceRate&quot;: &quot;0.3&quot;,                 // callback rate, only return with TRAILING_STOP_MARKET order
+    &quot;updateTime&quot;: 1579276756075,        // update time
+    &quot;workingType&quot;: &quot;CONTRACT_PRICE&quot;,
+    &quot;priceProtect&quot;: false            // if conditional order trigger is protected   
+  }
+]</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b5f5ba3f-e59e-4ebf-867d-0169ea79def4" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all"># 실제 데이터 
+[
+	{
+		&#x27;orderId&#x27;: 19832311515,
+	  &#x27;symbol&#x27;: &#x27;LTCUSDT&#x27;,
+	  &#x27;status&#x27;: &#x27;FILLED&#x27;,
+	  &#x27;clientOrderId&#x27;: &#x27;refQNo1LThorPMqTt28pro&#x27;,
+	  &#x27;price&#x27;: &#x27;78.56&#x27;,
+	  &#x27;avgPrice&#x27;: &#x27;78.56000&#x27;,
+	  &#x27;origQty&#x27;: &#x27;0.265&#x27;,
+	  &#x27;executedQty&#x27;: &#x27;0.265&#x27;,
+	  &#x27;cumQuote&#x27;: &#x27;20.81840&#x27;,
+	  &#x27;timeInForce&#x27;: &#x27;GTC&#x27;,
+	  &#x27;type&#x27;: &#x27;LIMIT&#x27;,
+	  &#x27;reduceOnly&#x27;: False,
+	  &#x27;closePosition&#x27;: False,
+	  &#x27;side&#x27;: &#x27;SELL&#x27;,
+	  &#x27;positionSide&#x27;: &#x27;BOTH&#x27;,
+	  &#x27;stopPrice&#x27;: &#x27;0&#x27;,
+	  &#x27;workingType&#x27;: &#x27;CONTRACT_PRICE&#x27;,
+	  &#x27;priceProtect&#x27;: False,
+	  &#x27;origType&#x27;: &#x27;LIMIT&#x27;,
+	  &#x27;time&#x27;: 1670954530603,
+	  &#x27;updateTime&#x27;: 1670987714048
+	}
+]</code></pre></li></ol><ol type="i" id="b15a2b76-8f7f-4ac1-8b12-1146b9b9178c" class="numbered-list" start="3"><li>필요 데이터 체크<ol type="1" id="865934e2-9870-4e16-b24b-8ab660d12d58" class="numbered-list" start="1"><li>✅ 시간(Time) : <code>time</code></li></ol><ol type="1" id="8912b6e9-a9ad-48d3-8f90-467232a03704" class="numbered-list" start="2"><li>✅ 코인심벌(Symbol) : <code>symbol</code></li></ol><ol type="1" id="a6f9d4b8-85b2-4d2f-8d06-b774f1615ed2" class="numbered-list" start="3"><li>☑️ 만료기간(Expiry) : <code>symbol</code> → symbol을 ‘_’로 잘라내기해서 2번째 값(default : PERPETUAL)</li></ol><ol type="1" id="6c41a8f2-85c6-492f-95d0-249a419bef02" class="numbered-list" start="4"><li>☑️ 레버리지(Leverage) → 포지션 정보 API로 불러오기 </li></ol><ol type="1" id="75648fab-2f35-444b-b0ce-ec1e62c92727" class="numbered-list" start="5"><li>✅ 방향(Side) : <code>side</code></li></ol><ol type="1" id="fce310d4-0a90-4452-aee6-1db08e26e576" class="numbered-list" start="6"><li>✅ 호가(Price) : <code>price</code></li></ol><ol type="1" id="5b3d534f-d925-4dcb-8d9c-5238468b5080" class="numbered-list" start="7"><li>✅ 체결수량(Quantity) : <code>price</code> *  <code>executedQty</code></li></ol><ol type="1" id="cf12d854-e55e-422a-82eb-c49549379944" class="numbered-list" start="8"><li>☑️ 수수료(Fee)</li></ol><ol type="1" id="7d8f32c3-23a2-47bf-87a1-5e95198678de" class="numbered-list" start="9"><li>☑️ 역할(Role)</li></ol><ol type="1" id="d1cf884c-3793-43dc-b918-c4204fd08a30" class="numbered-list" start="10"><li>☑️ 실현 이익(Realized Profit)</li></ol></li></ol></li></ol></li></ol><p id="73973a3c-67e6-43a2-b867-f78a5fad856e" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">[4] 계정 관리하기(관리창)</summary><div class="indented"><ol type="1" id="be0e39dc-4f5b-433b-b062-d4777b61e189" class="numbered-list" start="1"><li>기획 화면</li></ol><ol type="1" id="d79950ea-70e0-4ac6-9f83-544704a79b7a" class="numbered-list" start="2"><li>BDD 기능 정의<table id="ad8239fb-3a35-4d43-bb83-b0ec4822574d" class="simple-table"><thead class="simple-table-header"><tr id="8b1f1e3d-3c99-452e-b99b-83354259fae2"><th id="JdU`" class="simple-table-header-color simple-table-header" style="width:71.99999237060547px">순서➡️<br/>번호⬇️<br/>(n-n-n)</th><th id="Dtz&lt;" class="simple-table-header-color simple-table-header" style="width:139.99999237060547px">1</th><th id="xUpF" class="simple-table-header-color simple-table-header" style="width:158.2045440673828px">2</th><th id="Fx&gt;;" class="simple-table-header-color simple-table-header" style="width:173.99999237060547px">4</th><th id="VdxP" class="simple-table-header-color simple-table-header" style="width:198.99999237060547px">3</th><th id="QwW_" class="simple-table-header-color simple-table-header" style="width:409.99999237060547px">5</th></tr></thead><tbody><tr id="0ba6a06b-72a3-4e5a-9f9c-3066f6a5ac06"><th id="JdU`" class="block-color-pink_background simple-table-header" style="width:71.99999237060547px">상위구분</th><td id="Dtz&lt;" class="block-color-pink_background" style="width:139.99999237060547px">Feature(n)</td><td id="xUpF" class="block-color-pink_background" style="width:158.2045440673828px">Scenario(-n)</td><td id="Fx&gt;;" class="block-color-pink_background" style="width:173.99999237060547px">Task(-n)</td><td id="VdxP" class="block-color-pink_background" style="width:198.99999237060547px"></td><td id="QwW_" class="block-color-pink_background" style="width:409.99999237060547px"></td></tr><tr id="94d43690-6fbc-47f7-9cd1-3ae6552c5f31"><th id="JdU`" class="block-color-pink_background simple-table-header" style="width:71.99999237060547px">하위 구분</th><td id="Dtz&lt;" class="block-color-pink_background" style="width:139.99999237060547px">(기능)</td><td id="xUpF" class="block-color-pink_background" style="width:158.2045440673828px">(상황, 이야기, 목적)</td><td id="Fx&gt;;" class="block-color-pink_background" style="width:173.99999237060547px">Given (조건)</td><td id="VdxP" class="block-color-pink_background" style="width:198.99999237060547px">When (행동)</td><td id="QwW_" class="block-color-pink_background" style="width:409.99999237060547px">Then (결과)</td></tr><tr id="b547646c-2c7f-45bb-8b89-28117eceb283"><th id="JdU`" class="simple-table-header-color simple-table-header" style="width:71.99999237060547px">1-1-1</th><td id="Dtz&lt;" class="" style="width:139.99999237060547px">[1] 바이낸스Futures의 <mark class="highlight-teal"><strong>실시간</strong></mark> <strong>잔고 조회</strong></td><td id="xUpF" class="" style="width:158.2045440673828px">1. 유저가 자신의 바이낸스 계정의 가장최신의 <strong>잔고 정보</strong>를 셀프레시피 대시보드에서 조회하기 위해</td><td id="Fx&gt;;" class="" style="width:173.99999237060547px">1. 셀프레시피 홈 화면에서 <strong>아무 코인</strong>의 대시보드 화면에 <mark class="highlight-gray"><strong>처음 접속</strong></mark>해서 관리창을 클릭하고</td><td id="VdxP" class="" style="width:198.99999237060547px"><strong>관리창</strong>의 <strong>내 잔고(USDT)</strong>를 확인하면</td><td id="QwW_" class="" style="width:409.99999237060547px">1) 대시보드에는 유저의 현재 선물시장(futures)의 잔고 정보가 표시된다<br/>2) 잔고는 실시간으로 업데이트 된다. </td></tr><tr id="46e3ead7-ed07-4e4a-8442-8a6ec389c603"><th id="JdU`" class="simple-table-header-color simple-table-header" style="width:71.99999237060547px">2-1-1</th><td id="Dtz&lt;" class="" style="width:139.99999237060547px">[2] 바이낸스Futures의 <mark class="highlight-teal"><strong>실시간 </strong></mark><strong>가용 마진잔고 조회</strong></td><td id="xUpF" class="" style="width:158.2045440673828px">1. 유저가 자신의 바이낸스 계정의 사용가능한 <strong>마진잔고 정보</strong>를 셀프레시피 대시보드에서 조회하기 위해</td><td id="Fx&gt;;" class="" style="width:173.99999237060547px">1. 셀프레시피 홈 화면에서 <strong>아무 코인</strong>의 대시보드 화면에 <mark class="highlight-gray"><strong>처음 접속</strong></mark>해서 관리창을 클릭하고</td><td id="VdxP" class="" style="width:198.99999237060547px"><strong>관리창</strong>의 <strong>내 가용 마진</strong>을 확인하면</td><td id="QwW_" class="" style="width:409.99999237060547px">1) 대시보드에는 유저의 현재 선물시장(futures)의 사용가능한 마진잔고 정보가 표시된다<br/>2) 가용 마진잔고는 실시간으로 업데이트 된다. </td></tr><tr id="dff5ec91-b8c8-46de-8e3b-1e4d9bea3f31"><th id="JdU`" class="simple-table-header-color simple-table-header" style="width:71.99999237060547px">3-1-1</th><td id="Dtz&lt;" class="" style="width:139.99999237060547px">[3] 바이낸스Futures의 <mark class="highlight-teal"><strong>실시간</strong></mark><strong> 미실현 이익</strong> 조회</td><td id="xUpF" class="" style="width:158.2045440673828px">1. 유저가 자신의 바이낸스 계정의 포지션의 실시간 <strong>미실현 이익금</strong>을 셀프레시피 대시보드에서 조회하기 위해</td><td id="Fx&gt;;" class="" style="width:173.99999237060547px">1. 셀프레시피 홈 화면에서 <strong>아무 코인</strong>의 대시보드 화면에 <mark class="highlight-gray"><strong>처음 접속</strong></mark>해서 관리창을 클릭하고</td><td id="VdxP" class="" style="width:198.99999237060547px"><strong>관리창</strong>의 <strong>미실현이익</strong>을 확인하면 </td><td id="QwW_" class="" style="width:409.99999237060547px">1) 대시보드에는 유저의 현재 선물시장(futures)의 미실현이익금액이 표시된다<br/>2)  미실현이익금은 실시간으로 업데이트 된다. </td></tr><tr id="6bd9f44f-2e0e-4f11-a98e-9e48ebafee50"><th id="JdU`" class="simple-table-header-color simple-table-header" style="width:71.99999237060547px">4-1-1</th><td id="Dtz&lt;" class="" style="width:139.99999237060547px">[4] 바이낸스Futures의 포지션 <strong>마진비율(Risk)</strong> 조회</td><td id="xUpF" class="" style="width:158.2045440673828px">1. 유저가 자신의 바이낸스 계정의 포지션의 실시간 <strong>포지션 마진비율</strong>을 셀프레시피 대시보드에서 조회하기 위해</td><td id="Fx&gt;;" class="" style="width:173.99999237060547px">1. 셀프레시피 홈 화면에서 <strong>아무 코인</strong>의 대시보드 화면에 <mark class="highlight-gray"><strong>처음 접속</strong></mark>해서 관리창을 클릭하고</td><td id="VdxP" class="" style="width:198.99999237060547px"><strong>관리창</strong>의 <strong>마진비율(Risk)</strong>을 확인하면 </td><td id="QwW_" class="" style="width:409.99999237060547px">1) 대시보드에는 유저의 현재 선물시장(futures)의 마진비율 정보가 표시된다. <br/>2)  마진비율 정보는 주기적(6초)으로 업데이트 된다. </td></tr><tr id="d24618df-4872-40b7-8f53-f4f603f651f0"><th id="JdU`" class="simple-table-header-color simple-table-header" style="width:71.99999237060547px"></th><td id="Dtz&lt;" class="" style="width:139.99999237060547px"></td><td id="xUpF" class="" style="width:158.2045440673828px"></td><td id="Fx&gt;;" class="" style="width:173.99999237060547px"></td><td id="VdxP" class="" style="width:198.99999237060547px"></td><td id="QwW_" class="" style="width:409.99999237060547px"></td></tr></tbody></table></li></ol><ol type="1" id="1f30edb3-66d9-4bf3-9e76-91fc6d985d8e" class="numbered-list" start="3"><li>Futures 계정 정보 조회하기 <ol type="a" id="59d4893b-6046-4b5c-a9a1-b898431f5f87" class="numbered-list" start="1"><li><mark class="highlight-pink"><strong><strong>Account Information V2 (USER_DATA)</strong></strong></mark><ol type="i" id="f90367d1-1926-43dd-9370-f07aeb587ca9" class="numbered-list" start="1"><li>Endpoint<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fd961bce-2fef-406f-9754-6ce30edb338a" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">GET /fapi/v2/account (HMAC SHA256)</code></pre></li></ol><ol type="i" id="81129eec-e56a-4339-92de-f56ca8dcb9e3" class="numbered-list" start="2"><li>parameter<table id="d9961269-45b2-4896-a1fd-0183242d83c5" class="simple-table"><tbody><tr id="8c098196-1a6c-4649-ae62-2404878c7772"><td id="k?Y?" class="">Name</td><td id="wz{q" class="">Type</td><td id="sYZv" class="">Mandatory</td><td id="x?]l" class="">Description</td></tr><tr id="0c775276-a46b-4d6a-9e61-ec12cec63ed1"><td id="k?Y?" class="">recvWindow</td><td id="wz{q" class="">LONG</td><td id="sYZv" class="">NO</td><td id="x?]l" class=""></td></tr><tr id="bf08de8f-7ae2-40d6-bd79-966148f87a0f"><td id="k?Y?" class="">timestamp</td><td id="wz{q" class="">LONG</td><td id="sYZv" class="">YES</td><td id="x?]l" class=""></td></tr></tbody></table></li></ol><ol type="i" id="0d07867f-59b5-4bc5-911e-1a961b2a2c36" class="numbered-list" start="3"><li>response : single-asset mode<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="e9673feb-2b0b-4da4-b1b7-8db228eda789" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all"># 바이낸스 샘플
+{   
+    &quot;feeTier&quot;: 0,       // account commission tier 
+    &quot;canTrade&quot;: true,   // if can trade
+    &quot;canDeposit&quot;: true,     // if can transfer in asset
+    &quot;canWithdraw&quot;: true,    // if can transfer out asset
+    &quot;updateTime&quot;: 0,        // reserved property, please ignore 
+    &quot;multiAssetsMargin&quot;: false,
+    &quot;totalInitialMargin&quot;: &quot;0.00000000&quot;,    // total initial margin required with current mark price (useless with isolated positions), only for USDT asset
+    &quot;totalMaintMargin&quot;: &quot;0.00000000&quot;,     // total maintenance margin required, only for USDT asset
+    &quot;totalWalletBalance&quot;: &quot;23.72469206&quot;,     // total wallet balance, only for USDT asset
+    &quot;totalUnrealizedProfit&quot;: &quot;0.00000000&quot;,   // total unrealized profit, only for USDT asset
+    &quot;totalMarginBalance&quot;: &quot;23.72469206&quot;,     // total margin balance, only for USDT asset
+    &quot;totalPositionInitialMargin&quot;: &quot;0.00000000&quot;,    // initial margin required for positions with current mark price, only for USDT asset
+    &quot;totalOpenOrderInitialMargin&quot;: &quot;0.00000000&quot;,   // initial margin required for open orders with current mark price, only for USDT asset
+    &quot;totalCrossWalletBalance&quot;: &quot;23.72469206&quot;,      // crossed wallet balance, only for USDT asset
+    &quot;totalCrossUnPnl&quot;: &quot;0.00000000&quot;,      // unrealized profit of crossed positions, only for USDT asset
+    &quot;availableBalance&quot;: &quot;23.72469206&quot;,       // available balance, only for USDT asset
+    &quot;maxWithdrawAmount&quot;: &quot;23.72469206&quot;     // maximum amount for transfer out, only for USDT asset
+    &quot;assets&quot;: [
+        {
+            &quot;asset&quot;: &quot;USDT&quot;,            // asset name
+            &quot;walletBalance&quot;: &quot;23.72469206&quot;,      // wallet balance
+            &quot;unrealizedProfit&quot;: &quot;0.00000000&quot;,    // unrealized profit
+            &quot;marginBalance&quot;: &quot;23.72469206&quot;,      // margin balance
+            &quot;maintMargin&quot;: &quot;0.00000000&quot;,        // maintenance margin required
+            &quot;initialMargin&quot;: &quot;0.00000000&quot;,    // total initial margin required with current mark price 
+            &quot;positionInitialMargin&quot;: &quot;0.00000000&quot;,    //initial margin required for positions with current mark price
+            &quot;openOrderInitialMargin&quot;: &quot;0.00000000&quot;,   // initial margin required for open orders with current mark price
+            &quot;crossWalletBalance&quot;: &quot;23.72469206&quot;,      // crossed wallet balance
+            &quot;crossUnPnl&quot;: &quot;0.00000000&quot;       // unrealized profit of crossed positions
+            &quot;availableBalance&quot;: &quot;23.72469206&quot;,       // available balance
+            &quot;maxWithdrawAmount&quot;: &quot;23.72469206&quot;,     // maximum amount for transfer out
+            &quot;marginAvailable&quot;: true,    // whether the asset can be used as margin in Multi-Assets mode
+            &quot;updateTime&quot;: 1625474304765 // last update time 
+        },
+        {
+            &quot;asset&quot;: &quot;BUSD&quot;,            // asset name
+            &quot;walletBalance&quot;: &quot;103.12345678&quot;,      // wallet balance
+            &quot;unrealizedProfit&quot;: &quot;0.00000000&quot;,    // unrealized profit
+            &quot;marginBalance&quot;: &quot;103.12345678&quot;,      // margin balance
+            &quot;maintMargin&quot;: &quot;0.00000000&quot;,        // maintenance margin required
+            &quot;initialMargin&quot;: &quot;0.00000000&quot;,    // total initial margin required with current mark price 
+            &quot;positionInitialMargin&quot;: &quot;0.00000000&quot;,    //initial margin required for positions with current mark price
+            &quot;openOrderInitialMargin&quot;: &quot;0.00000000&quot;,   // initial margin required for open orders with current mark price
+            &quot;crossWalletBalance&quot;: &quot;103.12345678&quot;,      // crossed wallet balance
+            &quot;crossUnPnl&quot;: &quot;0.00000000&quot;       // unrealized profit of crossed positions
+            &quot;availableBalance&quot;: &quot;103.12345678&quot;,       // available balance
+            &quot;maxWithdrawAmount&quot;: &quot;103.12345678&quot;,     // maximum amount for transfer out
+            &quot;marginAvailable&quot;: true,    // whether the asset can be used as margin in Multi-Assets mode
+            &quot;updateTime&quot;: 1625474304765 // last update time
+        }
+    ],
+    &quot;positions&quot;: [  // positions of all symbols in the market are returned
+        // only &quot;BOTH&quot; positions will be returned with One-way mode
+        // only &quot;LONG&quot; and &quot;SHORT&quot; positions will be returned with Hedge mode
+        {
+            &quot;symbol&quot;: &quot;BTCUSDT&quot;,    // symbol name
+            &quot;initialMargin&quot;: &quot;0&quot;,   // initial margin required with current mark price 
+            &quot;maintMargin&quot;: &quot;0&quot;,     // maintenance margin required
+            &quot;unrealizedProfit&quot;: &quot;0.00000000&quot;,  // unrealized profit
+            &quot;positionInitialMargin&quot;: &quot;0&quot;,      // initial margin required for positions with current mark price
+            &quot;openOrderInitialMargin&quot;: &quot;0&quot;,     // initial margin required for open orders with current mark price
+            &quot;leverage&quot;: &quot;100&quot;,      // current initial leverage
+            &quot;isolated&quot;: true,       // if the position is isolated
+            &quot;entryPrice&quot;: &quot;0.00000&quot;,    // average entry price
+            &quot;maxNotional&quot;: &quot;250000&quot;,    // maximum available notional with current leverage
+            &quot;bidNotional&quot;: &quot;0&quot;,  // bids notional, ignore
+            &quot;askNotional&quot;: &quot;0&quot;,  // ask notional, ignore
+            &quot;positionSide&quot;: &quot;BOTH&quot;,     // position side
+            &quot;positionAmt&quot;: &quot;0&quot;,         // position amount
+            &quot;updateTime&quot;: 0           // last update time
+        }
+    ]
+}</code></pre></li></ol><ol type="i" id="f9734613-9e73-418a-a7ec-2a7084f115f1" class="numbered-list" start="3"><li>필요 데이터 체크<ol type="1" id="bd8c5577-5157-4f78-bda7-b8be701780ea" class="numbered-list" start="1"><li>✅ 시간(Time) : <code>time</code></li></ol><ol type="1" id="3ee75b36-59a3-45a0-9c1e-2e85af44d596" class="numbered-list" start="2"><li>✅ 코인심벌(Symbol) : <code>symbol</code></li></ol><ol type="1" id="4b7ff4bb-aeef-401d-bbae-f25639cb8c59" class="numbered-list" start="3"><li>☑️ 만료기간(Expiry) : <code>symbol</code> → symbol을 ‘_’로 잘라내기해서 2번째 값(default : PERPETUAL)</li></ol><ol type="1" id="33be3f7d-b5b1-42a7-9163-9ce954d4e94f" class="numbered-list" start="4"><li>☑️ 레버리지(Leverage) → 포지션 정보 API로 불러오기 </li></ol><ol type="1" id="cf364937-bd74-4094-aa3d-b0c46729c952" class="numbered-list" start="5"><li>✅ 방향(Side) : <code>side</code></li></ol><ol type="1" id="57ce2f2c-cc44-4757-8358-7072b4627b5c" class="numbered-list" start="6"><li>✅ 호가(Price) : <code>price</code></li></ol><ol type="1" id="12e22ba9-7684-4d1b-a9f3-01872e239b93" class="numbered-list" start="7"><li>✅ 체결수량(Quantity) : <code>price</code> *  <code>executedQty</code></li></ol><ol type="1" id="a7a05717-819e-4ce5-ac8a-439b370887d5" class="numbered-list" start="8"><li>☑️ 수수료(Fee)</li></ol><ol type="1" id="6f28dab2-d344-4543-824e-6c6cfa401006" class="numbered-list" start="9"><li>☑️ 역할(Role)</li></ol><ol type="1" id="8c9adef8-ea50-4359-9507-958d26fe4e37" class="numbered-list" start="10"><li>☑️ 실현 이익(Realized Profit)</li></ol></li></ol></li></ol></li></ol><p id="5ed0e3b5-ea57-492d-9bbc-cf6f0bbd7ad6" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">[5] 모바일 UI 개선</summary><div class="indented"><ol type="1" id="1070de93-cdf1-432c-a02d-d8cdb3e41f1d" class="numbered-list" start="1"><li>기획 화면</li></ol><ol type="1" id="5a6f41ea-c337-4584-b19b-b1a7a2906307" class="numbered-list" start="2"><li>BDD 기능 정의<table id="e05c95a7-4f41-48f4-8279-8f2080e04468" class="simple-table"><thead class="simple-table-header"><tr id="75b1020f-709e-4c1f-b8cc-9f485b55a1a1"><th id="JdU`" class="simple-table-header-color simple-table-header" style="width:71.99999237060547px">순서➡️<br/>번호⬇️<br/>(n-n-n)</th><th id="Dtz&lt;" class="simple-table-header-color simple-table-header" style="width:139.99999237060547px">1</th><th id="xUpF" class="simple-table-header-color simple-table-header" style="width:158.2045440673828px">2</th><th id="Fx&gt;;" class="simple-table-header-color simple-table-header" style="width:173.99999237060547px">4</th><th id="VdxP" class="simple-table-header-color simple-table-header" style="width:198.99999237060547px">3</th><th id="QwW_" class="simple-table-header-color simple-table-header" style="width:409.99999237060547px">5</th></tr></thead><tbody><tr id="8644edbd-4305-4436-8b90-a34626260ae4"><th id="JdU`" class="block-color-pink_background simple-table-header" style="width:71.99999237060547px">상위구분</th><td id="Dtz&lt;" class="block-color-pink_background" style="width:139.99999237060547px">Feature(n)</td><td id="xUpF" class="block-color-pink_background" style="width:158.2045440673828px">Scenario(-n)</td><td id="Fx&gt;;" class="block-color-pink_background" style="width:173.99999237060547px">Task(-n)</td><td id="VdxP" class="block-color-pink_background" style="width:198.99999237060547px"></td><td id="QwW_" class="block-color-pink_background" style="width:409.99999237060547px"></td></tr><tr id="6090103d-45e7-4244-8337-a2501ecc2bbe"><th id="JdU`" class="block-color-pink_background simple-table-header" style="width:71.99999237060547px">하위 구분</th><td id="Dtz&lt;" class="block-color-pink_background" style="width:139.99999237060547px">(기능)</td><td id="xUpF" class="block-color-pink_background" style="width:158.2045440673828px">(상황, 이야기, 목적)</td><td id="Fx&gt;;" class="block-color-pink_background" style="width:173.99999237060547px">Given (조건)</td><td id="VdxP" class="block-color-pink_background" style="width:198.99999237060547px">When (행동)</td><td id="QwW_" class="block-color-pink_background" style="width:409.99999237060547px">Then (결과)</td></tr><tr id="18679f38-a969-40b8-aa07-0b6a7f2de352"><th id="JdU`" class="simple-table-header-color simple-table-header" style="width:71.99999237060547px">1-1-1</th><td id="Dtz&lt;" class="" style="width:139.99999237060547px">[1] 지금까지 체결된(가장 최신의) 주문체결 <strong>요약정보 조회</strong></td><td id="xUpF" class="" style="width:158.2045440673828px">1. 유저가 자신의 바이낸스 계정의 가장최신의 <mark class="highlight-teal_background"><strong>모든 주문체결 요약정보</strong></mark>를 셀프레시피 대시보드에서 조회하기 위해</td><td id="Fx&gt;;" class="" style="width:173.99999237060547px">1. 셀프레시피 홈 화면에서 특정 코인의 대시보드 화면에 <mark class="highlight-gray"><strong>처음 접속</strong></mark>해서</td><td id="VdxP" class="" style="width:198.99999237060547px">주문관리창의 주문체결내역을 확인하면</td><td id="QwW_" class="" style="width:409.99999237060547px">1) 대시보드에는 유저의 현재 선물시장(futures)의 모든 코인에 대한 주문체결내역이 표시된다.<br/>2) 주문체결내역 정보의 순서는 디폴트로 time을 기준으로 내림차순정렬된다.</td></tr><tr id="7d2e3b26-18ca-40dc-b988-6124681cf41d"><th id="JdU`" class="simple-table-header-color simple-table-header" style="width:71.99999237060547px"></th><td id="Dtz&lt;" class="" style="width:139.99999237060547px"></td><td id="xUpF" class="" style="width:158.2045440673828px"></td><td id="Fx&gt;;" class="" style="width:173.99999237060547px"></td><td id="VdxP" class="" style="width:198.99999237060547px"></td><td id="QwW_" class="" style="width:409.99999237060547px"></td></tr></tbody></table></li></ol><ol type="1" id="1a4a7eaf-a645-4c5d-9962-abea53c2e211" class="numbered-list" start="3"><li>포지션 취소하기 <ol type="a" id="366080bb-b9e3-4a64-8542-09c5197a907d" class="numbered-list" start="1"><li><mark class="highlight-pink"><strong><strong>All Orders</strong></strong></mark><strong><strong> (USER_DATA)</strong></strong><ol type="i" id="0bf71501-6ae9-4d00-91fc-9aaa82ec042c" class="numbered-list" start="1"><li>Endpoint<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="94ce49fc-e28c-4071-b65f-2c48689de9e7" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">GET /fapi/v1/allOrders (HMAC SHA256)</code></pre></li></ol><ol type="i" id="8b7960e4-7435-429a-852b-abcb1c9f5a3a" class="numbered-list" start="2"><li>parameter<table id="4072ebf3-16fd-471f-a9e6-3a83b15eab27" class="simple-table"><tbody><tr id="75377922-5d01-4823-b02c-aa06037aae93"><td id="Ggox" class="">Name</td><td id="SMkD" class="">Type</td><td id="Cyvn" class="">Mandatory</td><td id="jIcx" class="">Description</td></tr><tr id="cabceb7b-a83c-48b6-8891-f21675856fa1"><td id="Ggox" class="">symbol</td><td id="SMkD" class="">STRING</td><td id="Cyvn" class=""><mark class="highlight-teal">YES</mark></td><td id="jIcx" class=""></td></tr><tr id="13400e04-4bdf-45b0-ae8d-e780af81cc6b"><td id="Ggox" class=""><mark class="highlight-red">orderId</mark></td><td id="SMkD" class="">LONG</td><td id="Cyvn" class=""><strong><mark class="highlight-red">NO</mark></strong></td><td id="jIcx" class=""></td></tr><tr id="3b231ebd-ab93-4bb6-99c3-f133adc0e4b6"><td id="Ggox" class="">startTime</td><td id="SMkD" class="">LONG</td><td id="Cyvn" class="">NO</td><td id="jIcx" class=""></td></tr><tr id="32e94244-69cc-4c00-897b-86654055497b"><td id="Ggox" class="">endTime</td><td id="SMkD" class="">LONG</td><td id="Cyvn" class="">NO</td><td id="jIcx" class=""></td></tr><tr id="c98aad36-e838-42fc-b2cc-2710d5511cb8"><td id="Ggox" class="">limit</td><td id="SMkD" class="">INT</td><td id="Cyvn" class="">NO</td><td id="jIcx" class="">Default 500; max 1000.</td></tr><tr id="bd94bf0a-f7f9-47b2-9e86-107d51651e09"><td id="Ggox" class="">recvWindow</td><td id="SMkD" class="">LONG</td><td id="Cyvn" class="">NO</td><td id="jIcx" class=""></td></tr><tr id="496bf0a3-b210-410e-936c-a5bae3742b30"><td id="Ggox" class="">timestamp</td><td id="SMkD" class="">LONG</td><td id="Cyvn" class=""><mark class="highlight-teal">YES</mark></td><td id="jIcx" class=""></td></tr></tbody></table></li></ol><ol type="i" id="b2b76c6d-1ac3-4703-879a-b447d202ed96" class="numbered-list" start="3"><li>response<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c4987749-30b5-435c-a665-6d396a9540f3" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all"># 바이낸스 샘플
+[
+  {
+    &quot;avgPrice&quot;: &quot;0.00000&quot;,
+    &quot;clientOrderId&quot;: &quot;abc&quot;,
+    &quot;cumQuote&quot;: &quot;0&quot;,
+    &quot;executedQty&quot;: &quot;0&quot;, # # 7. quantity
+    &quot;orderId&quot;: 1917641,
+    &quot;origQty&quot;: &quot;0.40&quot;, 
+    &quot;origType&quot;: &quot;TRAILING_STOP_MARKET&quot;, 
+    &quot;price&quot;: &quot;0&quot;, # 6. price # 7. quantity
+    &quot;reduceOnly&quot;: false,
+    &quot;side&quot;: &quot;BUY&quot;, # 5. side
+    &quot;positionSide&quot;: &quot;SHORT&quot;,
+    &quot;status&quot;: &quot;NEW&quot;,  
+    &quot;stopPrice&quot;: &quot;9300&quot;,                // please ignore when order type is TRAILING_STOP_MARKET
+    &quot;closePosition&quot;: false,   // if Close-All
+    &quot;symbol&quot;: &quot;BTCUSDT&quot;,  # 2. symbol
+    &quot;time&quot;: 1579276756075,  # 1. time            // order time
+    &quot;timeInForce&quot;: &quot;GTC&quot;,
+    &quot;type&quot;: &quot;TRAILING_STOP_MARKET&quot;,  
+    &quot;activatePrice&quot;: &quot;9020&quot;,            // activation price, only return with TRAILING_STOP_MARKET order
+    &quot;priceRate&quot;: &quot;0.3&quot;,                 // callback rate, only return with TRAILING_STOP_MARKET order
+    &quot;updateTime&quot;: 1579276756075,        // update time
+    &quot;workingType&quot;: &quot;CONTRACT_PRICE&quot;,
+    &quot;priceProtect&quot;: false            // if conditional order trigger is protected   
+  }
+]</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="34922c25-000e-4635-995b-09450a48582f" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all"># 실제 데이터 
+[
+	{
+		&#x27;orderId&#x27;: 19832311515,
+	  &#x27;symbol&#x27;: &#x27;LTCUSDT&#x27;,
+	  &#x27;status&#x27;: &#x27;FILLED&#x27;,
+	  &#x27;clientOrderId&#x27;: &#x27;refQNo1LThorPMqTt28pro&#x27;,
+	  &#x27;price&#x27;: &#x27;78.56&#x27;,
+	  &#x27;avgPrice&#x27;: &#x27;78.56000&#x27;,
+	  &#x27;origQty&#x27;: &#x27;0.265&#x27;,
+	  &#x27;executedQty&#x27;: &#x27;0.265&#x27;,
+	  &#x27;cumQuote&#x27;: &#x27;20.81840&#x27;,
+	  &#x27;timeInForce&#x27;: &#x27;GTC&#x27;,
+	  &#x27;type&#x27;: &#x27;LIMIT&#x27;,
+	  &#x27;reduceOnly&#x27;: False,
+	  &#x27;closePosition&#x27;: False,
+	  &#x27;side&#x27;: &#x27;SELL&#x27;,
+	  &#x27;positionSide&#x27;: &#x27;BOTH&#x27;,
+	  &#x27;stopPrice&#x27;: &#x27;0&#x27;,
+	  &#x27;workingType&#x27;: &#x27;CONTRACT_PRICE&#x27;,
+	  &#x27;priceProtect&#x27;: False,
+	  &#x27;origType&#x27;: &#x27;LIMIT&#x27;,
+	  &#x27;time&#x27;: 1670954530603,
+	  &#x27;updateTime&#x27;: 1670987714048
+	}
+]</code></pre></li></ol><ol type="i" id="8a82dbab-2cde-41ac-a048-003820e9a857" class="numbered-list" start="3"><li>필요 데이터 체크<ol type="1" id="a600f09e-d54d-4a30-a611-377c8fddddd7" class="numbered-list" start="1"><li>✅ 시간(Time) : <code>time</code></li></ol><ol type="1" id="2b64d21b-0dc5-4a48-9e45-ee253ee9f63f" class="numbered-list" start="2"><li>✅ 코인심벌(Symbol) : <code>symbol</code></li></ol><ol type="1" id="328d56c3-8c16-4ccb-a572-04b803b45e51" class="numbered-list" start="3"><li>☑️ 만료기간(Expiry) : <code>symbol</code> → symbol을 ‘_’로 잘라내기해서 2번째 값(default : PERPETUAL)</li></ol><ol type="1" id="638b28e5-86dd-4dcc-ac0c-6a0c99d51344" class="numbered-list" start="4"><li>☑️ 레버리지(Leverage) → 포지션 정보 API로 불러오기 </li></ol><ol type="1" id="769c367c-ecde-46fa-8105-33b9d4ae231d" class="numbered-list" start="5"><li>✅ 방향(Side) : <code>side</code></li></ol><ol type="1" id="08d1342d-1caf-4314-8399-01858b2cdf2a" class="numbered-list" start="6"><li>✅ 호가(Price) : <code>price</code></li></ol><ol type="1" id="8a72f92b-bca0-48d5-826c-2a4c9d08b24d" class="numbered-list" start="7"><li>✅ 체결수량(Quantity) : <code>price</code> *  <code>executedQty</code></li></ol><ol type="1" id="eb9bb8ce-b907-4845-81e2-51da2c59ba9f" class="numbered-list" start="8"><li>☑️ 수수료(Fee)</li></ol><ol type="1" id="3028b660-6d51-47fd-a1aa-2ce6a62b5c17" class="numbered-list" start="9"><li>☑️ 역할(Role)</li></ol><ol type="1" id="2f13e9a0-33ab-4f20-9dd3-4f91edfb7a6e" class="numbered-list" start="10"><li>☑️ 실현 이익(Realized Profit)</li></ol></li></ol></li></ol></li></ol><p id="559aced4-5484-44de-9de3-ac56a1bf1b66" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">[6] 단일 주문 넣기</summary><div class="indented"><ol type="1" id="358a6901-80cd-4484-ba0b-096be6b6322d" class="numbered-list" start="1"><li>기획화면</li></ol><ol type="1" id="b20ad2d8-96b3-4da8-9511-46472b1ed9b0" class="numbered-list" start="2"><li>BDD 기능 정의 <table id="da0f1285-cdeb-42b5-af8c-435897ce7f94" class="simple-table"><thead class="simple-table-header"><tr id="7ca7ee4e-20c1-4862-9a4f-db06eac574e2"><th id="JdU`" class="simple-table-header-color simple-table-header" style="width:71.99999237060547px">순서➡️<br/>번호⬇️<br/>(n-n-n)</th><th id="Dtz&lt;" class="simple-table-header-color simple-table-header" style="width:139.99999237060547px">1</th><th id="xUpF" class="simple-table-header-color simple-table-header" style="width:158.2045440673828px">2</th><th id="Fx&gt;;" class="simple-table-header-color simple-table-header" style="width:173.99999237060547px">4</th><th id="VdxP" class="simple-table-header-color simple-table-header" style="width:198.99999237060547px">3</th><th id="QwW_" class="simple-table-header-color simple-table-header" style="width:409.99999237060547px">5</th></tr></thead><tbody><tr id="ce61a227-e6b4-4259-baea-ef896f317e42"><th id="JdU`" class="block-color-purple_background simple-table-header" style="width:71.99999237060547px">상위구분</th><td id="Dtz&lt;" class="block-color-purple_background" style="width:139.99999237060547px">Feature(n)</td><td id="xUpF" class="block-color-purple_background" style="width:158.2045440673828px">Scenario(-n)</td><td id="Fx&gt;;" class="block-color-purple_background" style="width:173.99999237060547px">Task(-n)</td><td id="VdxP" class="block-color-purple_background" style="width:198.99999237060547px"></td><td id="QwW_" class="block-color-purple_background" style="width:409.99999237060547px"></td></tr><tr id="841df712-fa52-46c1-90e6-c02ce8f76eee"><th id="JdU`" class="block-color-purple_background simple-table-header" style="width:71.99999237060547px">하위 구분</th><td id="Dtz&lt;" class="block-color-purple_background" style="width:139.99999237060547px">(기능)</td><td id="xUpF" class="block-color-purple_background" style="width:158.2045440673828px">(상황, 이야기, 목적)</td><td id="Fx&gt;;" class="block-color-purple_background" style="width:173.99999237060547px">Given (조건)</td><td id="VdxP" class="block-color-purple_background" style="width:198.99999237060547px">When (행동)</td><td id="QwW_" class="block-color-purple_background" style="width:409.99999237060547px">Then (결과)</td></tr><tr id="f4e64009-0230-4664-8ef6-038e950976f5"><th id="JdU`" class="simple-table-header-color simple-table-header" style="width:71.99999237060547px">1-1-1</th><td id="Dtz&lt;" class="" style="width:139.99999237060547px">[1] 지금까지 체결된(가장 최신의) 주문체결 <strong>요약정보 조회</strong></td><td id="xUpF" class="" style="width:158.2045440673828px">1. 유저가 자신의 바이낸스 계정의 가장최신의 <mark class="highlight-teal_background"><strong>모든 주문체결 요약정보</strong></mark>를 셀프레시피 대시보드에서 조회하기 위해</td><td id="Fx&gt;;" class="" style="width:173.99999237060547px">1. 셀프레시피 홈 화면에서 특정 코인의 대시보드 화면에 <mark class="highlight-gray"><strong>처음 접속</strong></mark>해서</td><td id="VdxP" class="" style="width:198.99999237060547px">주문관리창의 주문체결내역을 확인하면</td><td id="QwW_" class="" style="width:409.99999237060547px">1) 대시보드에는 유저의 현재 선물시장(futures)의 모든 코인에 대한 주문체결내역이 표시된다.<br/>2) 주문체결내역 정보의 순서는 디폴트로 time을 기준으로 내림차순정렬된다.</td></tr><tr id="1b874976-c0c7-41d0-b44e-11841b646559"><th id="JdU`" class="simple-table-header-color simple-table-header" style="width:71.99999237060547px"></th><td id="Dtz&lt;" class="" style="width:139.99999237060547px"></td><td id="xUpF" class="" style="width:158.2045440673828px"></td><td id="Fx&gt;;" class="" style="width:173.99999237060547px"></td><td id="VdxP" class="" style="width:198.99999237060547px"></td><td id="QwW_" class="" style="width:409.99999237060547px"></td></tr></tbody></table></li></ol><ol type="1" id="8688a5b1-f695-4fe7-a42f-ab0f2df00fe3" class="numbered-list" start="3"><li>단일 주문넣기 - API 확인<ol type="a" id="c234a9ed-cd15-4252-a7fc-5f9c3693090a" class="numbered-list" start="1"><li><mark class="highlight-purple"><strong><strong>Get Income History</strong></strong></mark><strong><strong> (USER_DATA)</strong></strong><ol type="i" id="3c2b67e3-9e31-4ae9-80c4-ffd3f7d8627a" class="numbered-list" start="1"><li>Endpoint<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2c02659d-0bf3-4186-86e8-f6ff18af976b" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">GET /fapi/v1/income (HMAC SHA256)</code></pre></li></ol><ol type="i" id="5f907a79-d2e5-467a-ad49-cfc7ad66fb7c" class="numbered-list" start="2"><li>parameter<table id="cf91205b-3240-49b7-8d3a-d0292f7511f2" class="simple-table"><tbody><tr id="56d33690-553f-4578-9909-89921d2ce036"><td id="qUk~" class="">Name</td><td id="D~oM" class="">Type</td><td id="la=Y" class="">Mandatory</td><td id="YMxR" class="" style="width:537px">Description</td></tr><tr id="16632553-c79d-472c-b9d9-6062b34fa157"><td id="qUk~" class="">symbol</td><td id="D~oM" class="">STRING</td><td id="la=Y" class="">NO</td><td id="YMxR" class="" style="width:537px"></td></tr><tr id="09ed8434-9603-4edd-9645-48076691f72e"><td id="qUk~" class="">incomeType</td><td id="D~oM" class="">STRING</td><td id="la=Y" class="">NO</td><td id="YMxR" class="" style="width:537px">TRANSFER, WELCOME_BONUS, REALIZED_PNL, FUNDING_FEE, COMMISSION, INSURANCE_CLEAR, REFERRAL_KICKBACK, COMMISSION_REBATE, API_REBATE, CONTEST_REWARD, CROSS_COLLATERAL_TRANSFER, OPTIONS_PREMIUM_FEE, OPTIONS_SETTLE_PROFIT, INTERNAL_TRANSFER, AUTO_EXCHANGE, DELIVERED_SETTELMENT, COIN_SWAP_DEPOSIT, COIN_SWAP_WITHDRAW, POSITION_LIMIT_INCREASE_FEE</td></tr><tr id="c7a4a2be-ce5c-405a-9a12-81285cfae37b"><td id="qUk~" class="">startTime</td><td id="D~oM" class="">LONG</td><td id="la=Y" class="">NO</td><td id="YMxR" class="" style="width:537px">Timestamp in ms to get funding from INCLUSIVE.</td></tr><tr id="23dede1e-027c-403b-9706-aa46f2318109"><td id="qUk~" class="">endTime</td><td id="D~oM" class="">LONG</td><td id="la=Y" class="">NO</td><td id="YMxR" class="" style="width:537px">Timestamp in ms to get funding until INCLUSIVE.</td></tr><tr id="23cacf64-f704-4c2d-9028-469c8faf20ec"><td id="qUk~" class="">limit</td><td id="D~oM" class="">INT</td><td id="la=Y" class="">NO</td><td id="YMxR" class="" style="width:537px">Default 100; max 1000</td></tr><tr id="0d310b4f-ab94-46e4-b6c3-a4a7d2ed13ee"><td id="qUk~" class="">recvWindow</td><td id="D~oM" class="">LONG</td><td id="la=Y" class="">NO</td><td id="YMxR" class="" style="width:537px"></td></tr><tr id="61ea25a4-bd74-40cd-829c-e857ca737cb8"><td id="qUk~" class="">timestamp</td><td id="D~oM" class="">LONG</td><td id="la=Y" class=""><mark class="highlight-teal">YES</mark></td><td id="YMxR" class="" style="width:537px"></td></tr></tbody></table></li></ol><ol type="i" id="396a6622-69e3-4a18-b370-cb767c1122b3" class="numbered-list" start="3"><li>response<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="71164ded-fb8e-4a86-9324-bc4b17bb2b86" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">[
+    {
+        &quot;symbol&quot;: &quot;&quot;,                   // trade symbol, if existing
+        &quot;incomeType&quot;: &quot;TRANSFER&quot;,   // income type
+        &quot;income&quot;: &quot;-0.37500000&quot;,  // income amount
+        &quot;asset&quot;: &quot;USDT&quot;,                // income asset
+        &quot;info&quot;:&quot;TRANSFER&quot;,          // extra information
+        &quot;time&quot;: 1570608000000,      
+        &quot;tranId&quot;:&quot;9689322392&quot;,      // transaction id
+        &quot;tradeId&quot;:&quot;&quot;                    // trade id, if existing
+    },
+    {
+        &quot;symbol&quot;: &quot;BTCUSDT&quot;,
+        &quot;incomeType&quot;: &quot;COMMISSION&quot;, 
+        &quot;income&quot;: &quot;-0.01000000&quot;,
+        &quot;asset&quot;: &quot;USDT&quot;,
+        &quot;info&quot;:&quot;COMMISSION&quot;,
+        &quot;time&quot;: 1570636800000,
+        &quot;tranId&quot;:&quot;9689322392&quot;,
+        &quot;tradeId&quot;:&quot;2059192&quot;
+    }
+]</code></pre></li></ol><ol type="i" id="cfc74196-6631-4c1b-9742-a88643ffc9cc" class="numbered-list" start="3"><li>필요 데이터 체크<ol type="1" id="4d1394ec-d8fa-4b79-9f57-a86ffa64d365" class="numbered-list" start="1"><li>✅ 시간(Time) : <code>time</code></li></ol><ol type="1" id="f4b0b622-3eed-4a83-aaa6-3191360a8f55" class="numbered-list" start="2"><li>✅ 타입(Type) : <code>incomeType</code> or <code>info</code></li></ol><ol type="1" id="28733d89-68ca-4dd6-baed-6bef7612e705" class="numbered-list" start="3"><li>✅ 수량(Amount) : <code>income</code></li></ol><ol type="1" id="3d7c854f-797a-48ac-b023-e936ea10c48b" class="numbered-list" start="4"><li>✅ 단위(Asset) :<code>asset</code> </li></ol><ol type="1" id="757415c9-c153-493d-b553-3c41107f030b" class="numbered-list" start="5"><li>✅ 코인심벌(Symbol) : <code>symbol</code></li></ol></li></ol><p id="cac2ee9b-4d83-45ee-b879-e36db88a2738" class="">
+</p></li></ol></li></ol><p id="430ad765-805f-43ac-9d6d-77aeb4747d04" class="">
+</p><p id="ed63f6e2-edc9-4c9d-a2ed-369827cb9e56" class="">
+</p><p id="9eae1d53-464b-4b29-8629-737f2ddf95ee" class="">
+</p><p id="907b3915-6a73-4f1e-b54b-d45993e02d8b" class="">
+</p><p id="c91344a2-31a1-456f-b88b-81427ea16305" class="">
+</p><p id="facd4c59-17fe-4240-86f1-1e2d1d023e30" class="">
+</p><p id="22e37bb1-31fa-472f-a69e-21eeb5663bb7" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">[7] 차트에서 조회/조작하기</summary><div class="indented"><ol type="1" id="f51384d9-35fa-4f79-88b0-55aa19875477" class="numbered-list" start="1"><li>기획화면</li></ol><ol type="1" id="5fd20263-3629-43e8-ac3f-d0cbe1038df6" class="numbered-list" start="2"><li>BDD 기능 정의 <table id="2c7ef5c8-450c-424e-ab67-5b9f85abbe45" class="simple-table"><thead class="simple-table-header"><tr id="a207b9dd-1b6f-415a-bee0-b16aaf316340"><th id="JdU`" class="simple-table-header-color simple-table-header" style="width:71.99999237060547px">순서➡️<br/>번호⬇️<br/>(n-n-n)</th><th id="Dtz&lt;" class="simple-table-header-color simple-table-header" style="width:139.99999237060547px">1</th><th id="xUpF" class="simple-table-header-color simple-table-header" style="width:158.2045440673828px">2</th><th id="Fx&gt;;" class="simple-table-header-color simple-table-header" style="width:173.99999237060547px">4</th><th id="VdxP" class="simple-table-header-color simple-table-header" style="width:198.99999237060547px">3</th><th id="QwW_" class="simple-table-header-color simple-table-header" style="width:409.99999237060547px">5</th></tr></thead><tbody><tr id="cda17675-e2d4-4ab6-9bef-f9fae7019d33"><th id="JdU`" class="block-color-pink_background simple-table-header" style="width:71.99999237060547px">상위구분</th><td id="Dtz&lt;" class="block-color-pink_background" style="width:139.99999237060547px">Feature(n)</td><td id="xUpF" class="block-color-pink_background" style="width:158.2045440673828px">Scenario(-n)</td><td id="Fx&gt;;" class="block-color-pink_background" style="width:173.99999237060547px">Task(-n)</td><td id="VdxP" class="block-color-pink_background" style="width:198.99999237060547px"></td><td id="QwW_" class="block-color-pink_background" style="width:409.99999237060547px"></td></tr><tr id="58bace82-6aa9-4ad1-8acf-db846c7831ed"><th id="JdU`" class="block-color-pink_background simple-table-header" style="width:71.99999237060547px">하위 구분</th><td id="Dtz&lt;" class="block-color-pink_background" style="width:139.99999237060547px">(기능)</td><td id="xUpF" class="block-color-pink_background" style="width:158.2045440673828px">(상황, 이야기, 목적)</td><td id="Fx&gt;;" class="block-color-pink_background" style="width:173.99999237060547px">Given (조건)</td><td id="VdxP" class="block-color-pink_background" style="width:198.99999237060547px">When (행동)</td><td id="QwW_" class="block-color-pink_background" style="width:409.99999237060547px">Then (결과)</td></tr><tr id="2ebd15c5-92f9-4cfd-8799-0fad2116027f"><th id="JdU`" class="simple-table-header-color simple-table-header" style="width:71.99999237060547px">1-1-1</th><td id="Dtz&lt;" class="" style="width:139.99999237060547px">[1] 지금까지 체결된(가장 최신의) 주문체결 <strong>요약정보 조회</strong></td><td id="xUpF" class="" style="width:158.2045440673828px">1. 유저가 자신의 바이낸스 계정의 가장최신의 <mark class="highlight-teal_background"><strong>모든 주문체결 요약정보</strong></mark>를 셀프레시피 대시보드에서 조회하기 위해</td><td id="Fx&gt;;" class="" style="width:173.99999237060547px">1. 셀프레시피 홈 화면에서 특정 코인의 대시보드 화면에 <mark class="highlight-gray"><strong>처음 접속</strong></mark>해서</td><td id="VdxP" class="" style="width:198.99999237060547px">주문관리창의 주문체결내역을 확인하면</td><td id="QwW_" class="" style="width:409.99999237060547px">1) 대시보드에는 유저의 현재 선물시장(futures)의 모든 코인에 대한 주문체결내역이 표시된다.<br/>2) 주문체결내역 정보의 순서는 디폴트로 time을 기준으로 내림차순정렬된다.</td></tr><tr id="e7a494e9-b518-4669-b21b-daa7f3d37e71"><th id="JdU`" class="simple-table-header-color simple-table-header" style="width:71.99999237060547px"></th><td id="Dtz&lt;" class="" style="width:139.99999237060547px"></td><td id="xUpF" class="" style="width:158.2045440673828px"></td><td id="Fx&gt;;" class="" style="width:173.99999237060547px"></td><td id="VdxP" class="" style="width:198.99999237060547px"></td><td id="QwW_" class="" style="width:409.99999237060547px"></td></tr></tbody></table></li></ol><ol type="1" id="9071f622-2e33-41ca-85c2-82cfb3a56dfd" class="numbered-list" start="3"><li>단일 주문넣기 - API 확인<ol type="a" id="3c2133b7-ecde-476e-ab7f-e60183df1bc0" class="numbered-list" start="1"><li><mark class="highlight-purple"><strong><strong>Get Income History</strong></strong></mark><strong><strong> (USER_DATA)</strong></strong><ol type="i" id="32963f4b-a1c2-4c52-b115-b4e00ccd1ac2" class="numbered-list" start="1"><li>Endpoint<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="cd8f16e9-5518-4c0b-a754-20a7d5f0e072" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">GET /fapi/v1/income (HMAC SHA256)</code></pre></li></ol><ol type="i" id="bfaf1e42-ee68-4432-a747-491265857659" class="numbered-list" start="2"><li>parameter<table id="e3f6c91c-a26b-4d5a-8c19-84924658b468" class="simple-table"><tbody><tr id="1f89ef10-b00d-49ec-afab-7653d8965634"><td id="qUk~" class="">Name</td><td id="D~oM" class="">Type</td><td id="la=Y" class="">Mandatory</td><td id="YMxR" class="" style="width:537px">Description</td></tr><tr id="46b70640-742f-41ea-80b9-1f02508425f6"><td id="qUk~" class="">symbol</td><td id="D~oM" class="">STRING</td><td id="la=Y" class="">NO</td><td id="YMxR" class="" style="width:537px"></td></tr><tr id="4bdda28b-321f-4612-b9f9-bb943f7add05"><td id="qUk~" class="">incomeType</td><td id="D~oM" class="">STRING</td><td id="la=Y" class="">NO</td><td id="YMxR" class="" style="width:537px">TRANSFER, WELCOME_BONUS, REALIZED_PNL, FUNDING_FEE, COMMISSION, INSURANCE_CLEAR, REFERRAL_KICKBACK, COMMISSION_REBATE, API_REBATE, CONTEST_REWARD, CROSS_COLLATERAL_TRANSFER, OPTIONS_PREMIUM_FEE, OPTIONS_SETTLE_PROFIT, INTERNAL_TRANSFER, AUTO_EXCHANGE, DELIVERED_SETTELMENT, COIN_SWAP_DEPOSIT, COIN_SWAP_WITHDRAW, POSITION_LIMIT_INCREASE_FEE</td></tr><tr id="1755f1c0-f05d-41c1-acec-fe8e46074cb7"><td id="qUk~" class="">startTime</td><td id="D~oM" class="">LONG</td><td id="la=Y" class="">NO</td><td id="YMxR" class="" style="width:537px">Timestamp in ms to get funding from INCLUSIVE.</td></tr><tr id="d7b54837-a000-44be-b8a0-cc7aa43a1436"><td id="qUk~" class="">endTime</td><td id="D~oM" class="">LONG</td><td id="la=Y" class="">NO</td><td id="YMxR" class="" style="width:537px">Timestamp in ms to get funding until INCLUSIVE.</td></tr><tr id="e074abbd-a229-4a71-a3e3-6a452e4b5b70"><td id="qUk~" class="">limit</td><td id="D~oM" class="">INT</td><td id="la=Y" class="">NO</td><td id="YMxR" class="" style="width:537px">Default 100; max 1000</td></tr><tr id="a00450a2-cff5-4e6b-a763-3286f2151c52"><td id="qUk~" class="">recvWindow</td><td id="D~oM" class="">LONG</td><td id="la=Y" class="">NO</td><td id="YMxR" class="" style="width:537px"></td></tr><tr id="29c54e03-125a-40ec-a15c-2e0c06ce0aa7"><td id="qUk~" class="">timestamp</td><td id="D~oM" class="">LONG</td><td id="la=Y" class=""><mark class="highlight-teal">YES</mark></td><td id="YMxR" class="" style="width:537px"></td></tr></tbody></table></li></ol><ol type="i" id="f9488006-5e83-4fdd-80f2-a70d5e4f3e84" class="numbered-list" start="3"><li>response<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1c48d110-ecc4-4403-9177-b7d9eefca7df" class="code code-wrap"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">[
+    {
+        &quot;symbol&quot;: &quot;&quot;,                   // trade symbol, if existing
+        &quot;incomeType&quot;: &quot;TRANSFER&quot;,   // income type
+        &quot;income&quot;: &quot;-0.37500000&quot;,  // income amount
+        &quot;asset&quot;: &quot;USDT&quot;,                // income asset
+        &quot;info&quot;:&quot;TRANSFER&quot;,          // extra information
+        &quot;time&quot;: 1570608000000,      
+        &quot;tranId&quot;:&quot;9689322392&quot;,      // transaction id
+        &quot;tradeId&quot;:&quot;&quot;                    // trade id, if existing
+    },
+    {
+        &quot;symbol&quot;: &quot;BTCUSDT&quot;,
+        &quot;incomeType&quot;: &quot;COMMISSION&quot;, 
+        &quot;income&quot;: &quot;-0.01000000&quot;,
+        &quot;asset&quot;: &quot;USDT&quot;,
+        &quot;info&quot;:&quot;COMMISSION&quot;,
+        &quot;time&quot;: 1570636800000,
+        &quot;tranId&quot;:&quot;9689322392&quot;,
+        &quot;tradeId&quot;:&quot;2059192&quot;
+    }
+]</code></pre></li></ol><ol type="i" id="e181381e-bd1b-412a-95d8-bb1a505b3f8a" class="numbered-list" start="3"><li>필요 데이터 체크<ol type="1" id="8cfd8eca-1a5c-41b2-8365-bc11e7769577" class="numbered-list" start="1"><li>✅ 시간(Time) : <code>time</code></li></ol><ol type="1" id="e90558bf-a309-4cd7-8caf-a26b25f83a8e" class="numbered-list" start="2"><li>✅ 타입(Type) : <code>incomeType</code> or <code>info</code></li></ol><ol type="1" id="f3bb68cf-6a07-4f9a-89da-7da4472ec018" class="numbered-list" start="3"><li>✅ 수량(Amount) : <code>income</code></li></ol><ol type="1" id="13c534bf-3325-4cd5-bad1-458c87ffc93a" class="numbered-list" start="4"><li>✅ 단위(Asset) :<code>asset</code> </li></ol><ol type="1" id="68ecca36-619f-4507-98a8-1a78b915893c" class="numbered-list" start="5"><li>✅ 코인심벌(Symbol) : <code>symbol</code></li></ol></li></ol><p id="823b0df3-2f92-4cc8-b104-1ba0bc7ff16d" class="">
+</p></li></ol></li></ol><p id="4e20898f-1f44-4859-a799-852ce1695448" class="">
+</p><p id="106a916b-0b3d-474c-ae25-cc0e8ac2f7c2" class="">
+</p><p id="f1c8fba5-be69-4819-852e-364473d82843" class="">
+</p><p id="3202f8fe-707a-476b-aaac-b1b2acce7884" class="">
+</p><p id="852182cf-a179-4c84-bbe9-011476ef5a99" class="">
+</p><p id="54497d85-cf45-445a-bd24-d0db55cfc9b6" class="">
+</p><p id="004aa5c7-c60f-4060-be8b-b495886beb7f" class="">
+</p></div></details><p id="bb9ae337-f674-44b3-9665-76f678799e5d" class="">
+</p><p id="1114f555-770e-472f-a13f-3a3086004cce" class="">
+</p><h2 id="52b33738-a2f6-4bc1-9060-ac6123e58e7f" class="">관련문서</h2><figure id="20efcbce-636a-403f-94eb-c80d0198adb4"><div class="source"><a href="%EC%A3%BC%EB%AC%B8%EC%A1%B0%EC%9E%91%EA%B8%B0%EB%8A%A5%20BDD%20%EA%B8%B0%ED%9A%8D%EB%AC%B8%EC%84%9C(update_2023%2002%2006)/(221209)%25EC%25A3%25BC%25EB%25AC%25B8%25EA%25B4%2580%25EB%25A6%25AC_%25EC%25A1%25B0%25ED%259A%258C_%25ED%2599%2594%25EB%25A9%25B4_%25EA%25B8%25B0%25ED%259A%258D_%25EC%25B4%2588%25EC%2595%2588.pdf">(221209)주문관리_조회 화면 기획 초안.pdf</a></div></figure><figure id="7b478244-aede-4ead-a934-fd6bb132c31a"><a href="https://www.binance.com/en/support/faq/binance-options-api-interface-and-websocket-fe0be251ac014a8082e702f83d089e54" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Binance Options API interface | Binance Support</div><div class="bookmark-description">The Github link for each query will provide access to the corresponding Endpoints Weights, Parameters, and Responses. The Github link for each query will provide access to the corresponding Endpoints Weights, Parameters, and Responses. You can subscribe or unsubscribe to any stream listed below by using the requests listed in the WebSocket section.</div></div><div class="bookmark-href"><img src="https://bin.bnbstatic.com/static/images/common/favicon.ico" class="icon bookmark-icon"/>https://www.binance.com/en/support/faq/binance-options-api-interface-and-websocket-fe0be251ac014a8082e702f83d089e54</div></div><img src="https://public.bnbstatic.com/images/common/ogImage.jpg" class="bookmark-image"/></a></figure><table id="a15b6535-a0f1-4fb9-863f-82aeddd66bc2" class="simple-table"><tbody><tr id="36d1e192-3303-4950-8ac6-9a1b2e3a2781"><td id="UTFH" class="">Name</td><td id="mZsM" class="">Type</td><td id="EbZw" class="">Mandatory</td><td id="I;Wf" class="">Description</td></tr><tr id="f1787c31-776d-447d-a382-b8bcce623660"><td id="UTFH" class="">symbol</td><td id="mZsM" class="">STRING</td><td id="EbZw" class="">YES</td><td id="I;Wf" class=""></td></tr><tr id="44a36517-76ae-40b7-b46f-205b6aad04f2"><td id="UTFH" class="">side</td><td id="mZsM" class="">ENUM</td><td id="EbZw" class="">YES</td><td id="I;Wf" class=""></td></tr><tr id="bc37e231-9179-419e-8363-e231cb381d6f"><td id="UTFH" class="">positionSide</td><td id="mZsM" class="">ENUM</td><td id="EbZw" class="">NO</td><td id="I;Wf" class="">Default <code>BOTH</code> for One-way Mode ; <code>LONG</code> or <code>SHORT</code> for Hedge Mode. It must be sent in Hedge Mode.</td></tr><tr id="03fddf21-0a94-4b80-80fd-6aa45e4d6277"><td id="UTFH" class="">type</td><td id="mZsM" class="">ENUM</td><td id="EbZw" class="">YES</td><td id="I;Wf" class=""></td></tr><tr id="97f7909c-5f5e-48ca-98a8-738c04d2d3b9"><td id="UTFH" class="">timeInForce</td><td id="mZsM" class="">ENUM</td><td id="EbZw" class="">NO</td><td id="I;Wf" class=""></td></tr><tr id="856f5665-385c-4fb6-85ad-3a8ed2ec7180"><td id="UTFH" class="">quantity</td><td id="mZsM" class="">DECIMAL</td><td id="EbZw" class="">NO</td><td id="I;Wf" class="">Cannot be sent with <code>closePosition</code>=<code>true</code>(Close-All)</td></tr><tr id="00affa6f-ce2d-4884-8d19-74e9ac15baf4"><td id="UTFH" class="">reduceOnly</td><td id="mZsM" class="">STRING</td><td id="EbZw" class="">NO</td><td id="I;Wf" class="">&quot;true&quot; or &quot;false&quot;. default &quot;false&quot;. Cannot be sent in Hedge Mode; cannot be sent with <code>closePosition</code>=<code>true</code></td></tr><tr id="a8d56eac-0e7c-41c9-82ef-aa1d16f0d16c"><td id="UTFH" class="">price</td><td id="mZsM" class="">DECIMAL</td><td id="EbZw" class="">NO</td><td id="I;Wf" class=""></td></tr><tr id="d11c808f-dadc-463d-b375-9848750b6921"><td id="UTFH" class="">newClientOrderId</td><td id="mZsM" class="">STRING</td><td id="EbZw" class="">NO</td><td id="I;Wf" class="">A unique id among open orders. Automatically generated if not sent. Can only be string following the rule: <code>^[\.A-Z\:/a-z0-9_-]{1,36}$</code></td></tr><tr id="3ceeffd3-75ac-4e28-86a9-e908dabb2540"><td id="UTFH" class="">stopPrice</td><td id="mZsM" class="">DECIMAL</td><td id="EbZw" class="">NO</td><td id="I;Wf" class="">Used with <code>STOP/STOP_MARKET</code> or <code>TAKE_PROFIT/TAKE_PROFIT_MARKET</code> orders.</td></tr><tr id="8ccf2e57-6c7a-4933-8480-1f4c5a076698"><td id="UTFH" class="">closePosition</td><td id="mZsM" class="">STRING</td><td id="EbZw" class="">NO</td><td id="I;Wf" class=""><code>true</code>, <code>false</code>；Close-All，used with <code>STOP_MARKET</code> or <code>TAKE_PROFIT_MARKET</code>.</td></tr><tr id="cbe1ddf4-efcd-4ab8-a6ad-20e51ca9c23a"><td id="UTFH" class="">activationPrice</td><td id="mZsM" class="">DECIMAL</td><td id="EbZw" class="">NO</td><td id="I;Wf" class="">Used with <code>TRAILING_STOP_MARKET</code> orders, default as the latest price(supporting different <code>workingType</code>)</td></tr><tr id="35eeed13-b516-4d3b-b328-86319a241b49"><td id="UTFH" class="">callbackRate</td><td id="mZsM" class="">DECIMAL</td><td id="EbZw" class="">NO</td><td id="I;Wf" class="">Used with <code>TRAILING_STOP_MARKET</code> orders, min 0.1, max 5 where 1 for 1%</td></tr><tr id="fdbce70a-b254-4254-bd4c-b49b7d5126a5"><td id="UTFH" class="">workingType</td><td id="mZsM" class="">ENUM</td><td id="EbZw" class="">NO</td><td id="I;Wf" class="">stopPrice triggered by: &quot;MARK_PRICE&quot;, &quot;CONTRACT_PRICE&quot;. Default &quot;CONTRACT_PRICE&quot;</td></tr><tr id="55f179f0-5359-4ea4-8a66-68d1d23139c3"><td id="UTFH" class="">priceProtect</td><td id="mZsM" class="">STRING</td><td id="EbZw" class="">NO</td><td id="I;Wf" class="">&quot;TRUE&quot; or &quot;FALSE&quot;, default &quot;FALSE&quot;. Used with <code>STOP/STOP_MARKET</code> or <code>TAKE_PROFIT/TAKE_PROFIT_MARKET</code> orders.</td></tr><tr id="669aed00-a277-46bf-83f2-24c9ed4ae24a"><td id="UTFH" class="">newOrderRespType</td><td id="mZsM" class="">ENUM</td><td id="EbZw" class="">NO</td><td id="I;Wf" class="">&quot;ACK&quot;, &quot;RESULT&quot;, default &quot;ACK&quot;</td></tr><tr id="ca4f81b9-93c1-4445-9e83-f1c4dca46e57"><td id="UTFH" class="">recvWindow</td><td id="mZsM" class="">LONG</td><td id="EbZw" class="">NO</td><td id="I;Wf" class=""></td></tr><tr id="02d355da-d030-4f45-9c84-dbc88ec337be"><td id="UTFH" class="">timestamp</td><td id="mZsM" class="">LONG</td><td id="EbZw" class="">YES</td><td id="I;Wf" class=""></td></tr></tbody></table></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

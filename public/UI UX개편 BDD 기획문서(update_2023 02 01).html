@@ -1,0 +1,717 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>[셀피] UI/UX개편 BDD 기획문서(update_2023.02.01)</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(134, 131, 126, 1);
+	fill: rgba(134, 131, 126, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(134, 131, 126, 1);
+	fill: rgba(134, 131, 126, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="86251637-5fd6-44e9-a5b5-d02c6bab5744" class="page sans"><header><div class="page-header-icon undefined"><img class="icon" src="%5B%EC%85%80%ED%94%BC%5D%20UI%20UX%EA%B0%9C%ED%8E%B8%20BDD%20%EA%B8%B0%ED%9A%8D%EB%AC%B8%EC%84%9C(update_2023%2002%2001)/BDD-logo.png"/></div><h1 class="page-title">[셀피] UI/UX개편 BDD 기획문서(update_2023.02.01)</h1><p class="page-description"></p></header><div class="page-body"><hr id="6947403f-f4dd-4701-8e57-37c9c4a32ea2"/><h2 id="bf92f229-339a-4aae-a5db-e6a8fd9c4689" class="">* UX/UI 개편 개요</h2><ul id="06b42695-fc32-4561-9f81-db764cd6e573" class="bulleted-list"><li style="list-style-type:disc">요약 : 홈→ 대시보드(계산 → 주문 → 관리) → 오토봇</li></ul><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="b581fa98-436c-4f36-98a9-5006f07383a1"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">의의 : “주문넣기”가 추가됨에 따라 <span style="border-bottom:0.05em solid">대시보드 디자인 수정</span>을 통해 셀프레시피 서비스 완전성과<mark class="highlight-red"> </mark>상품의 <mark class="highlight-red"><strong>완성도</strong></mark>를 높이고 <mark class="highlight-blue"><strong>확장가능한 상품</strong></mark>으로 발돋움함에 의의가 있음.<blockquote id="034d22aa-572f-44d1-8ffe-8e5e14bf9279" class="">기존의 정돈되지 않은 화면(UI)들을 개편해서 어색함이 없는 완전한 서비스로서 탈바꿈 후 최고의 고객경험(UX)을 만들어 내기 위함.</blockquote></div></figure><h3 id="3710c5ff-85da-44b6-b9c3-ba0318288d7c" class="">개발 일정 체크 (2주)</h3><table id="d68c39f4-9659-4462-b3c6-8f10ebeb0bd8" class="simple-table"><thead class="simple-table-header"><tr id="dc3f8f73-0ef0-4113-8ce8-d765621e2c10"><th id="yc]U" class="simple-table-header-color simple-table-header" style="width:44.98579406738281px">순서</th><th id="{^u;" class="simple-table-header-color simple-table-header" style="width:70.98579406738281px">완료여부</th><th id="@mRW" class="simple-table-header-color simple-table-header" style="width:204.9630584716797px">과업</th><th id="A_dc" class="simple-table-header-color simple-table-header" style="width:565.9630737304688px">설명</th><th id="]Q@&gt;" class="block-color-blue_background simple-table-header" style="width:109.09942626953125px">화면 개발</th><th id="h:]@" class="simple-table-header-color simple-table-header" style="width:109.99999237060547px">기능 개발</th><th id="c\_W" class="block-color-red_background simple-table-header" style="width:107.98579406738281px">테섭 마강</th></tr></thead><tbody><tr id="0d2257a5-c14d-4026-92b4-f53bb00b1278"><td id="yc]U" class="" style="width:44.98579406738281px">1</td><td id="{^u;" class="" style="width:70.98579406738281px">완료</td><td id="@mRW" class="" style="width:204.9630584716797px">(모바일/PC) 대시보드 UI 변경</td><td id="A_dc" class="" style="width:565.9630737304688px">(PC) 대시보드를 1)차트, 2)계산기 3)주문서, 4)관리창 으로 구분해서 한 페이지에 모두 구현 <br/> * 계산기/주문서는 “탭” 형식으로 구현, 계산이 완료된 상태에서는 <strong>주문유도 버튼</strong> 생성<br/><br/>(모바일) 대시보드를 1)계산기, 2)주문서, 3)차트 (+ 관리창)으로 한 페이지에 하나의 기능만 구현<br/>* 계산기/주문서는 “탭” 형식으로 구현<br/>* 차트는 대시보드 탭 우측에 아이콘 형식으로 구현<br/>* 계산이 완료된 상태에서는 “주문넣기”를 유도하는 <strong>플로팅버튼이 활성화</strong>됨</td><td id="]Q@&gt;" class="block-color-blue_background" style="width:109.09942626953125px">23.02.01 (수)</td><td id="h:]@" class="" style="width:109.99999237060547px">-</td><td id="c\_W" class="block-color-red_background" style="width:107.98579406738281px">23.02.10 (금)</td></tr><tr id="c6ad1cff-8d82-4273-9683-d5c060370159"><td id="yc]U" class="" style="width:44.98579406738281px">2</td><td id="{^u;" class="" style="width:70.98579406738281px">완료</td><td id="@mRW" class="" style="width:204.9630584716797px">(모바일) 하단 네비게이션 개발</td><td id="A_dc" class="" style="width:565.9630737304688px">네베게이션 클릭시 해당 서비스로 이동<br/>(모바일) 하단 네비게이션을 구현해서 <strong>서비스 여정</strong>을 자연스럽게 드러내기<br/><br/>* 서비스 여정 : 홈(분석) → 대시보드(계산/주문/관리) → 오토봇(자동) <mark class="highlight-gray">(→ 랭킹)</mark> → 거래소</td><td id="]Q@&gt;" class="block-color-blue_background" style="width:109.09942626953125px">23.02.02 (목)</td><td id="h:]@" class="" style="width:109.99999237060547px">23.02.03 (금)</td><td id="c\_W" class="block-color-red_background" style="width:107.98579406738281px">“</td></tr><tr id="fb1cc567-2356-4cc4-8894-5bd4bde260a2"><td id="yc]U" class="" style="width:44.98579406738281px">3</td><td id="{^u;" class="" style="width:70.98579406738281px">완료</td><td id="@mRW" class="" style="width:204.9630584716797px">(모바일/PC) 일괄주문창 화면개발</td><td id="A_dc" class="" style="width:565.9630737304688px">“주문하기”버튼 클릭시 계산기와 연동된 <strong>주문서</strong>에서 “일괄주문”가능<br/>(PC) 계산기 하단 “주문하기” 버튼 <br/>(Mobile) 화면 우측 하단부(오른손 엄지손가락)에  “주문하기” 플로팅 버튼<br/><br/>* 주문내역 : 투자할 코인, 레버리지, 투자가능금액(잔고), 호가별 투자금액</td><td id="]Q@&gt;" class="block-color-blue_background" style="width:109.09942626953125px">23.02.06 (월)</td><td id="h:]@" class="" style="width:109.99999237060547px">23.02.07 (화)</td><td id="c\_W" class="block-color-red_background" style="width:107.98579406738281px">“</td></tr><tr id="13bdb43b-eecb-4394-aba0-0fbcd6042de4"><td id="yc]U" class="" style="width:44.98579406738281px">4</td><td id="{^u;" class="" style="width:70.98579406738281px">진행중</td><td id="@mRW" class="" style="width:204.9630584716797px">(모바일/PC) 코인 티커 추가 </td><td id="A_dc" class="" style="width:565.9630737304688px">코인 Ticker 정보 추가<br/>* ticker 정보 : 현재가, 24시 변동율, 24시 변동금, 24시 최저가, 24시 최고가, 24시 거래량, 24시 거래대금</td><td id="]Q@&gt;" class="block-color-blue_background" style="width:109.09942626953125px">23.02.10 (금)</td><td id="h:]@" class="" style="width:109.99999237060547px">23.02.13 (월)</td><td id="c\_W" class="block-color-red_background" style="width:107.98579406738281px">23.02.17 (금)</td></tr><tr id="829591be-59e5-48f2-9e62-72f2abf166f6"><td id="yc]U" class="" style="width:44.98579406738281px"></td><td id="{^u;" class="" style="width:70.98579406738281px"></td><td id="@mRW" class="" style="width:204.9630584716797px">(모바일/PC) 포지션취소 화면개발</td><td id="A_dc" class="" style="width:565.9630737304688px">1. 일괄취소(Close All Position)<br/>2. 단일취소(Marke/Limit)</td><td id="]Q@&gt;" class="block-color-blue_background" style="width:109.09942626953125px">23.02.03 (금)</td><td id="h:]@" class="" style="width:109.99999237060547px">23.02.15 (수)</td><td id="c\_W" class="block-color-red_background" style="width:107.98579406738281px">“</td></tr><tr id="4f432edf-0735-4f24-8d35-cc80c48333b1"><td id="yc]U" class="" style="width:44.98579406738281px"></td><td id="{^u;" class="" style="width:70.98579406738281px"></td><td id="@mRW" class="" style="width:204.9630584716797px">(모바일/PC) 주문취소 화면개발</td><td id="A_dc" class="" style="width:565.9630737304688px">1. 일괄/다중 취소(Cancel All)<br/>2. 단일취소(Cancel)</td><td id="]Q@&gt;" class="block-color-blue_background" style="width:109.09942626953125px">“</td><td id="h:]@" class="" style="width:109.99999237060547px">&quot;</td><td id="c\_W" class="block-color-red_background" style="width:107.98579406738281px">“</td></tr><tr id="f36684f0-e20f-4ca9-8d3a-69cd4e31c9ec"><td id="yc]U" class="" style="width:44.98579406738281px"></td><td id="{^u;" class="" style="width:70.98579406738281px"></td><td id="@mRW" class="" style="width:204.9630584716797px"></td><td id="A_dc" class="" style="width:565.9630737304688px"></td><td id="]Q@&gt;" class="block-color-blue_background" style="width:109.09942626953125px"></td><td id="h:]@" class="" style="width:109.99999237060547px"></td><td id="c\_W" class="block-color-red_background" style="width:107.98579406738281px"></td></tr><tr id="1a3e9d9c-7922-4158-9c08-707ff332534e"><td id="yc]U" class="" style="width:44.98579406738281px"></td><td id="{^u;" class="" style="width:70.98579406738281px"></td><td id="@mRW" class="" style="width:204.9630584716797px">(PC) 헤더에 서비스 추가</td><td id="A_dc" class="" style="width:565.9630737304688px">(PC) 헤더 부분에서 모든 서비스로 이동 가능하도록 메뉴 추가하기<br/>* 셀프레시피 제공 서비스 : 대시보드, 오토봇, 명예의 전당(랭킹), 오늘의 코인</td><td id="]Q@&gt;" class="block-color-blue_background" style="width:109.09942626953125px"></td><td id="h:]@" class="" style="width:109.99999237060547px"></td><td id="c\_W" class="block-color-red_background" style="width:107.98579406738281px">“</td></tr><tr id="b1791371-a4d5-43a2-afe5-95b088c7303b"><td id="yc]U" class="" style="width:44.98579406738281px"></td><td id="{^u;" class="" style="width:70.98579406738281px"></td><td id="@mRW" class="" style="width:204.9630584716797px">(모바일/PC) 홈 화면 UI 변경</td><td id="A_dc" class="" style="width:565.9630737304688px"></td><td id="]Q@&gt;" class="block-color-blue_background" style="width:109.09942626953125px"></td><td id="h:]@" class="" style="width:109.99999237060547px"></td><td id="c\_W" class="block-color-red_background" style="width:107.98579406738281px"></td></tr><tr id="8ef16ba2-6bc9-412d-b1e5-0e6f563c0a4d"><td id="yc]U" class="" style="width:44.98579406738281px"></td><td id="{^u;" class="" style="width:70.98579406738281px"></td><td id="@mRW" class="" style="width:204.9630584716797px">(모바일/PC) 랭킹시스템 화면개발</td><td id="A_dc" class="" style="width:565.9630737304688px"></td><td id="]Q@&gt;" class="block-color-blue_background" style="width:109.09942626953125px"></td><td id="h:]@" class="" style="width:109.99999237060547px"></td><td id="c\_W" class="block-color-red_background" style="width:107.98579406738281px"></td></tr></tbody></table><p id="cf605f32-fdfe-4c27-8b87-5fca78f252bc" class="">
+</p><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><mark class="highlight-yellow_background"> 서비스 기능 정의_화면의 관점에서 : 기능 타이틀(서비스 명칭)</mark></summary><div class="indented"><p id="33fc2753-efc3-4652-af3b-1c44aff64952" class="block-color-gray_background"> ✅ 퍼블리싱을 수시로 진행하면서 완성되는 대로 화면 캡쳐본을 각 서비스마다 추가할 예정</p><ol type="1" id="f66ef74e-5854-4e40-9e5b-fb7be69168d2" class="numbered-list" start="1"><li><strong>시황/분석 (홈 or 분석)</strong> : 주요 4가지 코인의 대략적인 시황과 레시피가 분석하는 30개코인의 분석자료를 시각적으로 제공한다. <ol type="a" id="3dc03996-7faa-4008-a4c8-0a53fe999654" class="numbered-list" start="1"><li>목적<ol type="i" id="6c3ab025-783d-4d42-9cf3-6583e98dced6" class="numbered-list" start="1"><li>코인에 대한 (실시간)분석자료를 통해 투자에 필요한 데이터를 제공하기 위함</li></ol><ol type="i" id="22a13f84-b47b-489f-9c3e-eb0beef7eacd" class="numbered-list" start="2"><li>유저들을 셀프레시피의 <strong><span style="border-bottom:0.05em solid">대시보드로 접속</span></strong>시키기 위함</li></ol></li></ol><ol type="a" id="621160e2-f0e7-49d2-b18e-05f2d35119a2" class="numbered-list" start="2"><li>레시피 분석 코인 목록 : 레시피가 분석한 특정 30개 코인에 대한 <mark class="highlight-teal"><strong>BUY</strong></mark><strong>/</strong><mark class="highlight-pink"><strong>SELL</strong></mark> 분석정보 제공<ol type="i" id="83d09608-4d6d-4878-b048-4018252a1020" class="numbered-list" start="1"><li>Top3 코인 정보 : 물타기 지수, 체결강도, 현금비중을 기준으로 각 분석기준별 최상위 3순위 표</li></ol><ol type="i" id="413615e1-269a-4ad1-8651-0e99e81854b2" class="numbered-list" start="2"><li>코인 분석 차트 : 물타기 지수(버블크기), 체결강도(X축), 현금비중(Y축), 기울기()를 시각화한 버블차트</li></ol><ol type="i" id="c1dea088-8de0-4040-bc79-fa69906eb9f2" class="numbered-list" start="3"><li>전체 코인 분석 정보(표)</li></ol></li></ol><ol type="a" id="3df36351-ccc0-4c43-ac87-dfc85542c7cd" class="numbered-list" start="3"><li>실시간 코인 시황 : 주요 4개 코인(BTCUSDT, ETHUSDT, SOLUSDT, XRPUSDT)의 개괄적인 시황 데이터 제공<ol type="i" id="f0f2e2c3-1e74-41c2-9ac8-99a206166d30" class="numbered-list" start="1"><li>실시간 코인시세 : 실시간 현재가, 등락여부, 김프(Upbit), 최근 7일치 등락차트</li></ol><ol type="i" id="5bbba684-0b2d-479c-afb1-ed56a9460fcc" class="numbered-list" start="2"><li>실시간 롱/숏 정보(5분 ~ 1일/바이낸스 :) : 투자고수 계정 비율, 투자고수 포지션 비율, 전체 롱숏 비율, 전체 롱숏 수량</li></ol><ol type="i" id="00c68ed4-577f-46a0-b5a0-427021dd7a36" class="numbered-list" start="3"><li>실시간 미체결 약정 현황 : 미체결약정 시장가치, 미체결약정 수량</li></ol></li></ol></li></ol><ol type="1" id="21801ca1-aa1e-4f02-bf12-e02680fcdd8f" class="numbered-list" start="2"><li><strong>셀프레시피 (대시보드)</strong> : “<mark class="highlight-blue_background">1. 계산하기</mark> → <mark class="highlight-red_background">2. 주문하기</mark> → <mark class="highlight-purple_background">3. 관리하기</mark>”의 셀프레시피만의 과학적 투자방법으로 투자할 수 있는 서비스를 화면에 직관적으로 제공한다.<ol type="a" id="ef126f2e-0794-46ae-b30e-936d2dfd2866" class="numbered-list" start="1"><li>목적<ol type="i" id="fc92953e-b541-4d36-bb11-102dad31824f" class="numbered-list" start="1"><li>알케미랩의 과학적인 투자방법(철학)을 대시보드(UI/UX)로 손쉽게 전달하기 위함</li></ol><ol type="i" id="62924fd6-2ef5-4344-b826-c5c846275145" class="numbered-list" start="2"><li>셀프레시피로 직접 투자하던 유저들을 셀피가 자동화된 <strong><span style="border-bottom:0.05em solid">오토봇으로 전환</span></strong>시키기 위함 </li></ol></li></ol><ol type="a" id="e53fd3bd-622d-4db9-ba88-97cee29d2f40" class="numbered-list" start="2"><li>(계산기) 계산하기 : <strong>홈 </strong>화면에서 선택한 코인의 <mark class="highlight-teal"><strong>BUY</strong></mark><strong>/</strong><mark class="highlight-pink"><strong>SELL</strong></mark> 분석(레시피지수, 체결강도, 청산가격, 청산확률)과 레버리지에 따른 투자금액 계산값을 제공<ol type="i" id="fed40430-8e56-4366-ab22-caf4ef53c087" class="numbered-list" start="1"><li><mark class="highlight-teal"><strong>BUY</strong></mark><strong>/</strong><mark class="highlight-pink"><strong>SELL </strong></mark>호가, 현금비중 제공 : 가격, 비중, 투자금액, 평단가, 체결확률</li></ol><ol type="i" id="1b8937b7-bb73-43d8-a933-baa92295391f" class="numbered-list" start="2"><li>실시간 호가 차트 제공 : 바이낸스 실시간 호가차트, <mark class="highlight-teal"><strong>BUY</strong></mark><strong>/</strong><mark class="highlight-pink"><strong>SELL </strong></mark>호가선(가격, 비중), 청산가선(방향, 가격)</li></ol><ol type="i" id="5c8c79d1-732f-441f-b068-6c3d2e482753" class="numbered-list" start="3"><li>과거 레시피 내역 제공 : 최근 12시간(추후 전체내역으로 고도화) 과거레시피 내역 조회 기능(체결강도,현금비중, 호가, 비중)</li></ol></li></ol><ol type="a" id="f706132d-e5cc-4f1c-b836-ca1735cf25d6" class="numbered-list" start="3"><li>(주문서) 주문하기 : 계산이 완료된 내역(호가/투자금액)을 간편하게 일괄적으로 주문(바이낸스)<ol type="i" id="150b8db2-56b1-42b7-83bc-6003326efe97" class="numbered-list" start="1"><li>*고도화 <ol type="1" id="e5c09e33-6b28-494c-8538-5f8bad8cb34b" class="numbered-list" start="1"><li>자체거래소에서 주문실행 (바이낸스의 호가들과 공유)</li></ol><ol type="1" id="2fdb7bd7-50ce-42a9-a63e-65aa605d779e" class="numbered-list" start="2"><li>지정가 주문 이외에 기타 주문 기능 구현 (스탑리밋, 스탑마켓 등)</li></ol></li></ol></li></ol><ol type="a" id="1834f904-fe6b-4e54-8727-f4cc3d24eed0" class="numbered-list" start="4"><li>(관리창) 관리하기 : 포지션과 대기주문내역을 확인하고 포지션 정리(청산)과 주문취소(일괄/단일)기능 제공</li></ol></li></ol><ol type="1" id="5c7ef85d-a6a3-41f3-ac88-4afb2c9f408f" class="numbered-list" start="3"><li><strong>오토레시피 (오토봇 or 쫄보)</strong> : 셀프레시피(<mark class="highlight-blue_background">계산</mark> + <mark class="highlight-red_background">주문</mark> + <mark class="highlight-purple_background">관리</mark>)를 <strong>자동화</strong>한 서비스를 제공한다.<ol type="a" id="2d674ca1-788d-4ee7-b1bf-652ebb130eac" class="numbered-list" start="1"><li>목적<ol type="i" id="9c1dc9b1-ccf8-4682-bea2-58673c317f6d" class="numbered-list" start="1"><li>직접 투자하는 것이 귀찮은 유저들에게 자동투자 서비스를 제공</li></ol><ol type="i" id="19ad521f-5706-42d9-a1f5-189f381871a0" class="numbered-list" start="2"><li>기존에 사용하던 거래소를 바이낸스에서 <strong><span style="border-bottom:0.05em solid">자체거래소로 연동</span></strong>시키기 위함</li></ol></li></ol><ol type="a" id="1fffa0d8-123c-454c-a7a6-a0bd6f4d6bfb" class="numbered-list" start="2"><li>(커스텀) 오토봇 파라미터 설정하기<ol type="i" id="5949a6e5-4748-4b8a-ab28-c8cdeee7d5c9" class="numbered-list" start="1"><li>투자 코인 선정하기</li></ol><ol type="i" id="bf1f86f8-bd2d-4365-bef2-aaa8cf9beb9c" class="numbered-list" start="2"><li>레버리지 &amp; 체결률(위험도) 설정하기</li></ol><ol type="i" id="b94e7c37-c7ce-4264-9ee6-8c08ff2b5dfd" class="numbered-list" start="3"><li>매매 주기 설정하기</li></ol></li></ol><ol type="a" id="5e2f7d8e-7a5e-486a-9018-aecba611736f" class="numbered-list" start="3"><li>(온오프) 오토봇 온오프 하기</li></ol><ol type="a" id="023ad576-aa2c-4049-9b63-592de26ed47b" class="numbered-list" start="4"><li>(대시보드) 오토봇의 매매(투자) 상황보기</li></ol><ol type="a" id="1e75a382-6c0a-4a39-ae42-ade6bb2f4fa0" class="numbered-list" start="5"><li>(저장소) 오토봇 매매 기록과 투자성과 살펴보기</li></ol></li></ol><ol type="1" id="a6c61d0c-3fb7-4f15-89dc-b296bc49ed23" class="numbered-list" start="4"><li><strong>셀</strong><mark class="highlight-gray">(프레시피)(미니홈)</mark><strong>피</strong> (<strong>명예의 전당 or 랭킹)</strong> : 다른 셀프레시피 사용자들의 투자성과(수익률)정보 열람기능과 랭킹시스템, 소통기능 제공<ol type="a" id="a517235a-4df4-48c0-9cf5-7d02d126b3c9" class="numbered-list" start="1"><li>목적<ol type="i" id="ce803c35-b649-407f-b78d-296dc05c9a22" class="numbered-list" start="1"><li>랭킹 시스템으로 사용자들의 참여도를 높이기 위함</li></ol><ol type="i" id="e7072d11-ea87-48d6-b102-7d493040145a" class="numbered-list" start="2"><li>사용자들의 커뮤니티의 역할로써 서비스 체류시간을 늘리기 위함</li></ol><ol type="i" id="5c79024c-4166-4fc0-b01b-1c3ffe4ce2ce" class="numbered-list" start="3"><li>나도 할 수 있다라는 걸 보여주면서 서비스 충성와 만족도를 높이기 위함</li></ol><ol type="i" id="8f4149de-c618-48a2-802e-84ad89c252e5" class="numbered-list" start="4"><li>기존에 사용하던 거래소를 바이낸스에서 <strong><span style="border-bottom:0.05em solid">자체거래소로 연동</span></strong>시키기 위함</li></ol></li></ol><ol type="a" id="7a541c87-4530-44f0-ba0c-b2ebc2fb8afd" class="numbered-list" start="2"><li>(내 셀피) 내 계정정보 제공 :  셀프레시피를 사용한 수익률 데이터와 현재 포트폴리오 정보, 게시판(or 채팅방) 제공</li></ol><ol type="a" id="d5f3fb6e-98e9-4451-91a7-c3991f3ce661" class="numbered-list" start="3"><li>(명예의 전당) 타 유저들 포트폴리오 보기 : 수익률 데이터를 내림차순으로 제공 (기간 설정가능)<ol type="i" id="fbb64d79-21b4-4de3-8a45-c3d7863def9a" class="numbered-list" start="1"><li>타 유저의 셀피 열람 가능 : 투자관련 데이터 열람</li></ol><ol type="i" id="d63a8535-ba53-4bd7-bee6-d26561594b5d" class="numbered-list" start="2"><li>열람 데이터 : 투자수익률, 투자수익금, 거래소 연동 후의 리베이트 금액</li></ol></li></ol><ol type="a" id="f143e3ce-1a0a-4018-a417-90019d5134d9" class="numbered-list" start="4"><li>(커뮤니티) 타 유저의 셀피에 댓글(or 채팅) 가능 </li></ol></li></ol><ol type="1" id="21bb88f7-907d-44f5-814a-61643eb5a323" class="numbered-list" start="5"><li><strong>자체거래소 (Two-Twenty or 2-20)</strong> : 거래소에서 투자(<mark class="highlight-blue_background">계산</mark> + <mark class="highlight-red_background">주문</mark> + <mark class="highlight-purple_background">관리</mark>)하는 사람이 많을수록 계속해서 돈이 벌리는 거래소시스템을 제공한다. <ol type="a" id="2fa39d94-928a-405a-9574-84889b9bac7d" class="numbered-list" start="1"><li>목적<ol type="i" id="50c9ba5a-b662-4110-900e-28375acb6f4c" class="numbered-list" start="1"><li>바이낸스의 호가를 공유하는 비전울 유인요건으로 네트워크 마케팅 수익 창출</li></ol><ol type="i" id="ed317b16-ce61-47ae-ac3b-e7acc9d63450" class="numbered-list" start="2"><li>거래수수료 리베이트의 비전을 유인요건으로 네트워크 마케팅 수익 창출</li></ol><ol type="i" id="279440a9-55c8-4592-b69a-4dd70df11322" class="numbered-list" start="3"><li>거래수수료 리베이트를 통한 <strong><span style="border-bottom:0.05em solid">자체 수익 창출</span></strong></li></ol></li></ol><ol type="a" id="981971a5-d180-4b51-bcf5-7ed005cf72d9" class="numbered-list" start="2"><li>(가입) 거래소 가입하기</li></ol><ol type="a" id="b5237295-06a1-4d0c-94f2-94304fd618bc" class="numbered-list" start="3"><li>(보안/인증) </li></ol><ol type="a" id="85fc2123-9cf2-490b-8986-08c2c3302a82" class="numbered-list" start="4"><li>(설정) 지갑 &amp; API 발급</li></ol><ol type="a" id="8751a668-012d-44d7-bc9d-389d54578ad7" class="numbered-list" start="5"><li>(사용) 거래소에서 </li></ol></li></ol><ol type="1" id="344ebab2-aaa1-47fd-9e26-5fb31175af9c" class="numbered-list" start="6"><li><del><strong>펀드 (이너스 or 쫄보) : ??</strong></del></li></ol><p id="db7f5f94-5345-450d-8816-388a8aad1c9b" class="">
+</p><p id="d0b5bb32-10c2-4bab-b670-d07f775eb752" class="">
+</p><h3 id="79217a69-d5b0-4973-86c3-76f695b50f17" class="block-color-orange_background"> 유저 사용 여정</h3><ol type="1" id="afa17267-548e-4078-9bdd-b11cdd9e9c5d" class="numbered-list" start="1"><li>Mobile  접속 <ol type="a" id="e5364f1e-a44c-4b86-a51a-e5006615a616" class="numbered-list" start="1"><li></li></ol></li></ol><ol type="1" id="94a25847-87ae-4bb1-bab8-4e5a121a0b4f" class="numbered-list" start="2"><li>PC 접속<ol type="a" id="afe9a5db-96ea-4317-a18c-1627db2fc6b9" class="numbered-list" start="1"><li></li></ol></li></ol><p id="c9e24226-4bc6-43c7-9987-6221b224bcfc" class="">
+</p><h3 id="75bfbaa2-9dcb-40ed-8a31-8da8de1fa19d" class="block-color-red_background"> 수익모델(구조) </h3><ol type="1" id="2c468a76-1c07-49e5-b498-48ee29ab57bf" class="numbered-list" start="1"><li>총판 <strong>네트워크 매출 </strong>쉐어 : 월 3,000만원 + a </li></ol><ol type="1" id="10152565-52da-4dbe-808d-26baebcc245c" class="numbered-list" start="2"><li>(알케미랩 레퍼런스 적용된) API 키 발급 후 거래 <strong>수수료 리베이트</strong></li></ol><ol type="1" id="0eed51a2-7ab2-4ccc-986f-f297748eba5e" class="numbered-list" start="3"><li>자체<strong>거래소</strong> 가입후 API 연동시 받는 거래 수수료 리베이트</li></ol><p id="ad5f9c13-33f7-4b0f-b4b1-8c3815c1c266" class="">
+</p><h3 id="67fcabaf-f779-4f31-bb75-5f816bc15ae1" class="block-color-blue_background"> 확장가능성</h3><ol type="1" id="69673239-e093-489f-9244-e689bf4d4646" class="numbered-list" start="1"><li>셀피서비스의 네트워크 사업을 <strong>글로벌로 확장</strong> : 일본, 중국, 동남아 …</li></ol><ol type="1" id="891f41f5-f5fa-412a-a688-1ee6cf9fba8f" class="numbered-list" start="2"><li>거래소에 <strong>일반유저도 유입</strong>가능하도록 확장</li></ol><p id="fda69534-56e4-4623-b2d3-601ad17456b4" class="">
+</p></div></details><p id="c37f9727-887b-4d34-9ddf-8ba0ee36a709" class="">
+</p><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"> (모바일/PC) 대시보드 UI 변경</summary><div class="indented"><div id="aba0d412-d95f-4ff6-9939-2b3bd40b7a13" class="column-list"><div id="567b3820-8d06-481d-a08f-1c721ee0111f" style="width:100%" class="column"><ol type="1" id="ef4f9293-a065-434f-baa4-760009ce53e2" class="numbered-list" start="1"><li>기존 HTML 화면 요조<ol type="a" id="913ad343-c9f3-457d-b28f-f0c85dea4397" class="numbered-list" start="1"><li>모바일 대시보드 메뉴</li></ol><ol type="a" id="551423d1-6007-4fd0-b0ab-ab213691c56c" class="numbered-list" start="2"><li>타이틀 섹션<ol type="i" id="884432c8-0caf-41bf-9d32-c4d02ed10a11" class="numbered-list" start="1"><li>PC 타이틀<ol type="1" id="165671fe-84e7-4dc6-a0a4-2dff8e107363" class="numbered-list" start="1"><li>트레이딩 타이틀</li></ol><ol type="1" id="f6ab195b-c6ac-4863-a39b-281d16dbba72" class="numbered-list" start="2"><li>PC 대시보드 메뉴</li></ol><ol type="1" id="b3a74fe7-48ba-4771-9148-4921ba4260c9" class="numbered-list" start="3"><li>모바일 계산기 타이틀 (표↔차트)</li></ol></li></ol><ol type="i" id="9a15c614-93a1-4977-adbb-c644ca5b569e" class="numbered-list" start="2"><li>모바일 주문서 타이틀</li></ol></li></ol><ol type="a" id="f8e7822c-39f9-4be6-b548-c3f8f52c90ec" class="numbered-list" start="3"><li>대시보드 섹션<ol type="i" id="5dbf599e-08af-4747-9ae4-eea400e50730" class="numbered-list" start="1"><li>차트 + 계산기 <ol type="1" id="76a8e093-c6d5-4a63-9e8c-2445de66edd2" class="numbered-list" start="1"><li>트레이딩뷰 섹션</li></ol><ol type="1" id="4b78cd06-f12e-4232-a221-c0234d3ffefd" class="numbered-list" start="2"><li>계산기 섹션</li></ol></li></ol><ol type="i" id="1245568a-c413-4953-b531-1d8229cd3ce1" class="numbered-list" start="2"><li>주문서 + 관리창<ol type="1" id="3e808e34-f306-4154-b952-a2f87c7c826a" class="numbered-list" start="1"><li>주문서 섹션</li></ol><ol type="1" id="b0d6d418-c805-43cb-b336-3d4f859adbe7" class="numbered-list" start="2"><li>관리창 섹션</li></ol></li></ol></li></ol><ol type="a" id="651725f4-4d3c-4721-945c-5c7687ff073a" class="numbered-list" start="4"><li>주문관리창 섹션<ol type="i" id="99dc934c-c6cc-49be-829e-d295eb8e50d3" class="numbered-list" start="1"><li>주문관리 탭<ol type="1" id="ecb63481-6094-4b54-8719-a35c8a872ddb" class="numbered-list" start="1"><li>관리창<ol type="a" id="70420efd-541b-465e-a05e-25ab298c2e3a" class="numbered-list" start="1"><li>포지션 타이틀</li></ol><ol type="a" id="8d69129d-4fe9-439c-a6e1-febab2724286" class="numbered-list" start="2"><li>대기주문 타이틀</li></ol><ol type="a" id="d3811865-98f5-4e41-b257-43dcc755fff2" class="numbered-list" start="3"><li>주문체결내역 타이틀</li></ol><ol type="a" id="26ef7364-2faa-41f3-a02f-ff69ad1abbf9" class="numbered-list" start="4"><li>USDT 증감내역 타이틀</li></ol></li></ol><ol type="1" id="8dc4ef92-1c97-4bb3-bec7-c75471425b1c" class="numbered-list" start="2"><li>계산기<ol type="a" id="2bd7f12f-dd38-4c1f-b4fe-0dee52061d71" class="numbered-list" start="1"><li>과거 레시피 타이틀</li></ol></li></ol></li></ol><ol type="i" id="517f3bf4-2b3b-43b4-863a-795820d61745" class="numbered-list" start="2"><li>주문관리 데이터<ol type="1" id="654d8447-5f0e-41c2-99b6-dd7c51fc60e8" class="numbered-list" start="1"><li>포지션 데이터</li></ol><ol type="1" id="a650f344-c6a4-46fa-9248-2677495cba8e" class="numbered-list" start="2"><li>대기주문 데이터</li></ol><ol type="1" id="24d8bcd0-28b8-4cc5-8048-b5918e591dee" class="numbered-list" start="3"><li>주문체결내역 데이터</li></ol><ol type="1" id="ebf9cc1c-fe45-4c8f-8c0d-7714f874c0b0" class="numbered-list" start="4"><li>USDT 증감내역 데이터</li></ol><ol type="1" id="781b7106-aee3-4b50-9447-5e950e0b7165" class="numbered-list" start="5"><li>과거 레시피 데이터</li></ol></li></ol></li></ol></li></ol></div><div id="49487b22-be54-494d-a0a9-2f9895e9912a" style="width:100%" class="column"><ol type="1" id="e16d85eb-3935-4cd5-957f-5873c7f3e738" class="numbered-list" start="2"><li>변경 HTML 화면 구조<ol type="a" id="da1265d5-ed5a-41a0-a3b9-46c1e72bb956" class="numbered-list" start="1"><li>대시보드 탭 섹션 <ol type="i" id="bff26480-a917-4e5a-8ff6-48bf1be7eac6" class="numbered-list" start="1"><li>(PC /Mobile) 메인 타이틀 <ol type="1" id="bc97d9f8-5f9f-45f9-87ab-008145689d2d" class="numbered-list" start="1"><li>코인 타이틀</li></ol><ol type="1" id="e5f36a0e-4241-4381-b166-0f64915c0ad1" class="numbered-list" start="2"><li>코인 티커</li></ol></li></ol><ol type="i" id="2d801ccf-e186-415f-8e5c-0a872a2e7cca" class="numbered-list" start="2"><li>(Mobile) 차트 ↔ 표 전환 메뉴 </li></ol></li></ol><ol type="a" id="6d30bbf0-0763-4b21-82ac-19557fbaa8c5" class="numbered-list" start="2"><li>대시보드 액션 섹션<ol type="i" id="20b16796-0b00-4e6a-9f15-415505356ad8" class="numbered-list" start="1"><li>차트 섹션<ol type="1" id="4dcc04ef-d285-4496-b367-955780a8f7bc" class="numbered-list" start="1"><li>라인 선택탭 : 안내선, 대기주문, 포지션</li></ol><ol type="1" id="b2ad16dd-9cbc-4013-95c3-1e21b9d04277" class="numbered-list" start="2"><li>트 레이딩뷰</li></ol></li></ol><ol type="i" id="966d3520-6d47-4e7f-9d31-0914c42d44a3" class="numbered-list" start="2"><li>표 섹션 <ol type="1" id="327e0aba-8030-411a-9a6e-d4007aa16392" class="numbered-list" start="1"><li>(Mobile) <mark class="highlight-red">표 선택 탭 : 계산기, 주문서, 관리창</mark></li></ol><ol type="1" id="03eb3f68-3a5b-4358-829b-d8f604d374c0" class="numbered-list" start="2"><li>분석 정보 <ol type="a" id="cf30f971-c6ea-4161-9e44-f72cbed3a5c7" class="numbered-list" start="1"><li>계산기 내역</li></ol><ol type="a" id="9a1ab0f2-008b-4287-b25b-082a26ed67ea" class="numbered-list" start="2"><li>주문서 내역</li></ol></li></ol></li></ol></li></ol><ol type="a" id="66d4a28c-f955-4add-9048-d63c8671cc69" class="numbered-list" start="3"><li>대시보드 관리 섹션<ol type="i" id="80bcb53e-3c3b-4601-ae9d-514e03640577" class="numbered-list" start="1"><li>탭 섹션<ol type="1" id="78e5d064-276d-47f4-91d3-80147813b940" class="numbered-list" start="1"><li>포지션</li></ol><ol type="1" id="abbadf4e-2c2e-442f-99ea-65d4e2b3a8af" class="numbered-list" start="2"><li>대기주문</li></ol><ol type="1" id="3c1478dd-bf3b-43e2-b052-3bfbaee1612c" class="numbered-list" start="3"><li>주문체결내역</li></ol><ol type="1" id="71683d4a-1773-4d12-9af5-a2e52a65ccd8" class="numbered-list" start="4"><li> USDT 증감내역</li></ol><ol type="1" id="75261ce9-45ae-45ca-861d-15d875c7c226" class="numbered-list" start="5"><li>과거레시피</li></ol></li></ol><ol type="i" id="abf5a794-a92e-4d22-add2-27605f979ad0" class="numbered-list" start="2"><li>콘텐츠 섹션<ol type="1" id="26212c63-2ead-4c27-9a79-27c54db827b0" class="numbered-list" start="1"><li>포지션 정보</li></ol><ol type="1" id="6c57e922-d982-4a58-9e6f-37dee527344e" class="numbered-list" start="2"><li>대기주문 정보</li></ol><ol type="1" id="aca9b2d1-04a4-440e-b917-984e81bd4473" class="numbered-list" start="3"><li>주문체결내역 정보</li></ol><ol type="1" id="afd45bef-c681-47dd-82dd-464bc6e0bb88" class="numbered-list" start="4"><li> USDT 증감내역 정보</li></ol><ol type="1" id="2545404b-fd53-4c16-8cf0-40fd4e8b877a" class="numbered-list" start="5"><li>과거레시피 내역</li></ol></li></ol><p id="8a30c746-21da-4613-ba32-e24cc1d5ceb9" class="">
+</p></li></ol><p id="8dca50cf-2907-4eeb-becf-ead5578bd458" class=""><div class="indented"><p id="d289b6c4-e2ef-4780-b7d5-4cdf2ecca0ab" class="">
+</p></div></p></li></ol></div></div></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"> (모바일/PC) 일괄주문창 개발</summary><div class="indented"><ul id="fd400867-1fa8-4ad8-ade3-baf19fdf1c67" class="bulleted-list"><li style="list-style-type:disc">주문서 반영된 UI </li></ul><p id="12abd884-a2a0-4ffc-bc82-ef38df07bb19" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"> (모바일) 하단 네비게이션 개발</summary><div class="indented"><ul id="02e1ded4-6efe-49d5-8491-2a02ec75907e" class="bulleted-list"><li style="list-style-type:disc">완료 </li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"> 단일 주문 넣기</summary><div class="indented"><ul id="256d6d41-25ce-41fb-8d99-b60ab3edc7f8" class="bulleted-list"><li style="list-style-type:disc">추후 고도화</li></ul><p id="74c2b62e-df20-4e28-94ff-a77e6f16d6bc" class="">
+</p></div></details></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

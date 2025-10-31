@@ -97,19 +97,44 @@ export const projects: Project[] = [
     summary: "TradingView 도입과 실시간 연결로 시각화 중심 UX 구현.",
     cover: "/covers/selfrecipe.png",
     gallery: ["/selfrecipe/s-2023-0.png", "/selfrecipe/s-2023-1.png", "/selfrecipe/s-2023-2.png", "/selfrecipe/s-2023-3.png", "/selfrecipe/s-2023-4.png", "/selfrecipe/s-2023-5.png", "/selfrecipe/s-2023-6.png", "/selfrecipe/s-2023-7.png", "/selfrecipe/s-2023-8.png", "/selfrecipe/s-2023-9.png", "/selfrecipe/s-2023-10.png"],
-    highlights: ["리텐션 30%↑", "세션 체류시간 2배", "지연시간 40%↓"],
+    highlights: [
+      "대시보드 UI 개편(계산/주문/관리 탭)",
+      "모바일 하단 네비게이션",
+      "일괄주문 플로우(FAB)",
+      "코인 티커(현재가/24h/고저/거래량/대금)",
+      "리텐션 30%↑ · 체류시간 2배 · 지연 40%↓"
+    ],
     case: {
-      problem: { title: "문제", md: "자문형 흐름에서 데이터 신뢰/가시성 부족." },
-      goals: { title: "목표", md: "실시간 시각화로 신뢰 체감도 향상." },
+      problem: {
+        title: "문제",
+        md: "‘주문넣기’ 부재와 화면 간 UI 비일관성으로 사용자 여정이 단절되고, 자문형 흐름에서 데이터 신뢰/가시성이 낮음.",
+      },
+      goals: {
+        title: "목표",
+        md: "대시보드 재설계로 ‘계산→주문→관리’ 일관 플로우 제공, 실시간 시각화로 신뢰 체감도 향상.",
+      },
       solution: {
         title: "해결",
-        md: "- TradingView 위젯/레이어 커스터마이즈\n- 사용자별 차트 요소 구성(지표/레이아웃/테마)\n- WebSocket 기반 실시간 데이터 반영\n- 환경 분리와 GitLab CI/CD 자동배포",
+        md:
+          "- 대시보드 탭 구조(계산/주문/관리)로 정보·행동 동선 정렬\n" +
+          "- 모바일 하단 네비게이션으로 ‘홈→대시보드→오토봇(→랭킹)’ 여정 명시\n" +
+          "- 계산 연동 일괄주문 도입(PC 버튼, 모바일 FAB)\n" +
+          "- 코인 티커 추가(현재가·24h 등락·고저·거래량·거래대금)\n" +
+          "- 포지션/주문 취소(일괄·단일) 화면 설계\n" +
+          "- TradingView 레이어 커스터마이즈 + WebSocket 실시간 반영\n" +
+          "- 환경 분리 및 CI/CD 자동배포",
       },
       impact: {
         title: "성과",
-        md: "- 리텐션 **30% 증가**\n- 세션 평균 체류시간 2배(4m→9m)\n- 데이터 렌더링 지연 40% 감소\n- 실시간 차트 기반 의사결정 강화",
+        md:
+          "- UX 일관성 향상으로 흐름의 단절 감소, 주문 전환 경로 명확화\n" +
+          "- 리텐션 30% 증가, 세션 체류시간 2배(4m→9m)\n" +
+          "- 데이터 렌더링 지연 40% 감소, 실시간 차트 기반 의사결정 강화",
       },
-      learnings: { title: "인사이트", md: "데이터는 보여지는 순간 신뢰가 된다." },
+      learnings: {
+        title: "인사이트",
+        md: "서비스 철학(계산→주문→관리)을 UI/UX로 번역할 때 신뢰가 형성된다.",
+      },
     },
   },
   {
@@ -145,7 +170,7 @@ export const projects: Project[] = [
       "/entity/mobile_3.png",
       "/entity/pc_sns.png"
     ],
-    highlights: ["차트 렌더링 지연 40%↓", "OKX→Bybit 전환 3주→1주", "이탈률 50%↓"],
+    highlights: ["차트 렌더링 지연 40%↓", "OKX→Bybit 전환 2개월→3주", "이탈률 50%↓"],
     case: {
       problem: { title: "문제", md: "WS 부하로 인한 렌더링 지연, 거래소 전환(OKX→Bybit)에 따른 API/데이터모델 차이." },
       goals: { title: "목표", md: "실시간 데이터 처리 성능 최적화와 모델 정규화로 전환 리스크 최소화." },
@@ -187,7 +212,7 @@ export const projects: Project[] = [
       },
       impact: {
         title: "성과",
-        md: "- 가입 전환율 **35%↑**, 플로우 이탈 **60%↓**\n- MAU **40%↑**, 배포 시간 **80%↓**\n- 새로고침 빈도 70%↓, 기능 도입 속도 2배\n- 웹·앱 통합 배포 및 스토어 런칭",
+        md: "- 가입 전환율 35%↑, 플로우 이탈 60%↓\n- MAU 40%↑, 배포 시간 80%↓\n- 새로고침 빈도 70%↓, 기능 도입 속도 2배\n- 웹·앱 통합 배포 및 스토어 런칭",
       },
       learnings: { title: "인사이트", md: "기술은 문제를 해결, 고객은 불안을 해결받고 싶어 한다." },
     },

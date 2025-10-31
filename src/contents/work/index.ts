@@ -50,6 +50,19 @@ export const workContents: WorkContent[] = [
         "리포트/연구소/가이드로 전문성 보완"
       ] },
 
+      { type: "image", src: "/zolbo_app/pc_feed.png", alt: "피드 화면", caption: "피드/말풍선 UX" },
+      { type: "image", src: "/zolbo_app/pc_account.png", alt: "계정 화면", caption: "세션/자산 상태 흐름" },
+      { type: "image", src: "/zolbo_app/pc_strategy_0.png", alt: "전략 화면", caption: "전략/실험 UI" },
+
+      { type: "heading", level: 3, text: "왜 이 스택인가" },
+      { type: "list", items: [
+        "Next.js(App Router) — SSR/CSR 혼합 — 전환/초기로딩 균형 — 불안 최소화",
+        "Zustand/Query — 세션·토큰 persist + 캐시 — 새로고침 빈도 70%↓",
+        "WebSocket — 실시간 자산/알림 — 단일 파이프라인 — 반응성↑",
+        "Capacitor — 웹·앱 단일 코드 — 배포 시간 80%↓",
+        "OAuth/IAP — 안전한 인증/결제 — 전환율 35%↑, 이탈 60%↓"
+      ] },
+
       { type: "heading", level: 3, text: "시장 피드백" },
       { type: "paragraph", text: "박람회 데이터: '관심은 있지만 망설임'이 다수, 불안 요인은 가격 변동성과 전문성 부족. 쫄보는 무리하지 않는 신중한 투자를 돕는 AI 에이전트로 포지셔닝." },
 
@@ -68,6 +81,99 @@ export const workContents: WorkContent[] = [
         "지표 기반 판단: 7일 잔존, ON 유지일, 말풍선 클릭률",
         "안정 중심 리플랫포밍: iOS 인증/IAP 서버 재처리, WS 미들웨어, 빌드 자동화"
       ] },
+    ],
+  },
+  {
+    slug: "s-advisory-2022-2023",
+    blocks: [
+      { type: "heading", level: 2, text: "Selfrecipe — 2023 UI/UX 개편" },
+      { type: "callout", icon: "💡", text: "의의: ‘계산→주문→관리’ 플로우 정립과 서비스 완성도 향상" },
+
+      { type: "heading", level: 3, text: "사용자 여정" },
+      { type: "list", items: [
+        "홈(시황/분석) → 대시보드(계산/주문/관리) → 오토봇(자동) → 랭킹 → 거래소"
+      ] },
+
+      { type: "heading", level: 3, text: "화면 구조 변경(PC/모바일)" },
+      { type: "list", items: [
+        "대시보드: 계산/주문(탭), 관리(포지션/대기주문/체결/USDT/과거레시피)",
+        "모바일: FAB ‘주문하기’, 하단 네비게이션, 차트↔표 전환",
+        "차트: TradingView + 안내선/대기주문/포지션 오버레이"
+      ] },
+
+      { type: "image", src: "/entity/dashboard.png", alt: "대시보드 화면", caption: "대시보드 정보 구조" },
+      { type: "image", src: "/entity/dashboard_info.png", alt: "대시보드 상세", caption: "주요 컴포넌트 배치" },
+
+      { type: "heading", level: 3, text: "핵심 기능" },
+      { type: "list", items: [
+        "일괄주문: 계산기 결과 기반 간편 실행",
+        "코인 티커: 현재가·24h 등락/고저·거래량·거래대금",
+        "포지션/주문 취소: 일괄/단일(마켓/리밋)"
+      ] },
+
+      { type: "image", src: "/entity/mobile_3.png", alt: "모바일 UI", caption: "하단 네비게이션/주문 관리 카드" },
+      { type: "image", src: "/entity/top_recipe.png", alt: "레시피 상단", caption: "레시피·주문 핵심 요소" },
+
+      { type: "heading", level: 3, text: "왜 이 스택인가" },
+      { type: "list", items: [
+        "TradingView — 복잡 지표 시각화 — 레이어/오버레이 동기화 — 반영 지연 40%↓",
+        "WebSocket — 실시간 체결·호가 — 이벤트 파이프라인/전파 규칙 — 체류 2배(4m→9m)",
+        "Django — 도메인 로직 재사용 — API/권한/캐시 경계 — 회귀·운영 리스크↓",
+        "Binance API — 일괄주문/취소 표준 — 유효성/가드 — 실패·재시도 오류율↓",
+        "CI/CD(GitLab) — 자동 배포/환경 분리 — 리드타임·실패율↓"
+      ] },
+
+      { type: "heading", level: 3, text: "주문조작 기능 BDD 요약" },
+      { type: "list", items: [
+        "일괄주문: 계산→주문서 반영, 유효성 검사(거래규칙), 주문상세 팝업, 보안인증(이메일) 후 실행",
+        "주문 취소: 단일 취소(DELETE /order), 다중 취소(DELETE /batchOrders), 전체 취소(DELETE /allOpenOrders)",
+        "포지션/체결/자산: 체결내역 조회(All Orders), 실시간 잔고·가용·UPnL·Risk(Account v2)",
+        "모바일 UI: 주문관리 카드형, 하단 네비게이션, 차트↔표 전환",
+        "차트 상 조회/조작: 포지션·대기주문 오버레이 및 취소 조작"
+      ] },
+      { type: "heading", level: 3, text: "주요 API 엔드포인트" },
+      { type: "list", items: [
+        "POST /fapi/v1/batchOrders — Place Multiple Orders",
+        "POST /fapi/v1/order — New Order",
+        "DELETE /fapi/v1/order — Cancel Order",
+        "DELETE /fapi/v1/batchOrders — Cancel Multiple Orders",
+        "DELETE /fapi/v1/allOpenOrders — Cancel All Open Orders",
+        "GET /fapi/v1/allOrders — All Orders",
+        "GET /fapi/v2/account — Account Information v2",
+        "GET /fapi/v1/income — Get Income History"
+      ] },
+      { type: "heading", level: 3, text: "유효성/가드" },
+      { type: "list", items: [
+        "투자금액 입력·계산 완료 전에는 ‘주문서 반영하기/이대로 주문넣기’ 비활성",
+        "계산 미완료 시 안내 팝업(\"계산기에서 계산을 먼저 해주세요\")",
+        "유효하지 않은 주문을 리스트업(아이콘/방향/심볼/가격/투자금액/오류설명)",
+        "주문상세 팝업: 주문정보(전략·내역·위험), 시간정보(타겟·계산완료·현재·차이)",
+        "주문 잠금 해제: 이메일 인증으로 24시간 해제"
+      ] },
+
+      { type: "heading", level: 3, text: "일정(2023.02)" },
+      { type: "list", items: [
+        "02.01 대시보드 UI 개편(완료)",
+        "02.02~03 모바일 하단 네비게이션(완료)",
+        "02.06~07 일괄주문 화면(완료)",
+        "02.10~13 코인 티커(진행)",
+        "추가: 포지션/주문 취소, PC 헤더, 랭킹(계획)"
+      ] },
+
+      { type: "heading", level: 3, text: "역할/기여" },
+      { type: "list", items: [
+        "플로우 설계: 계산→주문→관리 여정 정의, 모바일/PC 정보구조 정리",
+        "UI 구현: 대시보드 탭/FAB/하단 네비, 티커/관리 탭",
+        "거래 연동: 계산-주문 데이터 파이프 연결(일괄주문)"
+      ] },
+
+      { type: "heading", level: 3, text: "확장성/수익모델" },
+      { type: "list", items: [
+        "오토봇 전환을 고려한 모듈화(계산·주문·관리 분리)",
+        "거래소 리베이트/네트워크 기반 BM, 글로벌 확장 가능성"
+      ] },
+
+      { type: "quote", text: "완성도는 흐름의 단절을 줄일 때 올라간다. 구조가 UX다." }
     ],
   },
   {
@@ -104,6 +210,14 @@ export const workContents: WorkContent[] = [
         "손익내역: 종료주문·종료포지션, 기간 필터(7/30/180d·최대 2년)"
       ] },
 
+      { type: "heading", level: 3, text: "왜 이 스택인가" },
+      { type: "list", items: [
+        "TradingView — 실시간 차트/손익 — 위젯 커스텀·DOM 최소 업데이트 — 렌더링 지연 40%↓",
+        "WebSocket — 주문/포지션 스트림 — 혼합형 스트림 설계 — WS 부하 30%+↓",
+        "데이터 모델 정규화 — OKX→Bybit 차이 흡수 — 표준 파서 — 전환 3주 내 완료",
+        "Django PWA — 캐시/즉시 복구 — 오프라인 견고성 — 초기 로딩 69%↓"
+      ] },
+
       { type: "callout", icon: "⚡", text: "V2: 클릭 1번으로 투자하는 단순한 거래 경험을 목표로 설계" },
 
       { type: "heading", level: 3, text: "TradingView 실시간 차트 시스템 (2024.02)" },
@@ -123,6 +237,19 @@ export const workContents: WorkContent[] = [
         "BDD 도입으로 2개월 일정 대비 3주 내 완료"
       ] },
       { type: "quote", text: "API 문서는 가이드, 구조 차이는 언어. 해석이 곧 구현 역량." },
+
+      { type: "heading", level: 3, text: "TradingView 기능 업데이트 (2024.06)" },
+      { type: "list", items: [
+        "레시피 안내선(BUY/SELL): 가격 수정(그리드), 레시피테이블 연동",
+        "대기주문 표시: 가격 수정(그리드), 수량 수정(클릭시 팝업), 취소 버튼",
+        "포지션 라인: 실시간 PNL 표시",
+        "체결 내역: 화살표 표시"
+      ] },
+
+      { type: "image", src: "/entity/dashboard_order_modify.png", alt: "레시피 안내선/가격 수정 그리드", caption: "레시피 안내선(SELL/BUY) 가격 수정(그리드) & 테이블 연동" },
+      { type: "image", src: "/entity/dashboard_order_modify_1.png", alt: "대기주문 표시/수정/취소", caption: "대기주문 표시 — 가격/수량 수정(팝업), 취소 버튼" },
+      { type: "image", src: "/entity/mobile_position_close_1.png", alt: "포지션 라인 PNL", caption: "포지션 라인에서 실시간 PNL 표시" },
+      { type: "image", src: "/entity/mobile_chart_2.png", alt: "체결 내역 화살표", caption: "체결 내역 화살표 오버레이" },
 
       { type: "heading", level: 3, text: "Django 기반 PWA 안정화 (2024.08)" },
       { type: "paragraph", text: "서비스워커·브라우저·Django 캐시를 병행하여 불안정 네트워크에서도 차트/주문 모듈이 로컬 캐시로 즉시 복구되도록 구조화. SSR-비동기 캐시 불일치 이슈 완화." },

@@ -17,7 +17,15 @@
 
 body {
   @apply bg-[rgb(var(--background))] text-[rgb(var(--foreground))];
+  /* 스크롤바를 숨기되, 항상 공간은 예약해 레이아웃 흔들림 방지 */
+  overflow-y: scroll;
+  scrollbar-gutter: stable both-edges;
 }
+
+/* 스크롤바 숨김 - WebKit */
+body::-webkit-scrollbar { display: none; }
+/* 스크롤바 숨김 - Firefox */
+* { scrollbar-width: none; }
 
 .container {
   @apply max-w-[1100px] mx-auto px-4;

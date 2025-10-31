@@ -7,9 +7,17 @@ import { projects } from "@/data/projects";
 import { useFilterStore } from "@/stores/useFilterStore";
 
 export default function WorkPage() {
-  const domains = Array.from(new Set(projects.flatMap((p) => p.domain ?? [])));
-  const years = Array.from(new Set(projects.map((p) => p.period)));
-  const roles = Array.from(new Set(projects.flatMap((p) => p.role)));
+  const domains = Array.from(
+    new Set(
+      projects.flatMap((p) => (p.domain ?? []).map((d) => d.trim()).filter(Boolean))
+    )
+  ).sort();
+  const years = Array.from(
+    new Set(projects.flatMap((p) => p.period.match(/\d{4}/g) ?? []))
+  ).sort((a, b) => Number(b) - Number(a));
+  const roles = Array.from(
+    new Set(projects.flatMap((p) => p.role.map((r) => r.trim()).filter(Boolean)))
+  ).sort();
 
   const { domain, year, role } = useFilterStore();
 
@@ -23,7 +31,7 @@ export default function WorkPage() {
 
   const filtered = sorted.filter((p) => {
     const domainOk = !domain || (p.domain ?? []).includes(domain);
-    const yearOk = !year || p.period === year;
+    const yearOk = !year || (p.period.match(/\d{4}/g) ?? []).includes(year);
     const roleOk = !role || p.role.includes(role);
     return domainOk && yearOk && roleOk;
   });

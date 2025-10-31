@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ThemeToggle from "@/components/ThemeToggle";
-import { FiHome, FiUser, FiBriefcase, FiClock, FiMessageCircle } from "react-icons/fi";
+import { FiHome, FiUser, FiBriefcase, FiClock, FiBookOpen } from "react-icons/fi";
 export default function Nav() {
   const pathname = usePathname();
 
@@ -20,7 +20,7 @@ export default function Nav() {
               <Link href="/about" className={`opacity-80 hover:text-brand ${isActive("/about") ? "font-semibold" : ""}`}>About</Link>
               <Link href="/work" className={`opacity-80 hover:text-brand ${isActive("/work") ? "font-semibold" : ""}`}>Work</Link>
               <Link href="/experience" className={`opacity-80 hover:text-brand ${isActive("/experience") ? "font-semibold" : ""}`}>Experience</Link>
-              <Link href="/contact" className={`opacity-80 hover:text-brand ${isActive("/contact") ? "font-semibold" : ""}`}>Contact</Link>
+              <Link href="/columns" className={`opacity-80 hover:text-brand ${isActive("/columns") ? "font-semibold" : ""}`}>Column</Link>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -58,9 +58,9 @@ export default function Nav() {
               </Link>
             </li>
             <li className="flex-1">
-              <Link href="/contact" className="flex flex-col items-center justify-center gap-0.5 py-2">
-                <FiMessageCircle className={`w-6 h-6 ${isActive("/contact") ? "text-brand" : "opacity-70"}`} aria-hidden="true" />
-                <span className={`text-[11px] ${isActive("/contact") ? "text-brand font-medium" : "opacity-75"}`}>Contact</span>
+              <Link href="/columns" className="flex flex-col items-center justify-center gap-0.5 py-2">
+                <FiBookOpen className={`w-6 h-6 ${isActive("/columns") ? "text-brand" : "opacity-70"}`} aria-hidden="true" />
+                <span className={`text-[11px] ${isActive("/columns") ? "text-brand font-medium" : "opacity-75"}`}>Column</span>
               </Link>
             </li>
           </ul>
@@ -68,6 +68,10 @@ export default function Nav() {
         {/* iOS 안전 영역 하단 여백 */}
         <div className="h-[env(safe-area-inset-bottom)]" />
       </nav>
+      {/* 모바일 플로팅 테마 토글 (상단 우측, safe-area 반영) */}
+      <div className="md:hidden fixed right-4 z-[60]" style={{ top: `max(env(safe-area-inset-top), 12px)` }}>
+        <ThemeToggle showLabel={false} />
+      </div>
     </>
   );
 }
