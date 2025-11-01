@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import type { Block } from "@/contents/work/types";
 
 type Props = {
@@ -59,7 +60,14 @@ export default function RichContent({ blocks }: Props) {
           case "image":
             return (
               <figure key={index} className="my-6 text-center">
-                <img src={block.src} alt={block.alt || ""} className="mx-auto rounded-lg shadow-sm border border-black/10 dark:border-white/10" />
+                <Image
+                  src={block.src}
+                  alt={block.alt || ""}
+                  width={1200}
+                  height={675}
+                  className="mx-auto rounded-lg shadow-sm border border-black/10 dark:border-white/10 h-auto w-full"
+                  sizes="(max-width: 768px) 100vw, 768px"
+                />
                 {block.caption ? <figcaption className="mt-2 text-sm text-black/60 dark:text-white/60">{block.caption}</figcaption> : null}
               </figure>
             );

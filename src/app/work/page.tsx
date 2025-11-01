@@ -30,8 +30,9 @@ export default function WorkPage() {
   const sorted = [...projects].sort((a, b) => getYearKey(b.period) - getYearKey(a.period));
 
   const filtered = sorted.filter((p) => {
-    const domainOk = !domain || (p.domain ?? []).includes(domain);
-    const yearOk = !year || (p.period.match(/\d{4}/g) ?? []).includes(year);
+    const domainOk = !domain || (p.domain ?? ([] as string[])).includes(domain);
+    const matchedYears = (p.period.match(/\d{4}/g) ?? []) as string[];
+    const yearOk = !year || matchedYears.includes(year);
     const roleOk = !role || p.role.includes(role);
     return domainOk && yearOk && roleOk;
   });

@@ -262,8 +262,8 @@ export const projects: Project[] = [
     stack: ["Django", "Tailwind"],
     domain: ["Branding", "Website"],
     summary: "브랜딩 리뉴얼로 조직의 미션·비전·가치를 웹 전반에 반영하고 반응형으로 개선.",
-    cover: "/covers/placeholder.svg",
-    gallery: [],
+    cover: "/covers/alchemilab-home.png",
+    gallery: ["/homepage/v1/about.png", "/homepage/v1/business.png", "/homepage/v1/home.png", "/homepage/v1/homepage.png", "/homepage/v1/media.png"],
     highlights: ["내부 공감도 90%", "페이지 조회수 2.3배"],
     case: {
       problem: { title: "문제", md: "조직의 정체성과 핵심가치가 웹에서 통일되지 않아 전달력이 낮음." },

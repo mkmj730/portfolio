@@ -9,36 +9,7 @@ type Card = {
   imageSrc: string;
 };
 
-const cards_1: Card[] = [
-  {
-    iconSrc: "/next.svg",
-    name: "웹·앱 통합",
-    title: "Next.js + Capacitor 단일 코드베이스",
-    href: "#projects",
-    imageSrc: "/homepage/v1/home.png",
-  },
-  {
-    iconSrc: "/globe.svg",
-    name: "실시간 데이터",
-    title: "WebSocket 기반 스트림·시각화",
-    href: "#projects",
-    imageSrc: "/homepage/v1/business.png",
-  },
-  {
-    iconSrc: "/file.svg",
-    name: "안정성",
-    title: "인증·세션·에러 복구 파이프라인",
-    href: "#projects",
-    imageSrc: "/homepage/v1/media.png",
-  },
-  {
-    iconSrc: "/window.svg",
-    name: "성장",
-    title: "지표 기반 개선과 배포 자동화",
-    href: "#projects",
-    imageSrc: "/homepage/v1/about.png",
-  },
-];
+// unused legacy cards removed
 
 const cards: Card[] = [
   {
@@ -65,7 +36,7 @@ const cards: Card[] = [
   {
     iconSrc: "/window.svg",
     name: "운영 신뢰성",
-    title: "캐시·복구·CI/CD로 중단 없는 경험",
+    title: "Amplify 와 CI/CD로 중단 없는 경험",
     href: "/columns/ci-cd",
     imageSrc: "/social/ci-cd.png",
   },

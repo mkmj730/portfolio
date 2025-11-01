@@ -50,6 +50,7 @@ export type Project = {
   outcomes: string[];
   insight: string;
   stacks?: string[]; // 기술 스택 키 값 목록 (아이콘 렌더링용)
+  slug?: string; // 상세 케이스 스터디 링크 연결용
 };
 
 export const projects: Project[] = [
@@ -57,6 +58,7 @@ export const projects: Project[] = [
     year: "2024.09~2025.09",
     title: "쫄보(zolbo) — 가상자산 투자 AI 에이전트 하이브리드 앱 (FE Lead)",
     context: "Next.js(App Router) 기반 SSR/CSR 통합, PWA·Android·iOS 단일 코드베이스, OAuth/IAP",
+    slug: "z-robo-2024-2025",
     roles: [
       "Zustand 기반 로그인·토큰 persist 설계",
       "React Query 캐싱/병렬 요청 및 오류 복구",
@@ -78,6 +80,7 @@ export const projects: Project[] = [
     year: "2023.10~2024.06",
     title: "EntityX — 가상자산 실시간 거래소 (FE Lead)",
     context: "OKX→Bybit 전환 대응, WebSocket 파이프라인/차트 성능 최적화",
+    slug: "e-exchange-2023",
     roles: [
       "WebSocket 실시간 주문·포지션 파이프라인 설계",
       "TradingView 커스터마이징 및 손익 시각화",
@@ -99,6 +102,7 @@ export const projects: Project[] = [
     year: "2023",
     title: "자문형 크립토 서비스 ‘S***’",
     context: "Binance 연동 자문형 자동운용, TradingView 도입",
+    slug: "s-advisory-2022-2023",
     roles: [
       "TradingView 실시간 시각화 인터페이스",
       "WebSocket 데이터 실시간 연결",
@@ -120,6 +124,7 @@ export const projects: Project[] = [
     year: "2022",
     title: "커스텀 크립토 옵션 MTS ‘R***’ / 펀드 매니징 시스템",
     context: "Deribit API 기반 Django + WebSocket 구조",
+    slug: "r-custom-mts-2022",
     roles: [
       "WebSocket 핸들러 및 송수신 구조 설계",
       "비개발자 대상 UI/UX 설계 및 납품",
@@ -141,6 +146,7 @@ export const projects: Project[] = [
     year: "2021",
     title: "가상자산 투자 일임형 서비스 'zolbo.ai' 총괄 기획 및 런칭",
     context: "금융 도메인 지식이 전무한 상태에서 1일 결산 로직 설계 및 MVP 런칭",
+    slug: "zolbo-hedge-fund-2021",
     roles: [
       "엑셀 기반 1일 단위 결산 로직 설계",
       "Django + Vanilla JS로 회원/자산/포인트 구현",

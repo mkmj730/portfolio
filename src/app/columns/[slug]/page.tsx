@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Section from "@/components/Section";
+import Image from "next/image";
 import RichContent from "@/components/RichContent";
 import { columnArticles } from "@/contents/columns";
 
@@ -24,8 +25,15 @@ export default async function ColumnDetailPage({ params }: Props) {
       <Section title={article.title}>
         {article.cover ? (
           <div className="mb-6">
-            {/* 커버 이미지는 목업 프레임 없이 단순 이미지로 */}
-            <img src={article.cover} alt={article.title} className="w-full h-auto rounded-xl border border-black/10 dark:border-white/10" />
+            <Image
+              src={article.cover}
+              alt={article.title}
+              width={1600}
+              height={900}
+              className="w-full h-auto rounded-xl border border-black/10 dark:border-white/10"
+              sizes="100vw"
+              priority={false}
+            />
           </div>
         ) : null}
         <RichContent blocks={article.blocks} />
